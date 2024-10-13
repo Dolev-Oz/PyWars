@@ -5,7 +5,9 @@ from strategic_api import StrategicApi, StrategicPiece, CommandStatus, piece_to_
 import common_types
 
 COMMANDS = {}
-PIECES_TO_PROB_PREC = {"tank": 50, "builder": 50}
+PIECES = ["tank", "builder"]
+PROBS = [50, 50]
+TO_BUILD = {}  #
 
 
 def get_sorted_tiles_for_attack(strategic):
@@ -47,6 +49,12 @@ def sort_tiles(
     attack_tiles.sort(key=lambda tile: find_min_dist_to_pieces(pieces, tile, context))
 
 
+def assign_piece_to_close_tile(
+    tank: StrategicApi,
+):
+    pass
+
+
 def choose_piece_for_tile(
     pieces: set[StrategicPiece], coord: common_types.Coordinate, strategic: StrategicApi
 ):
@@ -70,11 +78,12 @@ def builder_decision(
     if command_id is not None:
         return
 
-    random.choices([0], weights=[10, 1, 1], k=14)
+    to_build = random.choices(PIECES, weights=PROBS, k=1)[0]
 
-    if money < piece_to_price:
-        pass
-    strategic.collect_money()
+    if money < piece_to_price[to_build]:
+        strategic.collect_money(builder, piece_to_price[to_build])
+    else:
+        strategic.build_piece(to_build)
 
 
 def do_builder_stuff(strategic: StrategicApi):
