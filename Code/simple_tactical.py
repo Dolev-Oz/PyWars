@@ -67,40 +67,42 @@ def move_tank_to_destination(context, tank, dest):
     return False
 
 
-def move_in_random_direction(piece: BasePiece) -> None:
-    coords = piece.tile.coordinates
+def move_in_random_direction(piece: BasePiece, context) -> None:
+	coords = piece.tile.coordinates
 
-    direction = randint(0, 3)
-    dest = {
-        0: common_types.Coordinates(coords.x + 1, coords.y),
-        1: common_types.Coordinates(coords.x - 1, coords.y),
-        2: common_types.Coordinates(coords.x, coords.y + 1),
-        3: common_types.Coordinates(coords.x, coords.y - 1),
-    }
-    piece.move(dest[direction])
+	dest = {
+		0: common_types.Coordinates(coords.x + 1, coords.y),
+		1: common_types.Coordinates(coords.x - 1, coords.y),
+		2: common_types.Coordinates(coords.x, coords.y + 1),
+		3: common_types.Coordinates(coords.x, coords.y - 1),
+	}
+	direction = randint(0, 3)
+	while dest[direction][0] < 0 or dest[direction][0] > context.game_width or dest[direction][1] < 0 or \
+			dest[direction][1] > context.game_width:
+		direction = randint(0, 3)
+	piece.move(dest[direction])
 
 
-def collect_money_advance(builder: Builder, amount: int, called_from_build: bool = False) -> bool:
+def collect_money_advance(builder: Builder, amount: int, context: TurnContext) -> bool:
     command_id = builder_to_command[builder.id]
 
-    if builder.tile.money > 0:
+    if builder.tile.money > 0 and builder.tile.country == context.my_country:
         amount -= builder.tile.money
-        builder.collect_money(max(0, min(5,builder.tile.money)))
-        if called_from_build:
-            return True
+        
+        builder.collect_money(min(5,builder.tile.money))
+            
         if amount <= 0:
             commands[int(command_id)] = CommandStatus.success(command_id)
-            del builder_to_command[builder.id]
+            #del builder_to_command[builder.id]
             return True
 
-    move_in_random_direction(builder)
-    prev_command = commands[int(command_id)]
+    move_in_random_direction(builder, context)
     commands[int(command_id)] = CommandStatus.in_progress(command_id, 0, 999999999)
 
     return False
 
 
-def build_piece_advance(builder: Builder, piece: str) -> bool:
+def build_piece_advance(builder: Builder, piece: str, context: TurnContext) -> bool:
     command_id = builder_to_command[builder.id]
 
     cost = PRICES[piece]
@@ -111,7 +113,7 @@ def build_piece_advance(builder: Builder, piece: str) -> bool:
         del builder_to_command[builder.id]
         return True
 
-    collect_money_advance(builder, cost - builder.money, True)
+    collect_money_advance(builder, cost - builder.money, context)
 
     return False
 
@@ -147,7 +149,7 @@ class MyStrategicApi(StrategicApi):
                 remove_set.append(builder_id)
                 continue
         
-            if build_piece_advance(builder_piece, piece):
+            if build_piece_advance(builder_piece, piece, self.context):
                 remove_set.append(builder_id)
                 
         for item in remove_set:
