@@ -10,6 +10,7 @@ COMMANDS = {}
 PIECES = ["tank", "builder"]
 PROBS = [50, 50]
 TO_BUILD = {}  # builder object is mapped to str
+DEF_RADIUS = 2
 
 
 def get_sorted_tiles_for_attack(strategic):
@@ -97,24 +98,54 @@ def do_builder_stuff(strategic: StrategicApi):
         builder_decision(strategic, builder, info[0], info[1])
 
 
+def find_near_tank(
+    strategic: StrategicApi,
+    tank_set: set[StrategicPiece],
+    art: StrategicPiece,
+    rad: int,
+):
+    min_dist = 100000
+    close_tank = None
+    my_pcs = strategic.context.my_pieces
+    for tank in tank_set:
+        dis = distance(
+            my_pcs[tank.id].tile.coordinates, my_pcs[art.id].tile.coordinates
+        )
+        if dis < min_dist:
+            min_dist = dis
+            close_tank = tank
+    return close_tank
+
+
 def do_attack_stuff(strategic: StrategicApi):
     tiles_for_attack = get_sorted_tiles_for_attack(strategic)
     if len(tiles_for_attack) == 0:
         return
     attacking_pieces = strategic.report_attacking_pieces()
     available_pieces: set[StrategicPiece] = set()
+    available_tanks: set[StrategicPiece] = set()
+    available_art: set[StrategicPiece] = set()
     for piece, command_id in attacking_pieces.items():
         if command_id is None:
             available_pieces.add(piece)
-    sort_tiles(tiles_for_attack, available_pieces, strategic)
-    strategic.log(f"Reached 110, len(availabe_tiles)={len(tiles_for_attack)}")
+            if piece.type == "tank":
+                available_tanks.add(piece)
+            elif piece.type == "artillery":
+                available_art.add(piece)
+    sort_tiles(tiles_for_attack, available_tanks, strategic)
+    # strategic.log(f"Reached 110, len(availabe_tiles)={len(tiles_for_attack)}")
     for tile in tiles_for_attack:
-        piece = choose_piece_for_tile(available_pieces, tile, strategic)
+        piece = choose_piece_for_tile(available_tanks, tile, strategic)
         if piece is None:
             break
         logger = strategic.attack(piece, tile, 1)
         strategic.log(f"Attack: {logger}")
-
+    for art in available_art:
+        tank = find_near_tank(strategic, available_tanks, art, DEF_RADIUS)
+        logger = strategic.defend(
+            [art], strategic.context.my_pieces[tank.id].tile.coordinates, DEF_RADIUS
+        )
+        strategic.log(f"Defend: {logger}")
     """tile_index = 0
     for piece, command_id in attacking_pieces.items():
         if command_id is not None:
