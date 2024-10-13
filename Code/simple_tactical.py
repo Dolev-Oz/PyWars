@@ -201,7 +201,7 @@ class MyStrategicApi(StrategicApi):
                 if piece.type == 'tank'}
 
     def report_builders(self):
-        return {StrategicPiece(piece_id, piece.type) : (None if not piece_id in builder_to_command else builder_to_command[piece_id], builder_to_amount[piece_id])
+        return {StrategicPiece(piece_id, piece.type) : (builder_to_command.get(piece.id), builder_to_amount[piece.id])
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'builder'}
 
