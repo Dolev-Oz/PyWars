@@ -85,7 +85,7 @@ def collect_money_advance(builder: Builder, amount: int, called_from_build: bool
 
     if builder.tile.money > 0:
         amount -= builder.tile.money
-        builder.collect_money(0, builder.tile.money)
+        builder.collect_money(max(0, builder.tile.money))
         if called_from_build:
             return True
         if amount <= 0:
