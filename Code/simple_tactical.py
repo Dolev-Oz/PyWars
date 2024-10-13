@@ -138,7 +138,8 @@ class MyStrategicApi(StrategicApi):
                 del builder_to_piece[b_id]
             if b_id in builder_to_amount:
                 del builder_to_amount[b_id]
-
+        
+        remove_set = []
         for builder_id, piece in builder_to_piece:
             builder = self.context.my_pieces.get(builder_id)
             if builder is None or not isinstance(builder, Builder):
@@ -146,10 +147,12 @@ class MyStrategicApi(StrategicApi):
                     c_id = builder_to_command[builder_id]
                     commands[int(c_id)] = CommandStatus.failed(c_id)
                     del builder_to_command[builder_id]
-                remove(builder_id)
+                remove_set.append(builder_id)
                 continue
             if build_piece_advance(builder, piece):
-                remove(builder_id)
+                remove_set.append(builder_id)
+        for item in remove_set:
+            remove(item)
         remove_set = []
         for builder_id, piece in builder_to_amount.items():
             builder = self.context.my_pieces.get(builder_id)
@@ -163,7 +166,7 @@ class MyStrategicApi(StrategicApi):
             if collect_money_advance(builder, piece):
                 remove_set.append(builder_id)
         for item in remove_set:
-            del builder_to_amount[item]
+            remove(item)
 
     def attack(self, piece, destination, radius):
         tank = self.context.my_pieces[piece.id]
