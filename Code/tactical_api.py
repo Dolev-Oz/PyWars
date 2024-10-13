@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from commom_types import Coordinates
+from common_types import Coordinates
 
 def distance(a: Coordinates, b: Coordinates) -> int:
     """Calculates the distance between the coordinates a and b."""

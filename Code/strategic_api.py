@@ -1,7 +1,7 @@
 from __future__ import annotations
 import collections
 
-from commom_types import Coordinates
+from common_types import Coordinates
 
 from tactical_api import TurnContext
 
