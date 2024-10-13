@@ -208,24 +208,44 @@ class MyStrategicApi(StrategicApi):
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'builder'}
 
-    def collect_money(self, builder: StrategicPiece, amount: int) -> str:
+    def collect_money_stupid(self, builder: StrategicPiece, amount: int) -> str:
         builder1 = self.context.my_pieces[builder.id]
-        if not builder1 or not isinstance(builder1, Builder):
-            return ""
+        if builder1.tile.money != 0:
+            builder1.collect_money(min(5,builder.tile.money))
+        else:
+            x = builder1.tile.coordinates.x
+            y = builder1.tile.coordinates.y
+            if 0 <= y+1 <= self.context.game_width:
+                builder1.move(common_types.Coordinates(x, y+1))
+            if 0 <= x+1 <= self.context.game_width:
+                builder1.move(common_types.Coordinates(x+1, y))
+            else:
+                builder1.move(common_types.Coordinates(x,y-1))
+            return None
+                
+            
 
-        if builder.id in builder_to_command:
-            if builder.id in builder_to_piece:
-                del builder_to_piece[builder.id]
-            command_id = builder_to_command[builder.id]
-            commands[int(command_id)] = CommandStatus.failed(command_id)
+            
 
-        command_id = str(len(commands))
-        command = CommandStatus.in_progress(command_id, 0, 999999)
-        builder_to_amount[builder.id] = amount
-        builder_to_command[builder.id] = command_id
-        commands.append(command)
+    def collect_money(self, builder: StrategicPiece, amount: int) -> str:
+        return self.collect_money_stupid(builder, amount)
+        #builder1 = self.context.my_pieces[builder.id]
+        #if not builder1 or not isinstance(builder1, Builder):
+        #    return ""
 
-        return command_id
+        #if builder.id in builder_to_command:
+        #    if builder.id in builder_to_piece:
+        #        del builder_to_piece[builder.id]
+        #    command_id = builder_to_command[builder.id]
+        #    commands[int(command_id)] = CommandStatus.failed(command_id)
+
+        #command_id = str(len(commands))
+        #command = CommandStatus.in_progress(command_id, 0, 999999)
+        #builder_to_amount[builder.id] = amount
+        #builder_to_command[builder.id] = command_id
+        #commands.append(command)
+
+        #return command_id
 
     def build_piece(self, builder: StrategicPiece, piece_type: str) -> str:
         builder1 = self.context.my_pieces[builder.id]
