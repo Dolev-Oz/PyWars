@@ -126,6 +126,11 @@ class MyStrategicApi(StrategicApi):
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'tank'}
 
+    def report_builders(self):
+        return {StrategicPiece(piece_id, piece.type) : (None if not piece in builder_to_command else builder_to_command[piece], builder_to_amount[piece_id])
+                for piece_id, piece in self.context.my_pieces.items()
+                if piece.type == 'builder'}
+
     def collect_money(self, builder: StrategicPiece, amount: int) -> str:
         builder1 = self.context.my_pieces[builder.id]
         if not builder1 or builder1.type != "builder":
