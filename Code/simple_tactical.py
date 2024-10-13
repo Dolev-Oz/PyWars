@@ -55,8 +55,8 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
     if tank.tile.country != context.my_country:
         tank.attack()
         return False
-    x_dist = abs(dest.x, tank.tile.x)
-    y_dist = abs(dest.y, tank.tile.y)
+    x_dist = abs(dest.x, tank.tile.coordinates.x)
+    y_dist = abs(dest.y, tank.tile.coordinates.y)
     randomized = choices([0, 1], weights=[x_dist, y_dist])
     if randomized == 0:
         if dest.x < tank_coordinate.x:
