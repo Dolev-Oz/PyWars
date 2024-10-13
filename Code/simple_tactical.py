@@ -131,7 +131,7 @@ class MyStrategicApi(StrategicApi):
     def __init__(self, context):
         self.context = context
         to_remove = set()
-        for tank_id, destination, radius in tank_to_coordinate_to_attack.items():
+        for tank_id, (destination, radius) in tank_to_coordinate_to_attack.items():
             tank = self.context.my_pieces.get(tank_id)
             if tank is None:
                 to_remove.add(tank_id)
