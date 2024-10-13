@@ -1,10 +1,14 @@
 import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
-from tactical_api import TurnContext
+from tactical_api import TurnContext, Builder, BasePiece
+
+from random import randint
 
 tank_to_coordinate_to_attack = {}
 tank_to_attacking_command = {}
 commands = []
+builder_to_amount: dict[int, int] = {}
+builder_to_command: dict[int, str] = {}
 
 
 def move_tank_to_destination(tank, dest):
@@ -40,6 +44,35 @@ def move_tank_to_destination(tank, dest):
                                                           prev_command.elapsed_turns + 1,
                                                           prev_command.estimated_turns - 1)
     return False
+
+def move_in_random_direction(piece: BasePiece) -> None:
+    coords = piece.tile.coordinates
+
+    direction = randint(0, 3)
+    dest = {
+        0: common_types.Coordinates(coords.x + 1, coords.y),
+        1: common_types.Coordinates(coords.x - 1, coords.y),
+        2: common_types.Coordinates(coords.x, coords.y + 1),
+        3: common_types.Coordinates(coords.x, coords.y - 1),
+    }
+    piece.move(dest[direction])
+
+
+def collect_money_advance(builder: Builder, amount: int) -> bool:
+    command_id = builder_to_command[int(builder.id)]
+
+    if builder.tile.money > 0:
+        amount -= builder.tile.money
+        builder.collect_money(0, builder.tile.money)
+        if amount <= 0:
+            commands[int(command_id)] = CommandStatus.success(command_id)
+            del builder_to_command[builder.id]
+            return True
+
+    move_in_random_direction(builder)
+    prev_command = commands[int(command_id)]
+    commands[int(command_id)] = CommandStatus.in_progress(command_id, prev_command.elapsed_turns + 1, 999999999)
+
 
 
 class MyStrategicApi(StrategicApi):
@@ -92,6 +125,23 @@ class MyStrategicApi(StrategicApi):
         return {StrategicPiece(piece_id, piece.type) : tank_to_attacking_command.get(piece_id)
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'tank'}
+
+    def collect_money(self, builder: StrategicPiece, amount: int) -> str:
+        builder1 = self.context.my_pieces[builder.id]
+        if not builder1 or builder1.type != "builder":
+            return ""
+
+        if builder.id in builder_to_command:
+            command_id = builder_to_command[builder.id]
+            commands[int(command_id)] = CommandStatus.failed(command_id)
+
+        command_id = str(len(commands))
+        command = CommandStatus.in_progress(command_id, 0, 999999)
+        builder_to_amount[builder.id] = amount
+        builder_to_command[builder.id] = command_id
+        commands.append(command)
+
+        return command_id
 
 
 def get_strategic_implementation(context):
