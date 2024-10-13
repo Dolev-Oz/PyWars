@@ -186,7 +186,7 @@ class MyStrategicApi(StrategicApi):
             if destination is None:
                 to_remove.add(artillery_id)
                 continue
-            if destination == artillery.tile:
+            if distance(artillery.tile.coordinates, destination) <= 2:
                 artillery.defend()
                 continue
             artillery.move(destination)
