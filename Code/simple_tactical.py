@@ -40,7 +40,7 @@ builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
 
-def move_tank_to_destination(context, tank, dest):
+def move_tank_to_destination(context, tank, dest: common_types.Coordinates):
     """Returns True if the tank's mission is complete."""
     command_id = tank_to_attacking_command[tank.id]
     if dest is None:
