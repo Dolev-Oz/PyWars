@@ -3,7 +3,7 @@ name: Run unload_script.py after every push
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   run_script:
