@@ -101,10 +101,14 @@ def do_builder_stuff(strategic: StrategicApi):
 
 
 def choose_random_dest(strategic: StrategicApi, tank: StrategicPiece):
-    theta = random.random() * 2 * math.pi
     tank_cord = strategic.context.my_pieces[tank.id].tile.coordinates
     tank_x = tank_cord.x
     tank_y = tank_cord.y
+    theta = random.random() * math.pi / 3 - math.pi / 6
+    w = strategic.context.game_width
+    h = strategic.context.game_height
+    if tank_y != int(h / 2) - 1:
+        theta += 0
     if theta != math.pi / 2 and theta != 3 * math.pi / 2:
         if (
             tank_x - tank_y * math.tan(theta) >= 0
@@ -120,7 +124,6 @@ def choose_random_dest(strategic: StrategicApi, tank: StrategicPiece):
             0 if theta <= math.pi else strategic.context.game_width - 1,
             int(tank_y - tank_x / math.tan(theta)),
         )
-    return (-1, -1)
     strategic.log("Theta not normal")
     if theta == math.pi / 2:
         return (0, tank_y)
@@ -164,7 +167,7 @@ def do_attack_stuff(strategic: StrategicApi):
                 available_tanks.add(piece)
             elif piece.type == "artillery":
                 available_art.add(piece)
-    """sort_tiles(tiles_for_attack, available_tanks, strategic)
+    sort_tiles(tiles_for_attack, available_tanks, strategic)
     # strategic.log(f"Reached 110, len(availabe_tiles)={len(tiles_for_attack)}")
     for tile in tiles_for_attack:
         piece = choose_piece_for_tile(available_tanks, tile, strategic)
@@ -172,11 +175,15 @@ def do_attack_stuff(strategic: StrategicApi):
             break
         logger = strategic.attack(piece, tile, 1)
         DEST_FOR_TANK[piece.id] = tile
-        strategic.log(f"Attack: {logger}")"""
-    for tank in available_tanks:
+        strategic.log(f"Attack: {logger}")
+    """for tank in available_tanks:
         coords = choose_random_dest(strategic, tank)
-        strategic.attack(tank, Coordinates(coords[0], coords[1]), 10)
-        DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])
+        strategic.attack(
+            tank,
+            Coordinates(coords[0], coords[1]),
+            int(strategic.context.game_height / 3),
+        )
+        DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])"""
     for art in available_art:  # Not supposed to run 0 available_art is empty
         tank = find_near_tank(strategic, available_tanks, art, DEF_RADIUS)
         if tank.id in DEST_FOR_TANK:
