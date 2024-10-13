@@ -55,7 +55,7 @@ def move_tank_to_destination(context, tank, dest):
     if tank.tile.country != context.my_country:
         tank.attack()
         return False
-    elif dest.x < tank_coordinate.x:
+    if dest.x < tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
     elif dest.x > tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
