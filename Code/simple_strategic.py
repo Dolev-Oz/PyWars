@@ -82,20 +82,12 @@ def builder_decision(
 ):
     if command_id is not None:
         return
-    if builder not in TO_BUILD:
-        TO_BUILD[builder] = random.choices(PIECES, weights=PROBS, k=1)[0]
-
-    if money < piece_to_price[TO_BUILD[builder]]:
-        strategic.collect_money(builder, piece_to_price[TO_BUILD[builder]])
-    else:
-        strategic.build_piece(TO_BUILD[builder])
-        del TO_BUILD[builder]
-
+    
+    strategic.build_piece(builder, random.choices(PIECES, weights=PROBS, k=1)[0])
+    
 
 def do_builder_stuff(strategic: StrategicApi):
     builders = strategic.report_builders()
-    strategic.log(builders.__str__())
-    strategic.log(TO_BUILD.__str__())
     for builder, info in builders.items():
         builder_decision(strategic, builder, info[0], info[1])
 
@@ -205,5 +197,5 @@ def do_attack_stuff(strategic: StrategicApi):
 
 def do_turn(strategic: StrategicApi):
     strategic.log("hello world")
-    #    do_builder_stuff(strategic)
+    do_builder_stuff(strategic)
     do_attack_stuff(strategic)

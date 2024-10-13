@@ -1,6 +1,6 @@
 import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
-from tactical_api import TurnContext, Builder, BasePiece
+from tactical_api import TurnContext, Builder, BasePiece, distance
 
 from random import randint
 
@@ -40,13 +40,13 @@ builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
 
-def move_tank_to_destination(context, tank, dest: common_types.Coordinates):
+def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
     command_id = tank_to_attacking_command[tank.id]
     if dest is None:
         commands[int(command_id)] = CommandStatus.failed(command_id)
         return
-    if dest.x == tank.tile.coordinates.x and dest.y == tank.tile.coordinates.y:
+    if distance(dest, tank.tile.coordinates) <= radius:
         tank.attack()
         commands[int(command_id)] = CommandStatus.success(command_id)
         del tank_to_attacking_command[tank.id]
@@ -96,7 +96,7 @@ def collect_money_advance(builder: Builder, amount: int, called_from_build: bool
 
     if builder.tile.money > 0:
         amount -= builder.tile.money
-        builder.collect_money(0, builder.tile.money)
+        builder.collect_money(max(0, min(5,builder.tile.money)))
         if called_from_build:
             return True
         if amount <= 0:
@@ -106,7 +106,7 @@ def collect_money_advance(builder: Builder, amount: int, called_from_build: bool
 
     move_in_random_direction(builder)
     prev_command = commands[int(command_id)]
-    commands[int(command_id)] = CommandStatus.in_progress(command_id, prev_command.elapsed_turns + 1, 999999999)
+    commands[int(command_id)] = CommandStatus.in_progress(command_id, 0, 999999999)
 
     return False
 
@@ -131,12 +131,12 @@ class MyStrategicApi(StrategicApi):
     def __init__(self, context):
         self.context = context
         to_remove = set()
-        for tank_id, destination in tank_to_coordinate_to_attack.items():
+        for tank_id, destination, radius in tank_to_coordinate_to_attack.items():
             tank = self.context.my_pieces.get(tank_id)
             if tank is None:
                 to_remove.add(tank_id)
                 continue
-            if move_tank_to_destination(self.context, tank, destination):
+            if move_tank_to_destination(self.context, tank, destination, radius):
                 to_remove.add(tank_id)
         for tank_id in to_remove:
             del tank_to_coordinate_to_attack[tank_id]
@@ -149,29 +149,35 @@ class MyStrategicApi(StrategicApi):
                 del builder_to_piece[b_id]
             if b_id in builder_to_amount:
                 del builder_to_amount[b_id]
-
-        for builder_id, piece in builder_to_piece:
-            builder = self.context.my_pieces.get(builder_id)
-            if builder is None or not isinstance(builder, Builder):
-                if builder_id in builder_to_command[builder_id]:
-                    c_id = builder_to_command[builder_id]
-                    commands[int(c_id)] = CommandStatus.failed(c_id)
-                    del builder_to_command[builder_id]
-                remove(builder_id)
+        
+        remove_set = []
+        for builder_id, piece in builder_to_piece.items():
+            builder_piece = self.context.my_pieces.get(builder_id)
+            
+            if builder_piece is None:
+                remove_set.append(builder_id)
                 continue
-            if build_piece_advance(builder, piece):
-                remove(builder_id)
-        for builder_id, piece in builder_to_amount:
-            builder = self.context.my_pieces.get(builder_id)
-            if builder is None or not isinstance(builder, Builder):
-                if builder_id in builder_to_command[builder_id]:
-                    c_id = builder_to_command[builder_id]
-                    commands[int(c_id)] = CommandStatus.failed(c_id)
-                    del builder_to_command[builder_id]
-                remove(builder_id)
-                continue
-            if collect_money_advance(builder, piece):
-                remove(builder_id)
+        
+            if build_piece_advance(builder_piece, piece):
+                remove_set.append(builder_id)
+                
+        for item in remove_set:
+            remove(item)
+        remove_set = []
+        
+        #for builder_id, piece in builder_to_amount.items():
+        #    builder = self.context.my_pieces.get(builder_id)
+        #    if builder is None or not isinstance(builder, Builder):
+        #        if builder_id in builder_to_command[builder_id]:
+        #            c_id = builder_to_command[builder_id]
+        #            commands[int(c_id)] = CommandStatus.failed(c_id)
+        #            del builder_to_command[builder_id]
+        #        remove_set.append(builder_id)
+        #        continue
+        #    if collect_money_advance(builder, piece):
+        #        remove_set.append(builder_id)
+        for item in remove_set:
+            remove(item)
 
     def attack(self, piece, destination, radius):
         tank = self.context.my_pieces[piece.id]
@@ -185,7 +191,7 @@ class MyStrategicApi(StrategicApi):
         command_id = str(len(commands))
         attacking_command = CommandStatus.in_progress(command_id, 0,
                                                       common_types.distance(tank.tile.coordinates, destination))
-        tank_to_coordinate_to_attack[piece.id] = destination
+        tank_to_coordinate_to_attack[piece.id] = destination, radius
         tank_to_attacking_command[piece.id] = command_id
         commands.append(attacking_command)
 
@@ -212,36 +218,57 @@ class MyStrategicApi(StrategicApi):
                 if piece.type == 'tank'}
 
     def report_builders(self):
-        return {StrategicPiece(piece_id, piece.type) : (None if not piece_id in builder_to_command else builder_to_command[piece_id], builder_to_amount[piece_id])
+        return {StrategicPiece(piece.id, piece.type) : (builder_to_command.get(piece.id), builder_to_amount.get(piece.id, 0))
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'builder'}
 
-    def collect_money(self, builder: StrategicPiece, amount: int) -> str:
+    def collect_money_stupid(self, builder: StrategicPiece, amount: int) -> str:
         builder1 = self.context.my_pieces[builder.id]
-        if not builder1 or not isinstance(builder1, Builder):
-            return ""
+        if builder1.tile.money != 0:
+            builder1.collect_money(min(5,builder1.tile.money))
+        else:
+            x = builder1.tile.coordinates.x
+            y = builder1.tile.coordinates.y
+            if 0 <= y+1 <= self.context.game_width:
+                builder1.move(common_types.Coordinates(x, y+1))
+            if 0 <= x+1 <= self.context.game_width:
+                builder1.move(common_types.Coordinates(x+1, y))
+            else:
+                builder1.move(common_types.Coordinates(x,y-1))
+            return None
+                
+            
 
-        if builder.id in builder_to_command:
-            if builder.id in builder_to_piece:
-                del builder_to_piece[builder.id]
-            command_id = builder_to_command[builder.id]
-            commands[int(command_id)] = CommandStatus.failed(command_id)
+            
 
-        command_id = str(len(commands))
-        command = CommandStatus.in_progress(command_id, 0, 999999)
-        builder_to_amount[builder.id] = amount
-        builder_to_command[builder.id] = command_id
-        commands.append(command)
+    def collect_money(self, builder: StrategicPiece, amount: int) -> str:
+        return self.collect_money_stupid(builder, amount)
+        #builder1 = self.context.my_pieces[builder.id]
+        #if not builder1 or not isinstance(builder1, Builder):
+        #    return ""
 
-        return command_id
+        #if builder.id in builder_to_command:
+        #    if builder.id in builder_to_piece:
+        #        del builder_to_piece[builder.id]
+        #    command_id = builder_to_command[builder.id]
+        #    commands[int(command_id)] = CommandStatus.failed(command_id)
+
+        #command_id = str(len(commands))
+        #command = CommandStatus.in_progress(command_id, 0, 999999)
+        #builder_to_amount[builder.id] = amount
+        #builder_to_command[builder.id] = command_id
+        #commands.append(command)
+
+        #return command_id
 
     def build_piece(self, builder: StrategicPiece, piece_type: str) -> str:
-        builder1 = self.context.my_pieces[builder.id]
-        if not builder1 or not isinstance(builder1, Builder):
-            return ""
+        builder_piece = self.context.my_pieces[builder.id]
+        
+        if not builder_piece or not isinstance(builder_piece, Builder):
+            return None
 
         if not piece_type in PRICES:
-            return ""
+            return None
 
         if builder.id in builder_to_command:
             if builder.id in builder_to_amount:
@@ -251,7 +278,13 @@ class MyStrategicApi(StrategicApi):
 
         command_id = str(len(commands))
         command = CommandStatus.in_progress(command_id, 0, 999999)
+        
+        
+        
         builder_to_piece[builder.id] = piece_type
+        
+        
+        
         builder_to_command[builder.id] = command_id
         commands.append(command)
 
@@ -259,4 +292,5 @@ class MyStrategicApi(StrategicApi):
 
 
 def get_strategic_implementation(context):
+    
     return MyStrategicApi(context)
