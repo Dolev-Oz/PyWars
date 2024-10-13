@@ -4,6 +4,8 @@ from tactical_api import TurnContext, Builder, BasePiece
 
 from random import randint
 
+from common_types import Coordinates
+
 PRICES = {
     'builder': 20,
     'tank': 8,
@@ -40,22 +42,26 @@ builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
 
-def move_tank_to_destination(context, tank, dest):
+def move_tank_to_destination(tank, dest):
     """Returns True if the tank's mission is complete."""
     command_id = tank_to_attacking_command[tank.id]
     if dest is None:
         commands[int(command_id)] = CommandStatus.failed(command_id)
         return
-    if dest.x == tank.tile.x and dest.y == tank.tile.y:
+    if dest == tank.tile:
         tank.attack()
         commands[int(command_id)] = CommandStatus.success(command_id)
         del tank_to_attacking_command[tank.id]
         return True
     tank_coordinate = tank.tile.coordinates
-    if tank.tile.country != context.my_country:
+    if tank.tile.country != TurnContext.my_country:
         tank.attack()
+        prev_command = commands[int(command_id)]
+        commands[int(command_id)] = CommandStatus.in_progress(command_id,
+                                                              prev_command.elapsed_turns + 1,
+                                                              prev_command.estimated_turns - 1)
         return False
-    if dest.x < tank_coordinate.x:
+    elif dest.x < tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
     elif dest.x > tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
@@ -64,6 +70,10 @@ def move_tank_to_destination(context, tank, dest):
     elif dest.y > tank_coordinate.y:
         new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
     tank.move(new_coordinate)
+    prev_command = commands[int(command_id)]
+    commands[int(command_id)] = CommandStatus.in_progress(command_id,
+                                                          prev_command.elapsed_turns + 1,
+                                                          prev_command.estimated_turns - 1)
     return False
 
 
@@ -125,7 +135,7 @@ class MyStrategicApi(StrategicApi):
             if tank is None:
                 to_remove.add(tank_id)
                 continue
-            if move_tank_to_destination(self.context, tank, destination):
+            if move_tank_to_destination(tank, destination):
                 to_remove.add(tank_id)
         for tank_id in to_remove:
             del tank_to_coordinate_to_attack[tank_id]
@@ -179,6 +189,18 @@ class MyStrategicApi(StrategicApi):
         commands.append(attacking_command)
 
         return command_id
+    
+    def defend(self, pieces: list[StrategicPiece], destination: Coordinates, radius: int) -> str:
+        """Defend the area around the destination, using the given pieces.
+
+        This command should be interepreted as defending a tile, whose distance of
+        `destination` is at most `radius` using the given set of `pieces` (set of
+        `StrategicPiece`s).
+        This method should return a command identifier.
+        """
+        defending_pieces = [self.context.my_pieces[piece.id] for piece in pieces]
+        
+
 
     def estimate_tile_danger(self, destination):
         tile = self.context.tiles[(destination.x, destination.y)]
@@ -201,7 +223,7 @@ class MyStrategicApi(StrategicApi):
                 if piece.type == 'tank'}
 
     def report_builders(self):
-        return {StrategicPiece(piece_id, piece.type) : (None if not piece_id in builder_to_command else builder_to_command[piece_id], builder_to_amount[piece_id])
+        return {StrategicPiece(piece_id, piece.type) : (None if not piece in builder_to_command else builder_to_command[piece], builder_to_amount[piece_id])
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'builder'}
 
