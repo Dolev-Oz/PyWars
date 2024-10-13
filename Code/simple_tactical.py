@@ -54,10 +54,6 @@ def move_tank_to_destination(context, tank, dest):
     tank_coordinate = tank.tile.coordinates
     if tank.tile.country != context.my_country:
         tank.attack()
-        prev_command = commands[int(command_id)]
-        commands[int(command_id)] = CommandStatus.in_progress(command_id,
-                                                              prev_command.elapsed_turns + 1,
-                                                              prev_command.estimated_turns - 1)
         return False
     elif dest.x < tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
@@ -68,10 +64,6 @@ def move_tank_to_destination(context, tank, dest):
     elif dest.y > tank_coordinate.y:
         new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
     tank.move(new_coordinate)
-    prev_command = commands[int(command_id)]
-    commands[int(command_id)] = CommandStatus.in_progress(command_id,
-                                                          prev_command.elapsed_turns + 1,
-                                                          prev_command.estimated_turns - 1)
     return False
 
 
