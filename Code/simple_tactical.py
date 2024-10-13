@@ -2,7 +2,7 @@ import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
 from tactical_api import TurnContext, Builder, BasePiece, distance
 
-from random import randint
+from random import randint, choices
 
 PRICES = {
     'builder': 20,
@@ -55,7 +55,9 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
     if tank.tile.country != context.my_country:
         tank.attack()
         return False
-    randomized = randint(0, 1)
+    x_dist = abs(dest.x, tank.tile.x)
+    y_dist = abs(dest.y, tank.tile.y)
+    randomized = choices([0, 1], weights=[x_dist, y_dist])
     if randomized == 0:
         if dest.x < tank_coordinate.x:
             new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
