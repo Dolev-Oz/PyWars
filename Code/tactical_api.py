@@ -284,6 +284,7 @@ class TurnContext(object):
     tiles: dict[Coordinates, Tile]
     my_pieces: dict[str, BasePiece]
     all_pieces: dict[str, BasePiece]
+    my_country: str
     game_width: int
     game_height: int
 
