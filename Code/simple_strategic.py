@@ -40,7 +40,7 @@ def find_min_dist_to_pieces(
         dis = distance(con.my_pieces[piece.id].tile.coordinates, coord)
         if dis < min_dist:
             min_dist = dis
-    return dis
+    return min_dist
 
 
 def sort_tiles(
@@ -127,5 +127,5 @@ def do_attack_stuff(strategic: StrategicApi):
 
 def do_turn(strategic: StrategicApi):
     strategic.log("hello world")
-    do_builder_stuff(strategic)
+    #    do_builder_stuff(strategic)
     do_attack_stuff(strategic)
