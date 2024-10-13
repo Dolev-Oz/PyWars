@@ -1,0 +1,586 @@
+Module tactical_api
+-------------------
+
+Variables
+---------
+TYPE_TO_CLASS
+
+Functions
+---------
+distance(a, b)
+    Calculates the distance between the coordinates a and b.
+
+Classes
+-------
+Airplane 
+    Represents a game airplane.
+
+    The value of its type field is "airplane".
+
+    This class does not expose any fields, except those exposed by BasePiece and
+    FlyingPiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Airplane
+    tactical_api.FlyingPiece
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    attack(self)
+        Attacks the current game tile.
+
+    land(self)
+        Land this piece.
+
+        If this piece is already on the ground, this is a no-op.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    take_off(self)
+        Take off this piece.
+
+        If this piece is already in the air, this is a no-op.
+
+Antitank 
+    Represents a game anti-tank.
+
+    The value of its type field is "antitank".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Antitank
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+Artillery 
+    Represents a game artillery.
+
+    The value of its type field is "artillery".
+
+    This class does not expose any fields, except for those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Artillery
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    attack(self, destination)
+        Attacks the destination using this artillery.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+BasePiece 
+    Base class for game pieces.
+
+    This class exports the following fields:
+    * id: Piece ID, as assigned by the server.
+    * tile: The tile object of which this piece has been in, before this turn
+            began.
+    * type: Piece type (as a string).
+    * country: The name of the country of which this piece belongs to.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.BasePiece
+    builtins.object
+
+    Descendents
+    -----------
+    tactical_api.FlyingPiece
+    tactical_api.Tank
+    tactical_api.Artillery
+    tactical_api.Antitank
+    tactical_api.IronDome
+    tactical_api.Bunker
+    tactical_api.Spy
+    tactical_api.Tower
+    tactical_api.Satellite
+    tactical_api.Builder
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    Instance variables
+    ------------------
+    country
+
+    id
+
+    tile
+
+    type
+
+Builder 
+    Represents a game builder.
+
+    This class exposes the following fields:
+    * money: The amount of money this builder has, before this turn began.
+
+    The value of its type field is "builder".
+
+    Please refer to BasePiece for information about other exposed fields.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Builder
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    build_airplane(self)
+        Builds a new airplane piece in the current tile.
+
+    build_antitank(self)
+        Builds a new anti-tank piece in the current tile.
+
+    build_artillery(self)
+        Builds a new artillery piece in the current tile.
+
+    build_builder(self)
+        Builds a new builder piece in the current tile.
+
+    build_bunker(self)
+        Builds a new bunker piece in the current tile.
+
+    build_helicopter(self)
+        Builds a new helicopter piece in the current tile.
+
+    build_iron_dome(self)
+        Builds a new iron dome piece in the current tile.
+
+    build_satellite(self)
+        Builds a new satellite piece in the current tile.
+
+    build_spy(self)
+        Builds a new spy piece in the current tile.
+
+    build_tank(self)
+        Builds a new tank piece in the current tile.
+
+    build_tower(self)
+        Builds a new tower piece in the current tile.
+
+    collect_money(self, amount)
+        Collects a certain amount of money from the current Tile.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    throw_money(self, amount)
+        Throws a certain amount of money to the current Tile.
+
+    Instance variables
+    ------------------
+    money
+
+Bunker 
+    Represents a game bunker.
+
+    The value of its type field is "bunker".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Bunker
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+FlyingPiece 
+    Base class for flying pieces.
+
+    This class exports the following fields:
+    * in_air: A boolean indicating weather this piece is currently flying (True)
+              or on the ground (False).
+    * time_in_air: An integer counting the amount of turns of which this piece
+                   has been flying, or None if this piece is on the ground.
+
+    See BasePiece for more fields.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.FlyingPiece
+    tactical_api.BasePiece
+    builtins.object
+
+    Descendents
+    -----------
+    tactical_api.Airplane
+    tactical_api.Helicopter
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    land(self)
+        Land this piece.
+
+        If this piece is already on the ground, this is a no-op.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    take_off(self)
+        Take off this piece.
+
+        If this piece is already in the air, this is a no-op.
+
+    Instance variables
+    ------------------
+    in_air
+
+    time_in_air
+
+Helicopter 
+    Represents a game helicopter.
+
+    The value of its type field is "helicopter".
+
+    This class does not expose any fields, except those exposed by BasePiece and
+    FlyingPiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Helicopter
+    tactical_api.FlyingPiece
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    attack(self, destination)
+        Attacks the destination using this helicopter.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    land(self)
+        Land this piece.
+
+        If this piece is already on the ground, this is a no-op.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    take_off(self)
+        Take off this piece.
+
+        If this piece is already in the air, this is a no-op.
+
+IronDome 
+    Represents a game iron dome.
+
+    This class exports the following fields:
+    * id_defending: Set to True if and only if the protection of this iron dome
+                    has been active before this turn began.
+
+    The value of its type field is "irondome".
+
+    Please refer to BasePiece for information about other exposed fields.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.IronDome
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+    turn_off_protection(self)
+        Turns off this iron dome protection.
+
+    turn_on_protection(self)
+        Turns on this iron dome protection.
+
+    Instance variables
+    ------------------
+    is_defending
+
+Logger 
+    Utility for logging stuff.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Logger
+    builtins.object
+
+    Class variables
+    ---------------
+    REQUEST_HEADERS
+
+    TIMEOUT
+
+    Static methods
+    --------------
+    __init__(self, url)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    log(self, log_entry)
+        Logs the provided log entry.
+
+        log_entry is expected to be a string, without a trailing new line character.
+
+Satellite 
+    Represents a game satellite.
+
+    The value of its type field is "satellite".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Satellite
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+Spy 
+    Represents a game spy.
+
+    The value of its type field is "spy".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Spy
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+Tank 
+    Represents a game tank.
+
+    The value of its type field is "tank".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Tank
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    attack(self)
+        Attacks the current game tile.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+Tile 
+    A land unit in the game.
+
+    This class exports the following fields:
+    * coordinates: The coordinates of this tile.
+    * money: The amount of money in this tile before the turn started, or None if
+             this amount is unknown to the current country.
+    * country: The name of the country owning this tile, or None if this tile is
+               not owned by any country.
+    * pieces: A list of pieces on this tile.
+    Note that the information here may be incomplete, depending on the visibility
+    of the current country on this tile.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Tile
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    Instance variables
+    ------------------
+    coordinates
+
+    country
+
+    money
+
+    pieces
+
+Tower 
+    Represents a game tower.
+
+    The value of its type field is "tower".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.Tower
+    tactical_api.BasePiece
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, context, tile, piece_dict)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    move(self, destination)
+        Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+
+TurnContext 
+    Contains all the context of this turn.
+
+    Some useful fields:
+    * tiles: Maps coordinates (int, int) to a Tile object.
+    * my_pieces: Maps piece IDs to the actual piece, for pieces owned by our
+                 country.
+    * all_pieces: Same as my_pieces, but for all pieces known by this country.
+    * game_width: The width of the game.
+    * game_height: The height of the game.
+    * my_country: The name of my country.
+    * all_countries: The names of all countries in the game.
+
+    Ancestors (in MRO)
+    ------------------
+    tactical_api.TurnContext
+    builtins.object
+
+    Static methods
+    --------------
+    __init__(self, turn_data, logger)
+        Initialize self.  See help(type(self)) for accurate signature.
+
+    get_commands_of_piece(self, piece_id)
+        Returns the list of ordered commands given to the given piece.
+
+        Note that if the piece did not receive any command in this turn, or is not
+        owned by my country, or does not exist, an empty list is returned.
+
+    get_result(self)
+
+    get_sighings_of_piece(self, piece_id)
+        Returns the sightings of the given piece.
+
+        This method returns a set of sighted pieces and their locations, as seen by
+        the given piece.
+
+        Note that the given piece MUST belong to my country in order for this
+        method to work.
+
+    get_tiles_of_country(self, country_name)
+        Returns the set of tile coordinates owned by the given country name.
+
+        If country_name is None, the returned coordinates are of tiles that do not
+        belong to any country.
+
+    log(self, log_entry)
+        Logs the given log entry to the main log of this country.
+
+        log_entry is expected to be a string, without a trailing new line character.
+
+    Instance variables
+    ------------------
+    all_countries
+
+    all_pieces
+
+    game_height
+
+    game_width
+
+    my_country
+
+    my_pieces
+
+    tiles

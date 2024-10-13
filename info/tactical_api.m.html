@@ -1,0 +1,4284 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>tactical_api API documentation</title>
+    <meta name="description" content="" />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <style type="text/css">
+  
+* {
+  box-sizing: border-box;
+}
+/*! normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/**
+ * 1. Prevent system color scheme's background color being used in Firefox, IE,
+ *    and Opera.
+ * 2. Prevent system color scheme's text color being used in Firefox, IE, and
+ *    Opera.
+ * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 4. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    background: #fff; /* 1 */
+    color: #000; /* 2 */
+    font-size: 100%; /* 3 */
+    -webkit-text-size-adjust: 100%; /* 4 */
+    -ms-text-size-adjust: 100%; /* 4 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+
+body {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+
+b,
+strong {
+    font-weight: bold;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+p,
+pre {
+    margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+
+q {
+    quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+dl,
+menu,
+ol,
+ul {
+    margin: 1em 0;
+}
+
+dd {
+    margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+
+img {
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+
+figure {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+
+form {
+    margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+
+legend {
+    border: 0; /* 1 */
+    padding: 0;
+    white-space: normal; /* 2 */
+    *margin-left: -7px; /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* 1 */
+    margin: 0; /* 2 */
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+button,
+input {
+    line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+    *overflow: visible;  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+  </style>
+
+  <style type="text/css">
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background: #fff;
+    font-family: "Source Sans Pro", "Helvetica Neueue", Helvetica, sans;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6em;
+  }
+  #content {
+    width: 70%;
+    max-width: 850px;
+    float: left;
+    padding: 30px 60px;
+    border-left: 1px solid #ddd;
+  }
+  #sidebar {
+    width: 25%;
+    float: left;
+    padding: 30px;
+    overflow: hidden;
+  }
+  #nav {
+    font-size: 130%;
+    margin: 0 0 15px 0;
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: .85em;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    font-size: .75em;
+    padding: 5px 30px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+    #footer p {
+      margin: 0 0 0 30px;
+      display: inline-block;
+    }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin: 0 0 .50em 0;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    margin: 1em 0 .50em 0;
+  }
+
+  h3 {
+    margin: 25px 0 10px 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 105%;
+  }
+
+  a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+  }
+
+  a:hover {
+    color: #e08524;
+    transition: color .3s ease-in-out;
+  }
+
+  pre, code, .mono, .name {
+    font-family: "Ubuntu Mono", "Cousine", "DejaVu Sans Mono", monospace;
+  }
+
+  .title .name {
+    font-weight: bold;
+  }
+  .section-title {
+    margin-top: 2em;
+  }
+  .ident {
+    color: #900;
+  }
+
+  code {
+    background: #f9f9f9;
+  } 
+
+  pre {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 0 #f3f3f3;
+    margin: 0 30px;
+    padding: 15px 30px;
+  }
+
+  .codehilite {
+    margin: 0 30px 10px 30px;
+  }
+
+    .codehilite pre {
+      margin: 0;
+    }
+    .codehilite .err { background: #ff3300; color: #fff !important; } 
+
+  table#module-list {
+    font-size: 110%;
+  }
+
+    table#module-list tr td:first-child {
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    table#module-list td {
+      vertical-align: top;
+      padding-bottom: 8px;
+    }
+
+      table#module-list td p {
+        margin: 0 0 7px 0;
+      }
+
+  .def {
+    display: table;
+  }
+
+    .def p {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .def p:first-child {
+      white-space: nowrap;
+    }
+
+    .def p:last-child {
+      width: 100%;
+    }
+
+
+  #index {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    ul#index .class_name {
+      /* font-size: 110%; */
+      font-weight: bold;
+    }
+    #index ul {
+      margin: 0;
+    }
+
+  .item {
+    margin: 0 0 15px 0;
+  }
+
+    .item .class {
+      margin: 0 0 25px 30px;
+    }
+
+      .item .class ul.class_list {
+        margin: 0 0 20px 0;
+      }
+
+    .item .name {
+      background: #fafafa;
+      margin: 0;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 40%;
+    }
+      .item .name:hover {
+        background: #f6f6f6;
+      }
+
+    .item .empty_desc {
+      margin: 0 0 5px 0;
+      padding: 0;
+    }
+
+    .item .inheritance {
+      margin: 3px 0 0 30px;
+    }
+
+    .item .inherited {
+      color: #666;
+    }
+
+    .item .desc {
+      padding: 0 8px;
+      margin: 0;
+    }
+
+      .item .desc p {
+        margin: 0 0 10px 0;
+      }
+
+    .source_cont {
+      margin: 0;
+      padding: 0;
+    }
+
+    .source_link a {
+      background: #ffc300;
+      font-weight: 400;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 1px 1px 0 #f4b700;
+      
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: background .3s ease-in-out;
+    }
+      .source_link a:hover {
+        background: #FF7200;
+        text-shadow: none;
+        transition: background .3s ease-in-out;
+      }
+
+    .source {
+      display: none;
+      max-height: 600px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+
+      .source .codehilite {
+        margin: 0;
+      }
+
+  .desc h1, .desc h2, .desc h3 {
+    font-size: 100% !important;
+  }
+  .clear {
+    clear: both;
+  }
+
+  @media all and (max-width: 950px) {
+    #sidebar {
+      width: 35%;
+    }
+    #content {
+      width: 65%;
+    }
+  }
+  @media all and (max-width: 650px) {
+    #top {
+      display: none;
+    }
+    #sidebar {
+      float: none;
+      width: auto;
+    }
+    #content {
+      float: none;
+      width: auto;
+      padding: 30px;
+    }
+
+    #index ul {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+    #index ul li {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    #footer {
+      text-align: left;
+    }
+    #footer p {
+      display: block;
+      margin: inherit;
+    }
+  }
+
+  /*****************************/
+
+  </style>
+
+
+  <style type="text/css">
+  
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+  function toggle(id, $link) {
+    $node = document.getElementById(id);
+    if (!$node)
+    return;
+    if (!$node.style.display || $node.style.display == 'none') {
+    $node.style.display = 'block';
+    $link.innerHTML = 'Hide source &nequiv;';
+    } else {
+    $node.style.display = 'none';
+    $link.innerHTML = 'Show source &equiv;';
+    }
+  }
+  </script>
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+  <div id="sidebar">
+    <h1>Index</h1>
+    <ul id="index">
+    <li class="set"><h3><a href="#header-variables">Module variables</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#tactical_api.TYPE_TO_CLASS">TYPE_TO_CLASS</a></li>
+  </ul>
+
+    </li>
+
+    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#tactical_api.distance">distance</a></li>
+  </ul>
+
+    </li>
+
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Airplane">Airplane</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Airplane.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Airplane.attack">attack</a></li>
+    <li class="mono"><a href="#tactical_api.Airplane.land">land</a></li>
+    <li class="mono"><a href="#tactical_api.Airplane.move">move</a></li>
+    <li class="mono"><a href="#tactical_api.Airplane.take_off">take_off</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Antitank">Antitank</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Antitank.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Antitank.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Artillery">Artillery</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Artillery.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Artillery.attack">attack</a></li>
+    <li class="mono"><a href="#tactical_api.Artillery.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.BasePiece">BasePiece</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.BasePiece.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.BasePiece.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Builder">Builder</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Builder.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_airplane">build_airplane</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_antitank">build_antitank</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_artillery">build_artillery</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_builder">build_builder</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_bunker">build_bunker</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_helicopter">build_helicopter</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_iron_dome">build_iron_dome</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_satellite">build_satellite</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_spy">build_spy</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_tank">build_tank</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.build_tower">build_tower</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.collect_money">collect_money</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.move">move</a></li>
+    <li class="mono"><a href="#tactical_api.Builder.throw_money">throw_money</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Bunker">Bunker</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Bunker.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Bunker.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.FlyingPiece">FlyingPiece</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.FlyingPiece.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.FlyingPiece.land">land</a></li>
+    <li class="mono"><a href="#tactical_api.FlyingPiece.move">move</a></li>
+    <li class="mono"><a href="#tactical_api.FlyingPiece.take_off">take_off</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Helicopter">Helicopter</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Helicopter.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Helicopter.attack">attack</a></li>
+    <li class="mono"><a href="#tactical_api.Helicopter.land">land</a></li>
+    <li class="mono"><a href="#tactical_api.Helicopter.move">move</a></li>
+    <li class="mono"><a href="#tactical_api.Helicopter.take_off">take_off</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.IronDome">IronDome</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.IronDome.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.IronDome.move">move</a></li>
+    <li class="mono"><a href="#tactical_api.IronDome.turn_off_protection">turn_off_protection</a></li>
+    <li class="mono"><a href="#tactical_api.IronDome.turn_on_protection">turn_on_protection</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Logger">Logger</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Logger.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Logger.log">log</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Satellite">Satellite</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Satellite.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Satellite.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Spy">Spy</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Spy.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Spy.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Tank">Tank</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Tank.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Tank.attack">attack</a></li>
+    <li class="mono"><a href="#tactical_api.Tank.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Tile">Tile</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Tile.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.Tower">Tower</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.Tower.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.Tower.move">move</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#tactical_api.TurnContext">TurnContext</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#tactical_api.TurnContext.__init__">__init__</a></li>
+    <li class="mono"><a href="#tactical_api.TurnContext.get_commands_of_piece">get_commands_of_piece</a></li>
+    <li class="mono"><a href="#tactical_api.TurnContext.get_result">get_result</a></li>
+    <li class="mono"><a href="#tactical_api.TurnContext.get_sighings_of_piece">get_sighings_of_piece</a></li>
+    <li class="mono"><a href="#tactical_api.TurnContext.get_tiles_of_country">get_tiles_of_country</a></li>
+    <li class="mono"><a href="#tactical_api.TurnContext.log">log</a></li>
+  </ul>
+
+        </li>
+      </ul>
+    </li>
+
+    </ul>
+  </div>
+
+    <article id="content">
+      
+  
+
+  
+
+
+  <header id="section-intro">
+  <h1 class="title"><span class="name">tactical_api</span> module</h1>
+  
+  
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api" class="source">
+    <pre><code>from collections import namedtuple
+import json
+import http.client
+from urllib.parse import urlparse
+
+# import commands
+# from common_types import Coordinates
+# import constants
+
+def distance(a, b):
+    """Calculates the distance between the coordinates a and b."""
+    return abs(a.x - b.x) + abs(a.y - b.y)
+
+
+class BasePiece(object):
+    """Base class for game pieces.
+
+    This class exports the following fields:
+    * id: Piece ID, as assigned by the server.
+    * tile: The tile object of which this piece has been in, before this turn
+            began.
+    * type: Piece type (as a string).
+    * country: The name of the country of which this piece belongs to.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(BasePiece, self).__init__()
+        self._context = context
+        self.tile = tile
+        self.id = piece_dict['id']
+        self.type = piece_dict['type']
+        self.country = piece_dict['country']
+
+    def move(self, destination):
+        """Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+        """
+        if isinstance(destination, Tile):
+            destination = destination.coordinates
+        assert isinstance(destination, Coordinates)
+        self._context._commands.append(commands.MoveCommand(self.id, destination))
+
+
+class FlyingPiece(BasePiece):
+    """Base class for flying pieces.
+
+    This class exports the following fields:
+    * in_air: A boolean indicating weather this piece is currently flying (True)
+              or on the ground (False).
+    * time_in_air: An integer counting the amount of turns of which this piece
+                   has been flying, or None if this piece is on the ground.
+
+    See BasePiece for more fields.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(FlyingPiece, self).__init__(context, tile, piece_dict)
+        self.in_air = piece_dict['inAir']
+        self.time_in_air = piece_dict.get('timeInAir', None)
+
+    def take_off(self):
+        """Take off this piece.
+
+        If this piece is already in the air, this is a no-op.
+        """
+        self._context._commands.append(commands.TakeOffCommand(self.id))
+
+    def land(self):
+        """Land this piece.
+
+        If this piece is already on the ground, this is a no-op.
+        """
+        self._context._commands.append(commands.LandCommand(self.id))
+
+
+class Tank(BasePiece):
+    """Represents a game tank.
+
+    The value of its type field is "tank".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+
+    def attack(self):
+        """Attacks the current game tile."""
+        self._context._commands.append(commands.MeleeAttackCommand(self.id))
+
+
+class Airplane(FlyingPiece):
+    """Represents a game airplane.
+
+    The value of its type field is "airplane".
+
+    This class does not expose any fields, except those exposed by BasePiece and
+    FlyingPiece.
+    """
+
+    def attack(self):
+        """Attacks the current game tile."""
+        self._context._commands.append(commands.MeleeAttackCommand(self.id))
+
+
+class Artillery(BasePiece):
+    """Represents a game artillery.
+
+    The value of its type field is "artillery".
+
+    This class does not expose any fields, except for those exposed by BasePiece.
+    """
+
+    def attack(self, destination):
+        """Attacks the destination using this artillery.
+
+        destination is expected to have a type of either Coordinates or Tile.
+        """
+        if isinstance(destination, Tile):
+            destination = destination.coordinates
+        assert isinstance(destination, Coordinates)
+        self._context._commands.append(commands.RemoteAttackCommand(self.id, destination))
+
+
+class Helicopter(FlyingPiece):
+    """Represents a game helicopter.
+
+    The value of its type field is "helicopter".
+
+    This class does not expose any fields, except those exposed by BasePiece and
+    FlyingPiece.
+    """
+
+    def attack(self, destination):
+        """Attacks the destination using this helicopter.
+
+        destination is expected to have a type of either Coordinates or Tile.
+        """
+        if isinstance(destination, Tile):
+            destination = destination.coordinates
+        assert isinstance(destination, Coordinates)
+        self._context._commands.append(commands.RemoteAttackCommand(self.id, destination))
+
+
+class Antitank(BasePiece):
+    """Represents a game anti-tank.
+
+    The value of its type field is "antitank".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+
+
+class IronDome(BasePiece):
+    """Represents a game iron dome.
+
+    This class exports the following fields:
+    * id_defending: Set to True if and only if the protection of this iron dome
+                    has been active before this turn began.
+
+    The value of its type field is "irondome".
+
+    Please refer to BasePiece for information about other exposed fields.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(IronDome, self).__init__(context, tile, piece_dict)
+        self.is_defending = piece_dict['isDefending']
+
+    def turn_on_protection(self):
+        """Turns on this iron dome protection."""
+        self._context._commands.append(commands.TurnOnProtection(self.id))
+
+    def turn_off_protection(self):
+        """Turns off this iron dome protection."""
+        self._context._commands.append(commands.TurnOffProtection(self.id))
+
+
+class Bunker(BasePiece):
+    """Represents a game bunker.
+
+    The value of its type field is "bunker".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+
+
+class Spy(BasePiece):
+    """Represents a game spy.
+
+    The value of its type field is "spy".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+
+
+class Tower(BasePiece):
+    """Represents a game tower.
+
+    The value of its type field is "tower".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+
+
+class Satellite(BasePiece):
+    """Represents a game satellite.
+
+    The value of its type field is "satellite".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+
+
+class Builder(BasePiece):
+    """Represents a game builder.
+
+    This class exposes the following fields:
+    * money: The amount of money this builder has, before this turn began.
+
+    The value of its type field is "builder".
+
+    Please refer to BasePiece for information about other exposed fields.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(Builder, self).__init__(context, tile, piece_dict)
+        self.money = piece_dict['money']
+
+    def collect_money(self, amount):
+        """Collects a certain amount of money from the current Tile."""
+        self._context._commands.append(commands.TakeMoneyCommand(self.id, amount))
+
+    def throw_money(self, amount):
+        """Throws a certain amount of money to the current Tile."""
+        self._context._commands.append(commands.ThrowMoneyCommand(self.id, amount))
+
+    def build_tank(self):
+        """Builds a new tank piece in the current tile."""
+        self._build('tank')
+
+    def build_airplane(self):
+        """Builds a new airplane piece in the current tile."""
+        self._build('airplane')
+
+    def build_artillery(self):
+        """Builds a new artillery piece in the current tile."""
+        self._build('artillery')
+
+    def build_helicopter(self):
+        """Builds a new helicopter piece in the current tile."""
+        self._build('helicopter')
+
+    def build_antitank(self):
+        """Builds a new anti-tank piece in the current tile."""
+        self._build('antitank')
+
+    def build_iron_dome(self):
+        """Builds a new iron dome piece in the current tile."""
+        self._build('irondome')
+
+    def build_bunker(self):
+        """Builds a new bunker piece in the current tile."""
+        self._build('bunker')
+
+    def build_spy(self):
+        """Builds a new spy piece in the current tile."""
+        self._build('spy')
+
+    def build_tower(self):
+        """Builds a new tower piece in the current tile."""
+        self._build('tower')
+
+    def build_satellite(self):
+        """Builds a new satellite piece in the current tile."""
+        self._build('satellite')
+
+    def build_builder(self):
+        """Builds a new builder piece in the current tile."""
+        self._build('builder')
+
+    def _build(self, piece_type):
+        self._context._commands.append(commands.BuildPieceCommand(self.id, piece_type))
+
+
+TYPE_TO_CLASS = {
+    'tank': Tank,
+    'airplane': Airplane,
+    'artillery': Artillery,
+    'helicopter': Helicopter,
+    'antitank': Antitank,
+    'irondome': IronDome,
+    'bunker': Bunker,
+    'spy': Spy,
+    'tower': Tower,
+    'satellite': Satellite,
+    'builder': Builder,
+}
+
+
+def _load_piece(context, tile, piece_dict):
+    return TYPE_TO_CLASS[piece_dict['type']](context, tile, piece_dict)
+
+
+class Tile(object):
+    """A land unit in the game.
+
+    This class exports the following fields:
+    * coordinates: The coordinates of this tile.
+    * money: The amount of money in this tile before the turn started, or None if
+             this amount is unknown to the current country.
+    * country: The name of the country owning this tile, or None if this tile is
+               not owned by any country.
+    * pieces: A list of pieces on this tile.
+    Note that the information here may be incomplete, depending on the visibility
+    of the current country on this tile.
+    """
+
+    def __init__(self, context, tile_dict):
+        super(Tile, self).__init__()
+        self.coordinates = Coordinates(**tile_dict['coordinate'])
+        self.money = tile_dict['money']
+        self.country = tile_dict['country']
+        self.pieces = [_load_piece(context, self, piece_dict) for piece_dict in tile_dict['pieces']]
+
+
+class TurnContext(object):
+    """Contains all the context of this turn.
+
+    Some useful fields:
+    * tiles: Maps coordinates (int, int) to a Tile object.
+    * my_pieces: Maps piece IDs to the actual piece, for pieces owned by our
+                 country.
+    * all_pieces: Same as my_pieces, but for all pieces known by this country.
+    * game_width: The width of the game.
+    * game_height: The height of the game.
+    * my_country: The name of my country.
+    * all_countries: The names of all countries in the game.
+    """
+
+    def __init__(self, turn_data, logger):
+        super(TurnContext, self).__init__()
+        self._turn_data = turn_data
+        self._logger = logger
+        self._commands = []
+        self.tiles = {(tile['coordinate']['x'], tile['coordinate']['y']): Tile(self, tile)
+                      for tile in turn_data['tiles']}
+        self.my_pieces = {}
+        self.all_pieces = {}
+        self.game_width = turn_data['width']
+        self.game_height = turn_data['height']
+        self.my_country = turn_data['country']
+        self.all_countries = turn_data['all_countries']
+        for tile in self.tiles.values():
+            for piece in tile.pieces:
+                if piece.country == self.my_country:
+                    self.my_pieces[piece.id] = piece
+                self.all_pieces[piece.id] = piece
+
+    def get_tiles_of_country(self, country_name):
+        """Returns the set of tile coordinates owned by the given country name.
+
+        If country_name is None, the returned coordinates are of tiles that do not
+        belong to any country.
+        """
+        return {tile.coordinates for tile in self.tiles.values()
+                if tile.country == country_name}
+
+    def get_sighings_of_piece(self, piece_id):
+        """Returns the sightings of the given piece.
+
+        This method returns a set of sighted pieces and their locations, as seen by
+        the given piece.
+
+        Note that the given piece MUST belong to my country in order for this
+        method to work.
+        """
+        piece = self.my_pieces[piece_id]
+        if isinstance(piece, Tower):
+            sighting_distance = constants.TOWER_SIGHTING_RANGE
+        elif isinstance(piece, Satellite):
+            sighting_distance = constants.SATELLITE_SIGHTING_RANGE
+        else:
+            sighting_distance = 1
+        result = set()
+        piece_coordinates = piece.tile.coordinates
+        for x in range(piece_coordinates.x - sighting_distance, piece_coordinates.x + sighting_distance):
+            for y in range(piece_coordinates.y + sighting_distance, piece_coordinates.y + sighting_distance):
+                tile = self.tiles.get((x, y))
+                if tile is None or distance(piece_coordinates, tile.coordinates) > sighting_distance:
+                    continue
+                result.update(tile.pieces)
+        return result
+
+    def get_commands_of_piece(self, piece_id):
+        """Returns the list of ordered commands given to the given piece.
+
+        Note that if the piece did not receive any command in this turn, or is not
+        owned by my country, or does not exist, an empty list is returned.
+        """
+        return [command for command in self._commands
+                if command.piece_id == piece_id]
+
+    def log(self, log_entry):
+        """Logs the given log entry to the main log of this country.
+
+        log_entry is expected to be a string, without a trailing new line character.
+        """
+        self._logger.log(log_entry)
+
+    def get_result(self):
+        return [command.to_dict() for command in self._commands]
+
+
+class Logger(object):
+    """Utility for logging stuff."""
+
+    TIMEOUT = 10
+    REQUEST_HEADERS = {
+        'Content-type': 'application/json'
+    }
+
+    def __init__(self, url):
+        self._parsed_url = urlparse(url) if url is not None else None
+
+    def log(self, log_entry):
+        """Logs the provided log entry.
+
+        log_entry is expected to be a string, without a trailing new line character.
+        """
+        if self._parsed_url is None:
+            return
+        conn = http.client.HTTPConnection(self._parsed_url.hostname, self._parsed_url.port, timeout=Logger.TIMEOUT)
+        conn.request('POST', self._parsed_url.path, json.dumps({'data': log_entry}), Logger.REQUEST_HEADERS)
+</code></pre>
+  </div>
+
+  </header>
+
+  <section id="section-items">
+    <h2 class="section-title" id="header-variables">Module variables</h2>
+      <div class="item">
+      <p id="tactical_api.TYPE_TO_CLASS" class="name">var <span class="ident">TYPE_TO_CLASS</span></p>
+      
+  
+  <div class="source_cont">
+</div>
+
+      </div>
+
+    <h2 class="section-title" id="header-functions">Functions</h2>
+      
+  <div class="item">
+    <div class="name def" id="tactical_api.distance">
+    <p>def <span class="ident">distance</span>(</p><p>a, b)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Calculates the distance between the coordinates a and b.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.distance', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.distance" class="source">
+    <pre><code>def distance(a, b):
+    """Calculates the distance between the coordinates a and b."""
+    return abs(a.x - b.x) + abs(a.y - b.y)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="tactical_api.Airplane" class="name">class <span class="ident">Airplane</span></p>
+      
+  
+    <div class="desc"><p>Represents a game airplane.</p>
+<p>The value of its type field is "airplane".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece and
+FlyingPiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Airplane', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Airplane" class="source">
+    <pre><code>class Airplane(FlyingPiece):
+    """Represents a game airplane.
+
+    The value of its type field is "airplane".
+
+    This class does not expose any fields, except those exposed by BasePiece and
+    FlyingPiece.
+    """
+
+    def attack(self):
+        """Attacks the current game tile."""
+        self._context._commands.append(commands.MeleeAttackCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Airplane">Airplane</a></li>
+          <li><a href="#tactical_api.FlyingPiece">FlyingPiece</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Airplane.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.FlyingPiece">FlyingPiece</a></code>.<code><a href="#tactical_api.FlyingPiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Airplane.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Airplane.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(FlyingPiece, self).__init__(context, tile, piece_dict)
+    self.in_air = piece_dict['inAir']
+    self.time_in_air = piece_dict.get('timeInAir', None)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Airplane.attack">
+    <p>def <span class="ident">attack</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Attacks the current game tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Airplane.attack', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Airplane.attack" class="source">
+    <pre><code>def attack(self):
+    """Attacks the current game tile."""
+    self._context._commands.append(commands.MeleeAttackCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Airplane.land">
+    <p>def <span class="ident">land</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Land this piece.</p>
+<p>If this piece is already on the ground, this is a no-op.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Airplane.land', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Airplane.land" class="source">
+    <pre><code>def land(self):
+    """Land this piece.
+    If this piece is already on the ground, this is a no-op.
+    """
+    self._context._commands.append(commands.LandCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Airplane.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Airplane.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Airplane.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Airplane.take_off">
+    <p>def <span class="ident">take_off</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Take off this piece.</p>
+<p>If this piece is already in the air, this is a no-op.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Airplane.take_off', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Airplane.take_off" class="source">
+    <pre><code>def take_off(self):
+    """Take off this piece.
+    If this piece is already in the air, this is a no-op.
+    """
+    self._context._commands.append(commands.TakeOffCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Antitank" class="name">class <span class="ident">Antitank</span></p>
+      
+  
+    <div class="desc"><p>Represents a game anti-tank.</p>
+<p>The value of its type field is "antitank".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Antitank', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Antitank" class="source">
+    <pre><code>class Antitank(BasePiece):
+    """Represents a game anti-tank.
+
+    The value of its type field is "antitank".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Antitank">Antitank</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Antitank.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Antitank.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Antitank.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Antitank.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Antitank.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Antitank.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Artillery" class="name">class <span class="ident">Artillery</span></p>
+      
+  
+    <div class="desc"><p>Represents a game artillery.</p>
+<p>The value of its type field is "artillery".</p>
+<p>This class does not expose any fields, except for those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Artillery', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Artillery" class="source">
+    <pre><code>class Artillery(BasePiece):
+    """Represents a game artillery.
+
+    The value of its type field is "artillery".
+
+    This class does not expose any fields, except for those exposed by BasePiece.
+    """
+
+    def attack(self, destination):
+        """Attacks the destination using this artillery.
+
+        destination is expected to have a type of either Coordinates or Tile.
+        """
+        if isinstance(destination, Tile):
+            destination = destination.coordinates
+        assert isinstance(destination, Coordinates)
+        self._context._commands.append(commands.RemoteAttackCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Artillery">Artillery</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Artillery.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Artillery.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Artillery.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Artillery.attack">
+    <p>def <span class="ident">attack</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Attacks the destination using this artillery.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Artillery.attack', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Artillery.attack" class="source">
+    <pre><code>def attack(self, destination):
+    """Attacks the destination using this artillery.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.RemoteAttackCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Artillery.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Artillery.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Artillery.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.BasePiece" class="name">class <span class="ident">BasePiece</span></p>
+      
+  
+    <div class="desc"><p>Base class for game pieces.</p>
+<p>This class exports the following fields:
+<em> id: Piece ID, as assigned by the server.
+</em> tile: The tile object of which this piece has been in, before this turn
+        began.
+<em> type: Piece type (as a string).
+</em> country: The name of the country of which this piece belongs to.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.BasePiece', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.BasePiece" class="source">
+    <pre><code>class BasePiece(object):
+    """Base class for game pieces.
+
+    This class exports the following fields:
+    * id: Piece ID, as assigned by the server.
+    * tile: The tile object of which this piece has been in, before this turn
+            began.
+    * type: Piece type (as a string).
+    * country: The name of the country of which this piece belongs to.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(BasePiece, self).__init__()
+        self._context = context
+        self.tile = tile
+        self.id = piece_dict['id']
+        self.type = piece_dict['type']
+        self.country = piece_dict['country']
+
+    def move(self, destination):
+        """Moves this piece to the destination tile.
+
+        destination is expected to have a type of either Coordinates or Tile.
+        """
+        if isinstance(destination, Tile):
+            destination = destination.coordinates
+        assert isinstance(destination, Coordinates)
+        self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.BasePiece.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.BasePiece.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.BasePiece.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.BasePiece.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.BasePiece.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.BasePiece.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="tactical_api.BasePiece.country" class="name">var <span class="ident">country</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.BasePiece.id" class="name">var <span class="ident">id</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.BasePiece.tile" class="name">var <span class="ident">tile</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.BasePiece.type" class="name">var <span class="ident">type</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Builder" class="name">class <span class="ident">Builder</span></p>
+      
+  
+    <div class="desc"><p>Represents a game builder.</p>
+<p>This class exposes the following fields:
+* money: The amount of money this builder has, before this turn began.</p>
+<p>The value of its type field is "builder".</p>
+<p>Please refer to BasePiece for information about other exposed fields.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder" class="source">
+    <pre><code>class Builder(BasePiece):
+    """Represents a game builder.
+
+    This class exposes the following fields:
+    * money: The amount of money this builder has, before this turn began.
+
+    The value of its type field is "builder".
+
+    Please refer to BasePiece for information about other exposed fields.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(Builder, self).__init__(context, tile, piece_dict)
+        self.money = piece_dict['money']
+
+    def collect_money(self, amount):
+        """Collects a certain amount of money from the current Tile."""
+        self._context._commands.append(commands.TakeMoneyCommand(self.id, amount))
+
+    def throw_money(self, amount):
+        """Throws a certain amount of money to the current Tile."""
+        self._context._commands.append(commands.ThrowMoneyCommand(self.id, amount))
+
+    def build_tank(self):
+        """Builds a new tank piece in the current tile."""
+        self._build('tank')
+
+    def build_airplane(self):
+        """Builds a new airplane piece in the current tile."""
+        self._build('airplane')
+
+    def build_artillery(self):
+        """Builds a new artillery piece in the current tile."""
+        self._build('artillery')
+
+    def build_helicopter(self):
+        """Builds a new helicopter piece in the current tile."""
+        self._build('helicopter')
+
+    def build_antitank(self):
+        """Builds a new anti-tank piece in the current tile."""
+        self._build('antitank')
+
+    def build_iron_dome(self):
+        """Builds a new iron dome piece in the current tile."""
+        self._build('irondome')
+
+    def build_bunker(self):
+        """Builds a new bunker piece in the current tile."""
+        self._build('bunker')
+
+    def build_spy(self):
+        """Builds a new spy piece in the current tile."""
+        self._build('spy')
+
+    def build_tower(self):
+        """Builds a new tower piece in the current tile."""
+        self._build('tower')
+
+    def build_satellite(self):
+        """Builds a new satellite piece in the current tile."""
+        self._build('satellite')
+
+    def build_builder(self):
+        """Builds a new builder piece in the current tile."""
+        self._build('builder')
+
+    def _build(self, piece_type):
+        self._context._commands.append(commands.BuildPieceCommand(self.id, piece_type))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Builder">Builder</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(Builder, self).__init__(context, tile, piece_dict)
+    self.money = piece_dict['money']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_airplane">
+    <p>def <span class="ident">build_airplane</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new airplane piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_airplane', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_airplane" class="source">
+    <pre><code>def build_airplane(self):
+    """Builds a new airplane piece in the current tile."""
+    self._build('airplane')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_antitank">
+    <p>def <span class="ident">build_antitank</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new anti-tank piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_antitank', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_antitank" class="source">
+    <pre><code>def build_antitank(self):
+    """Builds a new anti-tank piece in the current tile."""
+    self._build('antitank')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_artillery">
+    <p>def <span class="ident">build_artillery</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new artillery piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_artillery', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_artillery" class="source">
+    <pre><code>def build_artillery(self):
+    """Builds a new artillery piece in the current tile."""
+    self._build('artillery')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_builder">
+    <p>def <span class="ident">build_builder</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new builder piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_builder', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_builder" class="source">
+    <pre><code>def build_builder(self):
+    """Builds a new builder piece in the current tile."""
+    self._build('builder')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_bunker">
+    <p>def <span class="ident">build_bunker</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new bunker piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_bunker', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_bunker" class="source">
+    <pre><code>def build_bunker(self):
+    """Builds a new bunker piece in the current tile."""
+    self._build('bunker')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_helicopter">
+    <p>def <span class="ident">build_helicopter</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new helicopter piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_helicopter', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_helicopter" class="source">
+    <pre><code>def build_helicopter(self):
+    """Builds a new helicopter piece in the current tile."""
+    self._build('helicopter')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_iron_dome">
+    <p>def <span class="ident">build_iron_dome</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new iron dome piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_iron_dome', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_iron_dome" class="source">
+    <pre><code>def build_iron_dome(self):
+    """Builds a new iron dome piece in the current tile."""
+    self._build('irondome')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_satellite">
+    <p>def <span class="ident">build_satellite</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new satellite piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_satellite', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_satellite" class="source">
+    <pre><code>def build_satellite(self):
+    """Builds a new satellite piece in the current tile."""
+    self._build('satellite')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_spy">
+    <p>def <span class="ident">build_spy</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new spy piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_spy', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_spy" class="source">
+    <pre><code>def build_spy(self):
+    """Builds a new spy piece in the current tile."""
+    self._build('spy')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_tank">
+    <p>def <span class="ident">build_tank</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new tank piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_tank', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_tank" class="source">
+    <pre><code>def build_tank(self):
+    """Builds a new tank piece in the current tile."""
+    self._build('tank')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.build_tower">
+    <p>def <span class="ident">build_tower</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Builds a new tower piece in the current tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.build_tower', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.build_tower" class="source">
+    <pre><code>def build_tower(self):
+    """Builds a new tower piece in the current tile."""
+    self._build('tower')
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.collect_money">
+    <p>def <span class="ident">collect_money</span>(</p><p>self, amount)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Collects a certain amount of money from the current Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.collect_money', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.collect_money" class="source">
+    <pre><code>def collect_money(self, amount):
+    """Collects a certain amount of money from the current Tile."""
+    self._context._commands.append(commands.TakeMoneyCommand(self.id, amount))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Builder.throw_money">
+    <p>def <span class="ident">throw_money</span>(</p><p>self, amount)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Throws a certain amount of money to the current Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Builder.throw_money', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Builder.throw_money" class="source">
+    <pre><code>def throw_money(self, amount):
+    """Throws a certain amount of money to the current Tile."""
+    self._context._commands.append(commands.ThrowMoneyCommand(self.id, amount))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="tactical_api.Builder.money" class="name">var <span class="ident">money</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Bunker" class="name">class <span class="ident">Bunker</span></p>
+      
+  
+    <div class="desc"><p>Represents a game bunker.</p>
+<p>The value of its type field is "bunker".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Bunker', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Bunker" class="source">
+    <pre><code>class Bunker(BasePiece):
+    """Represents a game bunker.
+
+    The value of its type field is "bunker".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Bunker">Bunker</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Bunker.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Bunker.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Bunker.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Bunker.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Bunker.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Bunker.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.FlyingPiece" class="name">class <span class="ident">FlyingPiece</span></p>
+      
+  
+    <div class="desc"><p>Base class for flying pieces.</p>
+<p>This class exports the following fields:
+<em> in_air: A boolean indicating weather this piece is currently flying (True)
+          or on the ground (False).
+</em> time_in_air: An integer counting the amount of turns of which this piece
+               has been flying, or None if this piece is on the ground.</p>
+<p>See BasePiece for more fields.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.FlyingPiece', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.FlyingPiece" class="source">
+    <pre><code>class FlyingPiece(BasePiece):
+    """Base class for flying pieces.
+
+    This class exports the following fields:
+    * in_air: A boolean indicating weather this piece is currently flying (True)
+              or on the ground (False).
+    * time_in_air: An integer counting the amount of turns of which this piece
+                   has been flying, or None if this piece is on the ground.
+
+    See BasePiece for more fields.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(FlyingPiece, self).__init__(context, tile, piece_dict)
+        self.in_air = piece_dict['inAir']
+        self.time_in_air = piece_dict.get('timeInAir', None)
+
+    def take_off(self):
+        """Take off this piece.
+
+        If this piece is already in the air, this is a no-op.
+        """
+        self._context._commands.append(commands.TakeOffCommand(self.id))
+
+    def land(self):
+        """Land this piece.
+
+        If this piece is already on the ground, this is a no-op.
+        """
+        self._context._commands.append(commands.LandCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.FlyingPiece">FlyingPiece</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.FlyingPiece.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.FlyingPiece.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.FlyingPiece.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(FlyingPiece, self).__init__(context, tile, piece_dict)
+    self.in_air = piece_dict['inAir']
+    self.time_in_air = piece_dict.get('timeInAir', None)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.FlyingPiece.land">
+    <p>def <span class="ident">land</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Land this piece.</p>
+<p>If this piece is already on the ground, this is a no-op.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.FlyingPiece.land', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.FlyingPiece.land" class="source">
+    <pre><code>def land(self):
+    """Land this piece.
+    If this piece is already on the ground, this is a no-op.
+    """
+    self._context._commands.append(commands.LandCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.FlyingPiece.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.FlyingPiece.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.FlyingPiece.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.FlyingPiece.take_off">
+    <p>def <span class="ident">take_off</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Take off this piece.</p>
+<p>If this piece is already in the air, this is a no-op.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.FlyingPiece.take_off', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.FlyingPiece.take_off" class="source">
+    <pre><code>def take_off(self):
+    """Take off this piece.
+    If this piece is already in the air, this is a no-op.
+    """
+    self._context._commands.append(commands.TakeOffCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="tactical_api.FlyingPiece.in_air" class="name">var <span class="ident">in_air</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.FlyingPiece.time_in_air" class="name">var <span class="ident">time_in_air</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Helicopter" class="name">class <span class="ident">Helicopter</span></p>
+      
+  
+    <div class="desc"><p>Represents a game helicopter.</p>
+<p>The value of its type field is "helicopter".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece and
+FlyingPiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Helicopter', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Helicopter" class="source">
+    <pre><code>class Helicopter(FlyingPiece):
+    """Represents a game helicopter.
+
+    The value of its type field is "helicopter".
+
+    This class does not expose any fields, except those exposed by BasePiece and
+    FlyingPiece.
+    """
+
+    def attack(self, destination):
+        """Attacks the destination using this helicopter.
+
+        destination is expected to have a type of either Coordinates or Tile.
+        """
+        if isinstance(destination, Tile):
+            destination = destination.coordinates
+        assert isinstance(destination, Coordinates)
+        self._context._commands.append(commands.RemoteAttackCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Helicopter">Helicopter</a></li>
+          <li><a href="#tactical_api.FlyingPiece">FlyingPiece</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Helicopter.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.FlyingPiece">FlyingPiece</a></code>.<code><a href="#tactical_api.FlyingPiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Helicopter.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Helicopter.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(FlyingPiece, self).__init__(context, tile, piece_dict)
+    self.in_air = piece_dict['inAir']
+    self.time_in_air = piece_dict.get('timeInAir', None)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Helicopter.attack">
+    <p>def <span class="ident">attack</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Attacks the destination using this helicopter.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Helicopter.attack', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Helicopter.attack" class="source">
+    <pre><code>def attack(self, destination):
+    """Attacks the destination using this helicopter.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.RemoteAttackCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Helicopter.land">
+    <p>def <span class="ident">land</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Land this piece.</p>
+<p>If this piece is already on the ground, this is a no-op.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Helicopter.land', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Helicopter.land" class="source">
+    <pre><code>def land(self):
+    """Land this piece.
+    If this piece is already on the ground, this is a no-op.
+    """
+    self._context._commands.append(commands.LandCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Helicopter.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Helicopter.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Helicopter.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Helicopter.take_off">
+    <p>def <span class="ident">take_off</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Take off this piece.</p>
+<p>If this piece is already in the air, this is a no-op.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Helicopter.take_off', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Helicopter.take_off" class="source">
+    <pre><code>def take_off(self):
+    """Take off this piece.
+    If this piece is already in the air, this is a no-op.
+    """
+    self._context._commands.append(commands.TakeOffCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.IronDome" class="name">class <span class="ident">IronDome</span></p>
+      
+  
+    <div class="desc"><p>Represents a game iron dome.</p>
+<p>This class exports the following fields:
+* id_defending: Set to True if and only if the protection of this iron dome
+                has been active before this turn began.</p>
+<p>The value of its type field is "irondome".</p>
+<p>Please refer to BasePiece for information about other exposed fields.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.IronDome', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.IronDome" class="source">
+    <pre><code>class IronDome(BasePiece):
+    """Represents a game iron dome.
+
+    This class exports the following fields:
+    * id_defending: Set to True if and only if the protection of this iron dome
+                    has been active before this turn began.
+
+    The value of its type field is "irondome".
+
+    Please refer to BasePiece for information about other exposed fields.
+    """
+
+    def __init__(self, context, tile, piece_dict):
+        super(IronDome, self).__init__(context, tile, piece_dict)
+        self.is_defending = piece_dict['isDefending']
+
+    def turn_on_protection(self):
+        """Turns on this iron dome protection."""
+        self._context._commands.append(commands.TurnOnProtection(self.id))
+
+    def turn_off_protection(self):
+        """Turns off this iron dome protection."""
+        self._context._commands.append(commands.TurnOffProtection(self.id))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.IronDome">IronDome</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.IronDome.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.IronDome.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.IronDome.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(IronDome, self).__init__(context, tile, piece_dict)
+    self.is_defending = piece_dict['isDefending']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.IronDome.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.IronDome.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.IronDome.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.IronDome.turn_off_protection">
+    <p>def <span class="ident">turn_off_protection</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Turns off this iron dome protection.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.IronDome.turn_off_protection', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.IronDome.turn_off_protection" class="source">
+    <pre><code>def turn_off_protection(self):
+    """Turns off this iron dome protection."""
+    self._context._commands.append(commands.TurnOffProtection(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.IronDome.turn_on_protection">
+    <p>def <span class="ident">turn_on_protection</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Turns on this iron dome protection.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.IronDome.turn_on_protection', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.IronDome.turn_on_protection" class="source">
+    <pre><code>def turn_on_protection(self):
+    """Turns on this iron dome protection."""
+    self._context._commands.append(commands.TurnOnProtection(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="tactical_api.IronDome.is_defending" class="name">var <span class="ident">is_defending</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Logger" class="name">class <span class="ident">Logger</span></p>
+      
+  
+    <div class="desc"><p>Utility for logging stuff.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Logger', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Logger" class="source">
+    <pre><code>class Logger(object):
+    """Utility for logging stuff."""
+
+    TIMEOUT = 10
+    REQUEST_HEADERS = {
+        'Content-type': 'application/json'
+    }
+
+    def __init__(self, url):
+        self._parsed_url = urlparse(url) if url is not None else None
+
+    def log(self, log_entry):
+        """Logs the provided log entry.
+
+        log_entry is expected to be a string, without a trailing new line character.
+        """
+        if self._parsed_url is None:
+            return
+        conn = http.client.HTTPConnection(self._parsed_url.hostname, self._parsed_url.port, timeout=Logger.TIMEOUT)
+        conn.request('POST', self._parsed_url.path, json.dumps({'data': log_entry}), Logger.REQUEST_HEADERS)
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Logger">Logger</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Class variables</h3>
+            <div class="item">
+            <p id="tactical_api.Logger.REQUEST_HEADERS" class="name">var <span class="ident">REQUEST_HEADERS</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.Logger.TIMEOUT" class="name">var <span class="ident">TIMEOUT</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Logger.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, url)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Logger.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Logger.__init__" class="source">
+    <pre><code>def __init__(self, url):
+    self._parsed_url = urlparse(url) if url is not None else None
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Logger.log">
+    <p>def <span class="ident">log</span>(</p><p>self, log_entry)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Logs the provided log entry.</p>
+<p>log_entry is expected to be a string, without a trailing new line character.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Logger.log', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Logger.log" class="source">
+    <pre><code>def log(self, log_entry):
+    """Logs the provided log entry.
+    log_entry is expected to be a string, without a trailing new line character.
+    """
+    if self._parsed_url is None:
+        return
+    conn = http.client.HTTPConnection(self._parsed_url.hostname, self._parsed_url.port, timeout=Logger.TIMEOUT)
+    conn.request('POST', self._parsed_url.path, json.dumps({'data': log_entry}), Logger.REQUEST_HEADERS)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Satellite" class="name">class <span class="ident">Satellite</span></p>
+      
+  
+    <div class="desc"><p>Represents a game satellite.</p>
+<p>The value of its type field is "satellite".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Satellite', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Satellite" class="source">
+    <pre><code>class Satellite(BasePiece):
+    """Represents a game satellite.
+
+    The value of its type field is "satellite".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Satellite">Satellite</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Satellite.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Satellite.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Satellite.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Satellite.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Satellite.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Satellite.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Spy" class="name">class <span class="ident">Spy</span></p>
+      
+  
+    <div class="desc"><p>Represents a game spy.</p>
+<p>The value of its type field is "spy".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Spy', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Spy" class="source">
+    <pre><code>class Spy(BasePiece):
+    """Represents a game spy.
+
+    The value of its type field is "spy".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Spy">Spy</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Spy.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Spy.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Spy.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Spy.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Spy.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Spy.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Tank" class="name">class <span class="ident">Tank</span></p>
+      
+  
+    <div class="desc"><p>Represents a game tank.</p>
+<p>The value of its type field is "tank".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tank', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tank" class="source">
+    <pre><code>class Tank(BasePiece):
+    """Represents a game tank.
+
+    The value of its type field is "tank".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+
+    def attack(self):
+        """Attacks the current game tile."""
+        self._context._commands.append(commands.MeleeAttackCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Tank">Tank</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Tank.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tank.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tank.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Tank.attack">
+    <p>def <span class="ident">attack</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Attacks the current game tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tank.attack', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tank.attack" class="source">
+    <pre><code>def attack(self):
+    """Attacks the current game tile."""
+    self._context._commands.append(commands.MeleeAttackCommand(self.id))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Tank.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tank.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tank.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Tile" class="name">class <span class="ident">Tile</span></p>
+      
+  
+    <div class="desc"><p>A land unit in the game.</p>
+<p>This class exports the following fields:
+<em> coordinates: The coordinates of this tile.
+</em> money: The amount of money in this tile before the turn started, or None if
+         this amount is unknown to the current country.
+<em> country: The name of the country owning this tile, or None if this tile is
+           not owned by any country.
+</em> pieces: A list of pieces on this tile.
+Note that the information here may be incomplete, depending on the visibility
+of the current country on this tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tile', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tile" class="source">
+    <pre><code>class Tile(object):
+    """A land unit in the game.
+
+    This class exports the following fields:
+    * coordinates: The coordinates of this tile.
+    * money: The amount of money in this tile before the turn started, or None if
+             this amount is unknown to the current country.
+    * country: The name of the country owning this tile, or None if this tile is
+               not owned by any country.
+    * pieces: A list of pieces on this tile.
+    Note that the information here may be incomplete, depending on the visibility
+    of the current country on this tile.
+    """
+
+    def __init__(self, context, tile_dict):
+        super(Tile, self).__init__()
+        self.coordinates = Coordinates(**tile_dict['coordinate'])
+        self.money = tile_dict['money']
+        self.country = tile_dict['country']
+        self.pieces = [_load_piece(context, self, piece_dict) for piece_dict in tile_dict['pieces']]
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Tile">Tile</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Tile.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile_dict)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tile.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tile.__init__" class="source">
+    <pre><code>def __init__(self, context, tile_dict):
+    super(Tile, self).__init__()
+    self.coordinates = Coordinates(**tile_dict['coordinate'])
+    self.money = tile_dict['money']
+    self.country = tile_dict['country']
+    self.pieces = [_load_piece(context, self, piece_dict) for piece_dict in tile_dict['pieces']]
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="tactical_api.Tile.coordinates" class="name">var <span class="ident">coordinates</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.Tile.country" class="name">var <span class="ident">country</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.Tile.money" class="name">var <span class="ident">money</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.Tile.pieces" class="name">var <span class="ident">pieces</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.Tower" class="name">class <span class="ident">Tower</span></p>
+      
+  
+    <div class="desc"><p>Represents a game tower.</p>
+<p>The value of its type field is "tower".</p>
+<p>This class does not expose any fields, except those exposed by BasePiece.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tower', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tower" class="source">
+    <pre><code>class Tower(BasePiece):
+    """Represents a game tower.
+
+    The value of its type field is "tower".
+
+    This class does not expose any fields, except those exposed by BasePiece.
+    """
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.Tower">Tower</a></li>
+          <li><a href="#tactical_api.BasePiece">BasePiece</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Tower.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context, tile, piece_dict)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#tactical_api.BasePiece">BasePiece</a></code>.<code><a href="#tactical_api.BasePiece.__init__">__init__</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tower.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tower.__init__" class="source">
+    <pre><code>def __init__(self, context, tile, piece_dict):
+    super(BasePiece, self).__init__()
+    self._context = context
+    self.tile = tile
+    self.id = piece_dict['id']
+    self.type = piece_dict['type']
+    self.country = piece_dict['country']
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.Tower.move">
+    <p>def <span class="ident">move</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Moves this piece to the destination tile.</p>
+<p>destination is expected to have a type of either Coordinates or Tile.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.Tower.move', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.Tower.move" class="source">
+    <pre><code>def move(self, destination):
+    """Moves this piece to the destination tile.
+    destination is expected to have a type of either Coordinates or Tile.
+    """
+    if isinstance(destination, Tile):
+        destination = destination.coordinates
+    assert isinstance(destination, Coordinates)
+    self._context._commands.append(commands.MoveCommand(self.id, destination))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="tactical_api.TurnContext" class="name">class <span class="ident">TurnContext</span></p>
+      
+  
+    <div class="desc"><p>Contains all the context of this turn.</p>
+<p>Some useful fields:
+<em> tiles: Maps coordinates (int, int) to a Tile object.
+</em> my_pieces: Maps piece IDs to the actual piece, for pieces owned by our
+             country.
+<em> all_pieces: Same as my_pieces, but for all pieces known by this country.
+</em> game_width: The width of the game.
+<em> game_height: The height of the game.
+</em> my_country: The name of my country.
+* all_countries: The names of all countries in the game.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext" class="source">
+    <pre><code>class TurnContext(object):
+    """Contains all the context of this turn.
+
+    Some useful fields:
+    * tiles: Maps coordinates (int, int) to a Tile object.
+    * my_pieces: Maps piece IDs to the actual piece, for pieces owned by our
+                 country.
+    * all_pieces: Same as my_pieces, but for all pieces known by this country.
+    * game_width: The width of the game.
+    * game_height: The height of the game.
+    * my_country: The name of my country.
+    * all_countries: The names of all countries in the game.
+    """
+
+    def __init__(self, turn_data, logger):
+        super(TurnContext, self).__init__()
+        self._turn_data = turn_data
+        self._logger = logger
+        self._commands = []
+        self.tiles = {(tile['coordinate']['x'], tile['coordinate']['y']): Tile(self, tile)
+                      for tile in turn_data['tiles']}
+        self.my_pieces = {}
+        self.all_pieces = {}
+        self.game_width = turn_data['width']
+        self.game_height = turn_data['height']
+        self.my_country = turn_data['country']
+        self.all_countries = turn_data['all_countries']
+        for tile in self.tiles.values():
+            for piece in tile.pieces:
+                if piece.country == self.my_country:
+                    self.my_pieces[piece.id] = piece
+                self.all_pieces[piece.id] = piece
+
+    def get_tiles_of_country(self, country_name):
+        """Returns the set of tile coordinates owned by the given country name.
+
+        If country_name is None, the returned coordinates are of tiles that do not
+        belong to any country.
+        """
+        return {tile.coordinates for tile in self.tiles.values()
+                if tile.country == country_name}
+
+    def get_sighings_of_piece(self, piece_id):
+        """Returns the sightings of the given piece.
+
+        This method returns a set of sighted pieces and their locations, as seen by
+        the given piece.
+
+        Note that the given piece MUST belong to my country in order for this
+        method to work.
+        """
+        piece = self.my_pieces[piece_id]
+        if isinstance(piece, Tower):
+            sighting_distance = constants.TOWER_SIGHTING_RANGE
+        elif isinstance(piece, Satellite):
+            sighting_distance = constants.SATELLITE_SIGHTING_RANGE
+        else:
+            sighting_distance = 1
+        result = set()
+        piece_coordinates = piece.tile.coordinates
+        for x in range(piece_coordinates.x - sighting_distance, piece_coordinates.x + sighting_distance):
+            for y in range(piece_coordinates.y + sighting_distance, piece_coordinates.y + sighting_distance):
+                tile = self.tiles.get((x, y))
+                if tile is None or distance(piece_coordinates, tile.coordinates) > sighting_distance:
+                    continue
+                result.update(tile.pieces)
+        return result
+
+    def get_commands_of_piece(self, piece_id):
+        """Returns the list of ordered commands given to the given piece.
+
+        Note that if the piece did not receive any command in this turn, or is not
+        owned by my country, or does not exist, an empty list is returned.
+        """
+        return [command for command in self._commands
+                if command.piece_id == piece_id]
+
+    def log(self, log_entry):
+        """Logs the given log entry to the main log of this country.
+
+        log_entry is expected to be a string, without a trailing new line character.
+        """
+        self._logger.log(log_entry)
+
+    def get_result(self):
+        return [command.to_dict() for command in self._commands]
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#tactical_api.TurnContext">TurnContext</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.TurnContext.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, turn_data, logger)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext.__init__" class="source">
+    <pre><code>def __init__(self, turn_data, logger):
+    super(TurnContext, self).__init__()
+    self._turn_data = turn_data
+    self._logger = logger
+    self._commands = []
+    self.tiles = {(tile['coordinate']['x'], tile['coordinate']['y']): Tile(self, tile)
+                  for tile in turn_data['tiles']}
+    self.my_pieces = {}
+    self.all_pieces = {}
+    self.game_width = turn_data['width']
+    self.game_height = turn_data['height']
+    self.my_country = turn_data['country']
+    self.all_countries = turn_data['all_countries']
+    for tile in self.tiles.values():
+        for piece in tile.pieces:
+            if piece.country == self.my_country:
+                self.my_pieces[piece.id] = piece
+            self.all_pieces[piece.id] = piece
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.TurnContext.get_commands_of_piece">
+    <p>def <span class="ident">get_commands_of_piece</span>(</p><p>self, piece_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the list of ordered commands given to the given piece.</p>
+<p>Note that if the piece did not receive any command in this turn, or is not
+owned by my country, or does not exist, an empty list is returned.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext.get_commands_of_piece', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext.get_commands_of_piece" class="source">
+    <pre><code>def get_commands_of_piece(self, piece_id):
+    """Returns the list of ordered commands given to the given piece.
+    Note that if the piece did not receive any command in this turn, or is not
+    owned by my country, or does not exist, an empty list is returned.
+    """
+    return [command for command in self._commands
+            if command.piece_id == piece_id]
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.TurnContext.get_result">
+    <p>def <span class="ident">get_result</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext.get_result', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext.get_result" class="source">
+    <pre><code>def get_result(self):
+    return [command.to_dict() for command in self._commands]
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.TurnContext.get_sighings_of_piece">
+    <p>def <span class="ident">get_sighings_of_piece</span>(</p><p>self, piece_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the sightings of the given piece.</p>
+<p>This method returns a set of sighted pieces and their locations, as seen by
+the given piece.</p>
+<p>Note that the given piece MUST belong to my country in order for this
+method to work.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext.get_sighings_of_piece', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext.get_sighings_of_piece" class="source">
+    <pre><code>def get_sighings_of_piece(self, piece_id):
+    """Returns the sightings of the given piece.
+    This method returns a set of sighted pieces and their locations, as seen by
+    the given piece.
+    Note that the given piece MUST belong to my country in order for this
+    method to work.
+    """
+    piece = self.my_pieces[piece_id]
+    if isinstance(piece, Tower):
+        sighting_distance = constants.TOWER_SIGHTING_RANGE
+    elif isinstance(piece, Satellite):
+        sighting_distance = constants.SATELLITE_SIGHTING_RANGE
+    else:
+        sighting_distance = 1
+    result = set()
+    piece_coordinates = piece.tile.coordinates
+    for x in range(piece_coordinates.x - sighting_distance, piece_coordinates.x + sighting_distance):
+        for y in range(piece_coordinates.y + sighting_distance, piece_coordinates.y + sighting_distance):
+            tile = self.tiles.get((x, y))
+            if tile is None or distance(piece_coordinates, tile.coordinates) > sighting_distance:
+                continue
+            result.update(tile.pieces)
+    return result
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.TurnContext.get_tiles_of_country">
+    <p>def <span class="ident">get_tiles_of_country</span>(</p><p>self, country_name)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the set of tile coordinates owned by the given country name.</p>
+<p>If country_name is None, the returned coordinates are of tiles that do not
+belong to any country.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext.get_tiles_of_country', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext.get_tiles_of_country" class="source">
+    <pre><code>def get_tiles_of_country(self, country_name):
+    """Returns the set of tile coordinates owned by the given country name.
+    If country_name is None, the returned coordinates are of tiles that do not
+    belong to any country.
+    """
+    return {tile.coordinates for tile in self.tiles.values()
+            if tile.country == country_name}
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="tactical_api.TurnContext.log">
+    <p>def <span class="ident">log</span>(</p><p>self, log_entry)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Logs the given log entry to the main log of this country.</p>
+<p>log_entry is expected to be a string, without a trailing new line character.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-tactical_api.TurnContext.log', this);">Show source &equiv;</a></p>
+  <div id="source-tactical_api.TurnContext.log" class="source">
+    <pre><code>def log(self, log_entry):
+    """Logs the given log entry to the main log of this country.
+    log_entry is expected to be a string, without a trailing new line character.
+    """
+    self._logger.log(log_entry)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="tactical_api.TurnContext.all_countries" class="name">var <span class="ident">all_countries</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.TurnContext.all_pieces" class="name">var <span class="ident">all_pieces</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.TurnContext.game_height" class="name">var <span class="ident">game_height</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.TurnContext.game_width" class="name">var <span class="ident">game_width</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.TurnContext.my_country" class="name">var <span class="ident">my_country</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.TurnContext.my_pieces" class="name">var <span class="ident">my_pieces</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="tactical_api.TurnContext.tiles" class="name">var <span class="ident">tiles</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+
+  </section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>

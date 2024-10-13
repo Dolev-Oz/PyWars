@@ -1,0 +1,3567 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>strategic_api API documentation</title>
+    <meta name="description" content="Module defining the strategic API interface." />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <style type="text/css">
+  
+* {
+  box-sizing: border-box;
+}
+/*! normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/**
+ * 1. Prevent system color scheme's background color being used in Firefox, IE,
+ *    and Opera.
+ * 2. Prevent system color scheme's text color being used in Firefox, IE, and
+ *    Opera.
+ * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 4. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    background: #fff; /* 1 */
+    color: #000; /* 2 */
+    font-size: 100%; /* 3 */
+    -webkit-text-size-adjust: 100%; /* 4 */
+    -ms-text-size-adjust: 100%; /* 4 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+
+body {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+
+b,
+strong {
+    font-weight: bold;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+p,
+pre {
+    margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+
+q {
+    quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+dl,
+menu,
+ol,
+ul {
+    margin: 1em 0;
+}
+
+dd {
+    margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+
+img {
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+
+figure {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+
+form {
+    margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+
+legend {
+    border: 0; /* 1 */
+    padding: 0;
+    white-space: normal; /* 2 */
+    *margin-left: -7px; /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* 1 */
+    margin: 0; /* 2 */
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+button,
+input {
+    line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+    *overflow: visible;  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+  </style>
+
+  <style type="text/css">
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background: #fff;
+    font-family: "Source Sans Pro", "Helvetica Neueue", Helvetica, sans;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6em;
+  }
+  #content {
+    width: 70%;
+    max-width: 850px;
+    float: left;
+    padding: 30px 60px;
+    border-left: 1px solid #ddd;
+  }
+  #sidebar {
+    width: 25%;
+    float: left;
+    padding: 30px;
+    overflow: hidden;
+  }
+  #nav {
+    font-size: 130%;
+    margin: 0 0 15px 0;
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: .85em;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    font-size: .75em;
+    padding: 5px 30px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+    #footer p {
+      margin: 0 0 0 30px;
+      display: inline-block;
+    }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin: 0 0 .50em 0;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    margin: 1em 0 .50em 0;
+  }
+
+  h3 {
+    margin: 25px 0 10px 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 105%;
+  }
+
+  a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+  }
+
+  a:hover {
+    color: #e08524;
+    transition: color .3s ease-in-out;
+  }
+
+  pre, code, .mono, .name {
+    font-family: "Ubuntu Mono", "Cousine", "DejaVu Sans Mono", monospace;
+  }
+
+  .title .name {
+    font-weight: bold;
+  }
+  .section-title {
+    margin-top: 2em;
+  }
+  .ident {
+    color: #900;
+  }
+
+  code {
+    background: #f9f9f9;
+  } 
+
+  pre {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 0 #f3f3f3;
+    margin: 0 30px;
+    padding: 15px 30px;
+  }
+
+  .codehilite {
+    margin: 0 30px 10px 30px;
+  }
+
+    .codehilite pre {
+      margin: 0;
+    }
+    .codehilite .err { background: #ff3300; color: #fff !important; } 
+
+  table#module-list {
+    font-size: 110%;
+  }
+
+    table#module-list tr td:first-child {
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    table#module-list td {
+      vertical-align: top;
+      padding-bottom: 8px;
+    }
+
+      table#module-list td p {
+        margin: 0 0 7px 0;
+      }
+
+  .def {
+    display: table;
+  }
+
+    .def p {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .def p:first-child {
+      white-space: nowrap;
+    }
+
+    .def p:last-child {
+      width: 100%;
+    }
+
+
+  #index {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    ul#index .class_name {
+      /* font-size: 110%; */
+      font-weight: bold;
+    }
+    #index ul {
+      margin: 0;
+    }
+
+  .item {
+    margin: 0 0 15px 0;
+  }
+
+    .item .class {
+      margin: 0 0 25px 30px;
+    }
+
+      .item .class ul.class_list {
+        margin: 0 0 20px 0;
+      }
+
+    .item .name {
+      background: #fafafa;
+      margin: 0;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 40%;
+    }
+      .item .name:hover {
+        background: #f6f6f6;
+      }
+
+    .item .empty_desc {
+      margin: 0 0 5px 0;
+      padding: 0;
+    }
+
+    .item .inheritance {
+      margin: 3px 0 0 30px;
+    }
+
+    .item .inherited {
+      color: #666;
+    }
+
+    .item .desc {
+      padding: 0 8px;
+      margin: 0;
+    }
+
+      .item .desc p {
+        margin: 0 0 10px 0;
+      }
+
+    .source_cont {
+      margin: 0;
+      padding: 0;
+    }
+
+    .source_link a {
+      background: #ffc300;
+      font-weight: 400;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 1px 1px 0 #f4b700;
+      
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: background .3s ease-in-out;
+    }
+      .source_link a:hover {
+        background: #FF7200;
+        text-shadow: none;
+        transition: background .3s ease-in-out;
+      }
+
+    .source {
+      display: none;
+      max-height: 600px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+
+      .source .codehilite {
+        margin: 0;
+      }
+
+  .desc h1, .desc h2, .desc h3 {
+    font-size: 100% !important;
+  }
+  .clear {
+    clear: both;
+  }
+
+  @media all and (max-width: 950px) {
+    #sidebar {
+      width: 35%;
+    }
+    #content {
+      width: 65%;
+    }
+  }
+  @media all and (max-width: 650px) {
+    #top {
+      display: none;
+    }
+    #sidebar {
+      float: none;
+      width: auto;
+    }
+    #content {
+      float: none;
+      width: auto;
+      padding: 30px;
+    }
+
+    #index ul {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+    #index ul li {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    #footer {
+      text-align: left;
+    }
+    #footer p {
+      display: block;
+      margin: inherit;
+    }
+  }
+
+  /*****************************/
+
+  </style>
+
+
+  <style type="text/css">
+  
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+  function toggle(id, $link) {
+    $node = document.getElementById(id);
+    if (!$node)
+    return;
+    if (!$node.style.display || $node.style.display == 'none') {
+    $node.style.display = 'block';
+    $link.innerHTML = 'Hide source &nequiv;';
+    } else {
+    $node.style.display = 'none';
+    $link.innerHTML = 'Show source &equiv;';
+    }
+  }
+  </script>
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+  <div id="sidebar">
+    <h1>Index</h1>
+    <ul id="index">
+
+
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#strategic_api.CommandStatus">CommandStatus</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#strategic_api.CommandStatus.__init__">__init__</a></li>
+    <li class="mono"><a href="#strategic_api.CommandStatus.failed">failed</a></li>
+    <li class="mono"><a href="#strategic_api.CommandStatus.in_progress">in_progress</a></li>
+    <li class="mono"><a href="#strategic_api.CommandStatus.is_failed">is_failed</a></li>
+    <li class="mono"><a href="#strategic_api.CommandStatus.is_in_progress">is_in_progress</a></li>
+    <li class="mono"><a href="#strategic_api.CommandStatus.is_success">is_success</a></li>
+    <li class="mono"><a href="#strategic_api.CommandStatus.success">success</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#strategic_api.StrategicApi">StrategicApi</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#strategic_api.StrategicApi.__init__">__init__</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.attack">attack</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.build_piece">build_piece</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.collect_money">collect_money</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.defend">defend</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.esscort_piece_with_attacking_piece">esscort_piece_with_attacking_piece</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.esscort_piece_with_defending_piece">esscort_piece_with_defending_piece</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.esscort_piece_with_intelligence_piece">esscort_piece_with_intelligence_piece</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimate_attack_time">estimate_attack_time</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimate_building_time">estimate_building_time</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimate_collection_time">estimate_collection_time</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimate_defend_time">estimate_defend_time</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimate_gathering_time">estimate_gathering_time</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimate_tile_danger">estimate_tile_danger</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimated_required_attacking_pieces">estimated_required_attacking_pieces</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.estimated_required_defending_pieces">estimated_required_defending_pieces</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.gather_intelligence">gather_intelligence</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.get_all_countries">get_all_countries</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.get_game_height">get_game_height</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.get_game_width">get_game_width</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.get_my_country">get_my_country</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.get_total_builders_money">get_total_builders_money</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.get_total_country_tiles_money">get_total_country_tiles_money</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.log">log</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_attack_command_status">report_attack_command_status</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_attacking_pieces">report_attacking_pieces</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_build_command_status">report_build_command_status</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_builders">report_builders</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_defending_pieces">report_defending_pieces</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_defense_command_status">report_defense_command_status</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_gathering_command_status">report_gathering_command_status</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_intelligence_pieces">report_intelligence_pieces</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_missing_intelligence_for_collecting_money">report_missing_intelligence_for_collecting_money</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_missing_intelligence_for_pending_attacks">report_missing_intelligence_for_pending_attacks</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_missing_intelligence_for_pending_defends">report_missing_intelligence_for_pending_defends</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_pieces_for_attacks">report_required_pieces_for_attacks</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_pieces_for_defends">report_required_pieces_for_defends</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_pieces_for_intelligence">report_required_pieces_for_intelligence</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_tiles_for_attacks">report_required_tiles_for_attacks</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_tiles_for_collecting_money">report_required_tiles_for_collecting_money</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_tiles_for_defends">report_required_tiles_for_defends</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.report_required_tiles_for_intelligence">report_required_tiles_for_intelligence</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.set_intelligence_for_attacks">set_intelligence_for_attacks</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.set_intelligence_for_builders">set_intelligence_for_builders</a></li>
+    <li class="mono"><a href="#strategic_api.StrategicApi.set_intelligence_for_defends">set_intelligence_for_defends</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#strategic_api.StrategicPiece">StrategicPiece</a></span>
+        
+        </li>
+      </ul>
+    </li>
+
+    </ul>
+  </div>
+
+    <article id="content">
+      
+  
+
+  
+
+
+  <header id="section-intro">
+  <h1 class="title"><span class="name">strategic_api</span> module</h1>
+  <p>Module defining the strategic API interface.</p>
+  
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api" class="source">
+    <pre><code>"""Module defining the strategic API interface."""
+
+import collections
+import inspect
+import types
+
+StrategicPiece = collections.namedtuple('StrategicPiece', ['id', 'type'])
+
+
+class CommandStatus(object):
+    """Represents the status of a command."""
+
+    @staticmethod
+    def failed(command_id):
+        """Creates a failed command status."""
+        return CommandStatus(command_id, failed=True)
+
+    @staticmethod
+    def success(command_id):
+        """Creates a successful command status."""
+        return CommandStatus(command_id, success=True)
+
+    @staticmethod
+    def in_progress(command_id, elapsed_turns, estimated_turns):
+        """Create an in-progress command report.
+
+        `elapsed_turns` is the amount of turns since the command has been given.
+        `estimated_turns` is the estimated amount of turns required for completing
+        the command execution (including `elapsed_turns`).
+        """
+        return CommandStatus(command_id, elapsed_turns=elapsed_turns, estimated_turns=estimated_turns)
+
+    def __init__(self, command_id, elapsed_turns=None, estimated_turns=None, failed=None, success=None):
+        """Constructor.
+
+        Please don't use the constructor directly. Use `CommandStatus.failed`,
+        `CommandStstus.success` or `CommandStatus.in_progress` instead.
+        """
+        self.command_id = command_id
+        """The command ID."""
+        self.elapsed_turns = elapsed_turns
+        """The amount of turns since the command has been given.
+        
+        This field is meaningful only if `self.is_in_progress()` returns True.
+        """
+        self.estimated_turns = estimated_turns
+        """The estimated amount of turns required for completing the command execution.
+        
+        This field is meaningful only if `self.is_in_progress()` returns True.
+        """
+
+        self._failed = failed
+        self._success = success
+
+    def is_success(self):
+        """Returns True iff this command has succeeded."""
+        return self._success == True
+
+    def is_failed(self):
+        """Returns True iff this command has failed."""
+        return self._failed == True
+
+    def is_in_progress(self):
+        """Returns True iff this command is still in progress."""
+        return self.elapsed_turns is not None and self.estimated_turns is not None
+
+
+class StrategicApi(object):
+    def __init__(self, context):
+        """Constructor. context allows us to use the tactical API."""
+        self.context = context
+
+    # ----------------------------------------------------------------------------
+    # Attacking military commands.
+    # ----------------------------------------------------------------------------
+
+    def attack(self, pieces, destination, radius):
+        """Attack the area around the destination, using the given pieces.
+
+        This command should be interepreted as attacking a tile, whose distance of
+        `destination` is at most `radius` using the given set of `pieces` (set of
+        `StrategicPiece`s).
+        This method should return a command identifier.
+        """
+        raise NotImplementedError()
+
+    def estimate_attack_time(self, pieces, destination, radius):
+        """Estimate the amount of required turns for an attack command.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for completing an attack command with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_attack_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def report_attacking_pieces(self):
+        """Report the current status of all attacking pieces.
+
+        The returned value should be a dict, mapping from StrategicPiece to its
+        current command ID that it is executing. Only attacking pieces should be
+        included in this report.
+        """
+        raise NotImplementedError()
+
+    def estimated_required_attacking_pieces(self, destination, radius):
+        """Estimates the amount of required pieces for conquering the destination.
+
+        The return value should be an integer.
+        """
+        raise NotImplementedError()
+
+    def report_missing_intelligence_for_pending_attacks(self):
+        """Return all coordinates in which we are missing intelligence.
+
+        Intelligence from the returned tiles would help in improving pending
+        attack commands.
+
+        The returned value should be a set of `Coordinates`s.
+        """
+        raise NotImplementedError()
+
+    def set_intelligence_for_attacks(self, tiles):
+        """Provide the implementation with missing intelligence for attacks.
+
+        `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+        representing the danger level of this tile.
+
+        This function does not return any value.
+        """
+        raise NotImplementedError()
+
+    def report_required_pieces_for_attacks(self):
+        """Returns a list of pieces, where they are needed and their priority.
+
+        This method returns a list of tuples, each containing the following values
+        (in this order):
+        0. Piece type (as `str`).
+        1. Destination tile (as `Coordinates`).
+        2. Improtance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_attacks(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def esscort_piece_with_attacking_piece(self, piece, pieces):
+        """Esscort the given `piece` with the attacking `pieces`.
+
+        When this command is given, each piece in `pieces` should esscort `piece`.
+        `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+        `StrategicPiece`s.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Defensive military commands.
+    # ----------------------------------------------------------------------------
+
+    def defend(self, pieces, destination, radius):
+        """Defend the area around the destination, using the given pieces.
+
+        This command should be interepreted as defending a tile, whose distance of
+        `destination` is at most `radius` using the given set of `pieces` (set of
+        `StrategicPiece`s).
+        This method should return a command identifier.
+        """
+        raise NotImplementedError()
+
+    def estimate_defend_time(self, pieces, destination, radius):
+        """Estimate the amount of required turns form a defense.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for forming a defense command with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_defense_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def report_defending_pieces(self):
+        """Report the current status of all defending pieces.
+
+        The returned value should be a dict, mapping from StrategicPiece to its
+        current command ID that it is executing. Only defending pieces should be
+        included in this report.
+        """
+        raise NotImplementedError()
+
+    def estimated_required_defending_pieces(self, destination, radius):
+        """Estimates the amount of required pieces for defending the destination.
+
+        The return value should be an integer.
+        """
+        raise NotImplementedError()
+
+    def report_missing_intelligence_for_pending_defends(self):
+        """Return all coordinates in which we are missing intelligence.
+
+        Intelligence from the returned tiles would help in improving pending
+        defend commands.
+
+        The returned value should be a set of `Coordinates`s.
+        """
+        raise NotImplementedError()
+
+    def set_intelligence_for_defends(self, tiles):
+        """Provide the implementation with missing intelligence for defends.
+
+        `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+        representing the danger level of this tile.
+
+        This function does not return any value.
+        """
+        raise NotImplementedError()
+
+    def report_required_pieces_for_defends(self):
+        """Returns a list of pieces, where they are needed and their priority.
+
+        This method returns a list of tuples, each containing the following values
+        (in this order):
+        0. Piece type (as `str`).
+        1. Destination tile (as `Coordinates`).
+        2. Improtance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_defends(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def esscort_piece_with_defending_piece(self, piece, pieces):
+        """Esscort the given `piece` with the defending `pieces`.
+
+        When this command is given, each piece in `pieces` should esscort `piece`.
+        `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+        `StrategicPiece`s.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Intelligence commands.
+    # ----------------------------------------------------------------------------
+
+    def estimate_tile_danger(self, destination):
+        """Estimate the danger level of the given destination.
+
+        `destination` should be a `Coordinates` object.
+        The returned value is an `int`.
+        """
+        raise NotImplementedError()
+
+    def gather_intelligence(self, pieces, destination, radius):
+        """Get intelligence of the area around the destination, using `pieces`.
+
+        This method should return a command identifier.
+        """
+        raise NotImplementedError()
+
+    def estimate_gathering_time(self, pieces, destination, radius):
+        """Estimate the amount of required turns for gathering intelligence.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for gathering intelligence command with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_gathering_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def report_intelligence_pieces(self):
+        """Report the current status of all intelligence pieces.
+
+        The returned value should be a dict, mapping from StrategicPiece to its
+        current command ID that it is executing. Only intelligence pieces should be
+        included in this report.
+        """
+        raise NotImplementedError()
+
+    def report_required_pieces_for_intelligence(self):
+        """Returns a list of pieces, where they are needed and their priority.
+
+        This method returns a list of tuples, each containing the following values
+        (in this order):
+        0. Piece type (as `str`).
+        1. Destination tile (as `Coordinates`).
+        2. Improtance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_intelligence(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def esscort_piece_with_intelligence_piece(self, piece, pieces):
+        """Esscort the given `piece` with the intelligence `pieces`.
+
+        When this command is given, each piece in `pieces` should esscort `piece`.
+        `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+        `StrategicPiece`s.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Building commands.
+    # ----------------------------------------------------------------------------
+
+    def collect_money(self, builder, amount):
+        """Collect a certain amount of money by the given `builder`.
+
+        `builder` should be a `StrategicPiece` object. `amount` should be an `int`.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    def estimate_collection_time(self, builder, amount):
+        """Estimate the required amount of turns for collecting money.
+
+        This method should return an `int`, that is the estimated amount of turns
+        required for collecting the given `amount` of money by the given `builder`.
+        """
+        raise NotImplementedError()
+
+    def build_piece(self, builder, piece_type):
+        """Build a new piece of type `piece_type` using `builder`.
+
+        This methos should be interpreted as "Build a new piece using the given
+        `builder`". If the given `builder` does not posses the required amount of
+        money for building the required new piece, it should collect it first, and
+        then build the new piece.
+
+        `builder` should be a `StrategicPiece` object. `piece_type` is a `str`.
+        This method returns a command ID.
+        """
+        raise NotImplementedError()
+
+    def estimate_building_time(self, builder, piece_type):
+        """Estimate the amount of required turns for building a new piece.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for building a new piece with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_build_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def get_total_builders_money(self):
+        """Returns the total amount of money all the country builders have."""
+        raise NotImplementedError()
+
+    def get_total_country_tiles_money(self):
+        """Returns the total amount of money the country has on its tiles."""
+        raise NotImplementedError()
+
+    def report_builders(self):
+        """Report the current status of all builders.
+
+        The returned value should be a `dict`, mapping from a `StrategicPiece`
+        objects to a tuple, containing the following values in this order:
+        0. The current command ID that this builder is executing, if available, or
+           `None` otherwise.
+        1. The current amount of money of this builder.
+        """
+        raise NotImplementedError()
+
+    def report_missing_intelligence_for_collecting_money(self):
+        """Return all coordinates in which we are missing intelligence.
+
+        Intelligence from the returned tiles would help in collecting more money.
+
+        The returned value should be a set of `Coordinates`s.
+        """
+        raise NotImplementedError()
+
+    def set_intelligence_for_builders(self, tiles):
+        """Provide the implementation with intelligence for collecting money.
+
+        `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+        representing the danger level of this tile.
+
+        This function does not return any value.
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_collecting_money(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Miscellaneous commands.
+    # ----------------------------------------------------------------------------
+
+    def get_my_country(self):
+        """Returns the name of this country."""
+        raise NotImplementedError()
+
+    def get_all_countries(self):
+        """Returns the list of all participating countries in the game."""
+        raise NotImplementedError()
+
+    def get_game_width(self):
+        """Returns the width of the current game board."""
+        raise NotImplementedError()
+
+    def get_game_height(self):
+        """Returns the height of the current game board."""
+        raise NotImplementedError()
+
+    def log(self, log_entry):
+        """Logs the given log entry to the main log of this country.
+
+        log_entry is expected to be a string, without a trailing new line character.
+        """
+        raise NotImplementedError()
+</code></pre>
+  </div>
+
+  </header>
+
+  <section id="section-items">
+
+
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="strategic_api.CommandStatus" class="name">class <span class="ident">CommandStatus</span></p>
+      
+  
+    <div class="desc"><p>Represents the status of a command.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus" class="source">
+    <pre><code>class CommandStatus(object):
+    """Represents the status of a command."""
+
+    @staticmethod
+    def failed(command_id):
+        """Creates a failed command status."""
+        return CommandStatus(command_id, failed=True)
+
+    @staticmethod
+    def success(command_id):
+        """Creates a successful command status."""
+        return CommandStatus(command_id, success=True)
+
+    @staticmethod
+    def in_progress(command_id, elapsed_turns, estimated_turns):
+        """Create an in-progress command report.
+
+        `elapsed_turns` is the amount of turns since the command has been given.
+        `estimated_turns` is the estimated amount of turns required for completing
+        the command execution (including `elapsed_turns`).
+        """
+        return CommandStatus(command_id, elapsed_turns=elapsed_turns, estimated_turns=estimated_turns)
+
+    def __init__(self, command_id, elapsed_turns=None, estimated_turns=None, failed=None, success=None):
+        """Constructor.
+
+        Please don't use the constructor directly. Use `CommandStatus.failed`,
+        `CommandStstus.success` or `CommandStatus.in_progress` instead.
+        """
+        self.command_id = command_id
+        """The command ID."""
+        self.elapsed_turns = elapsed_turns
+        """The amount of turns since the command has been given.
+        
+        This field is meaningful only if `self.is_in_progress()` returns True.
+        """
+        self.estimated_turns = estimated_turns
+        """The estimated amount of turns required for completing the command execution.
+        
+        This field is meaningful only if `self.is_in_progress()` returns True.
+        """
+
+        self._failed = failed
+        self._success = success
+
+    def is_success(self):
+        """Returns True iff this command has succeeded."""
+        return self._success == True
+
+    def is_failed(self):
+        """Returns True iff this command has failed."""
+        return self._failed == True
+
+    def is_in_progress(self):
+        """Returns True iff this command is still in progress."""
+        return self.elapsed_turns is not None and self.estimated_turns is not None
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#strategic_api.CommandStatus">CommandStatus</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, command_id, elapsed_turns=None, estimated_turns=None, failed=None, success=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Constructor.</p>
+<p>Please don't use the constructor directly. Use <code>CommandStatus.failed</code>,
+<code>CommandStstus.success</code> or <code>CommandStatus.in_progress</code> instead.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.__init__" class="source">
+    <pre><code>def __init__(self, command_id, elapsed_turns=None, estimated_turns=None, failed=None, success=None):
+    """Constructor.
+    Please don't use the constructor directly. Use `CommandStatus.failed`,
+    `CommandStstus.success` or `CommandStatus.in_progress` instead.
+    """
+    self.command_id = command_id
+    """The command ID."""
+    self.elapsed_turns = elapsed_turns
+    """The amount of turns since the command has been given.
+    
+    This field is meaningful only if `self.is_in_progress()` returns True.
+    """
+    self.estimated_turns = estimated_turns
+    """The estimated amount of turns required for completing the command execution.
+    
+    This field is meaningful only if `self.is_in_progress()` returns True.
+    """
+    self._failed = failed
+    self._success = success
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.failed">
+    <p>def <span class="ident">failed</span>(</p><p>command_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates a failed command status.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.failed', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.failed" class="source">
+    <pre><code>@staticmethod
+def failed(command_id):
+    """Creates a failed command status."""
+    return CommandStatus(command_id, failed=True)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.in_progress">
+    <p>def <span class="ident">in_progress</span>(</p><p>command_id, elapsed_turns, estimated_turns)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Create an in-progress command report.</p>
+<p><code>elapsed_turns</code> is the amount of turns since the command has been given.
+<code>estimated_turns</code> is the estimated amount of turns required for completing
+the command execution (including <code>elapsed_turns</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.in_progress', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.in_progress" class="source">
+    <pre><code>@staticmethod
+def in_progress(command_id, elapsed_turns, estimated_turns):
+    """Create an in-progress command report.
+    `elapsed_turns` is the amount of turns since the command has been given.
+    `estimated_turns` is the estimated amount of turns required for completing
+    the command execution (including `elapsed_turns`).
+    """
+    return CommandStatus(command_id, elapsed_turns=elapsed_turns, estimated_turns=estimated_turns)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.is_failed">
+    <p>def <span class="ident">is_failed</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns True iff this command has failed.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.is_failed', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.is_failed" class="source">
+    <pre><code>def is_failed(self):
+    """Returns True iff this command has failed."""
+    return self._failed == True
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.is_in_progress">
+    <p>def <span class="ident">is_in_progress</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns True iff this command is still in progress.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.is_in_progress', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.is_in_progress" class="source">
+    <pre><code>def is_in_progress(self):
+    """Returns True iff this command is still in progress."""
+    return self.elapsed_turns is not None and self.estimated_turns is not None
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.is_success">
+    <p>def <span class="ident">is_success</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns True iff this command has succeeded.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.is_success', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.is_success" class="source">
+    <pre><code>def is_success(self):
+    """Returns True iff this command has succeeded."""
+    return self._success == True
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.CommandStatus.success">
+    <p>def <span class="ident">success</span>(</p><p>command_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates a successful command status.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.CommandStatus.success', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.CommandStatus.success" class="source">
+    <pre><code>@staticmethod
+def success(command_id):
+    """Creates a successful command status."""
+    return CommandStatus(command_id, success=True)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="strategic_api.CommandStatus.command_id" class="name">var <span class="ident">command_id</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The command ID.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="strategic_api.CommandStatus.elapsed_turns" class="name">var <span class="ident">elapsed_turns</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The amount of turns since the command has been given.</p>
+<p>This field is meaningful only if <code>self.is_in_progress()</code> returns True.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="strategic_api.CommandStatus.estimated_turns" class="name">var <span class="ident">estimated_turns</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The estimated amount of turns required for completing the command execution.</p>
+<p>This field is meaningful only if <code>self.is_in_progress()</code> returns True.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="strategic_api.StrategicApi" class="name">class <span class="ident">StrategicApi</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi" class="source">
+    <pre><code>class StrategicApi(object):
+    def __init__(self, context):
+        """Constructor. context allows us to use the tactical API."""
+        self.context = context
+
+    # ----------------------------------------------------------------------------
+    # Attacking military commands.
+    # ----------------------------------------------------------------------------
+
+    def attack(self, pieces, destination, radius):
+        """Attack the area around the destination, using the given pieces.
+
+        This command should be interepreted as attacking a tile, whose distance of
+        `destination` is at most `radius` using the given set of `pieces` (set of
+        `StrategicPiece`s).
+        This method should return a command identifier.
+        """
+        raise NotImplementedError()
+
+    def estimate_attack_time(self, pieces, destination, radius):
+        """Estimate the amount of required turns for an attack command.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for completing an attack command with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_attack_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def report_attacking_pieces(self):
+        """Report the current status of all attacking pieces.
+
+        The returned value should be a dict, mapping from StrategicPiece to its
+        current command ID that it is executing. Only attacking pieces should be
+        included in this report.
+        """
+        raise NotImplementedError()
+
+    def estimated_required_attacking_pieces(self, destination, radius):
+        """Estimates the amount of required pieces for conquering the destination.
+
+        The return value should be an integer.
+        """
+        raise NotImplementedError()
+
+    def report_missing_intelligence_for_pending_attacks(self):
+        """Return all coordinates in which we are missing intelligence.
+
+        Intelligence from the returned tiles would help in improving pending
+        attack commands.
+
+        The returned value should be a set of `Coordinates`s.
+        """
+        raise NotImplementedError()
+
+    def set_intelligence_for_attacks(self, tiles):
+        """Provide the implementation with missing intelligence for attacks.
+
+        `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+        representing the danger level of this tile.
+
+        This function does not return any value.
+        """
+        raise NotImplementedError()
+
+    def report_required_pieces_for_attacks(self):
+        """Returns a list of pieces, where they are needed and their priority.
+
+        This method returns a list of tuples, each containing the following values
+        (in this order):
+        0. Piece type (as `str`).
+        1. Destination tile (as `Coordinates`).
+        2. Improtance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_attacks(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def esscort_piece_with_attacking_piece(self, piece, pieces):
+        """Esscort the given `piece` with the attacking `pieces`.
+
+        When this command is given, each piece in `pieces` should esscort `piece`.
+        `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+        `StrategicPiece`s.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Defensive military commands.
+    # ----------------------------------------------------------------------------
+
+    def defend(self, pieces, destination, radius):
+        """Defend the area around the destination, using the given pieces.
+
+        This command should be interepreted as defending a tile, whose distance of
+        `destination` is at most `radius` using the given set of `pieces` (set of
+        `StrategicPiece`s).
+        This method should return a command identifier.
+        """
+        raise NotImplementedError()
+
+    def estimate_defend_time(self, pieces, destination, radius):
+        """Estimate the amount of required turns form a defense.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for forming a defense command with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_defense_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def report_defending_pieces(self):
+        """Report the current status of all defending pieces.
+
+        The returned value should be a dict, mapping from StrategicPiece to its
+        current command ID that it is executing. Only defending pieces should be
+        included in this report.
+        """
+        raise NotImplementedError()
+
+    def estimated_required_defending_pieces(self, destination, radius):
+        """Estimates the amount of required pieces for defending the destination.
+
+        The return value should be an integer.
+        """
+        raise NotImplementedError()
+
+    def report_missing_intelligence_for_pending_defends(self):
+        """Return all coordinates in which we are missing intelligence.
+
+        Intelligence from the returned tiles would help in improving pending
+        defend commands.
+
+        The returned value should be a set of `Coordinates`s.
+        """
+        raise NotImplementedError()
+
+    def set_intelligence_for_defends(self, tiles):
+        """Provide the implementation with missing intelligence for defends.
+
+        `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+        representing the danger level of this tile.
+
+        This function does not return any value.
+        """
+        raise NotImplementedError()
+
+    def report_required_pieces_for_defends(self):
+        """Returns a list of pieces, where they are needed and their priority.
+
+        This method returns a list of tuples, each containing the following values
+        (in this order):
+        0. Piece type (as `str`).
+        1. Destination tile (as `Coordinates`).
+        2. Improtance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_defends(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def esscort_piece_with_defending_piece(self, piece, pieces):
+        """Esscort the given `piece` with the defending `pieces`.
+
+        When this command is given, each piece in `pieces` should esscort `piece`.
+        `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+        `StrategicPiece`s.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Intelligence commands.
+    # ----------------------------------------------------------------------------
+
+    def estimate_tile_danger(self, destination):
+        """Estimate the danger level of the given destination.
+
+        `destination` should be a `Coordinates` object.
+        The returned value is an `int`.
+        """
+        raise NotImplementedError()
+
+    def gather_intelligence(self, pieces, destination, radius):
+        """Get intelligence of the area around the destination, using `pieces`.
+
+        This method should return a command identifier.
+        """
+        raise NotImplementedError()
+
+    def estimate_gathering_time(self, pieces, destination, radius):
+        """Estimate the amount of required turns for gathering intelligence.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for gathering intelligence command with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_gathering_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def report_intelligence_pieces(self):
+        """Report the current status of all intelligence pieces.
+
+        The returned value should be a dict, mapping from StrategicPiece to its
+        current command ID that it is executing. Only intelligence pieces should be
+        included in this report.
+        """
+        raise NotImplementedError()
+
+    def report_required_pieces_for_intelligence(self):
+        """Returns a list of pieces, where they are needed and their priority.
+
+        This method returns a list of tuples, each containing the following values
+        (in this order):
+        0. Piece type (as `str`).
+        1. Destination tile (as `Coordinates`).
+        2. Improtance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_intelligence(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    def esscort_piece_with_intelligence_piece(self, piece, pieces):
+        """Esscort the given `piece` with the intelligence `pieces`.
+
+        When this command is given, each piece in `pieces` should esscort `piece`.
+        `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+        `StrategicPiece`s.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Building commands.
+    # ----------------------------------------------------------------------------
+
+    def collect_money(self, builder, amount):
+        """Collect a certain amount of money by the given `builder`.
+
+        `builder` should be a `StrategicPiece` object. `amount` should be an `int`.
+        This method should return a command ID.
+        """
+        raise NotImplementedError()
+
+    def estimate_collection_time(self, builder, amount):
+        """Estimate the required amount of turns for collecting money.
+
+        This method should return an `int`, that is the estimated amount of turns
+        required for collecting the given `amount` of money by the given `builder`.
+        """
+        raise NotImplementedError()
+
+    def build_piece(self, builder, piece_type):
+        """Build a new piece of type `piece_type` using `builder`.
+
+        This methos should be interpreted as "Build a new piece using the given
+        `builder`". If the given `builder` does not posses the required amount of
+        money for building the required new piece, it should collect it first, and
+        then build the new piece.
+
+        `builder` should be a `StrategicPiece` object. `piece_type` is a `str`.
+        This method returns a command ID.
+        """
+        raise NotImplementedError()
+
+    def estimate_building_time(self, builder, piece_type):
+        """Estimate the amount of required turns for building a new piece.
+
+        This method should return an integer, that is the estimated amount of
+        turns required for building a new piece with the given arguments.
+        """
+        raise NotImplementedError()
+
+    def report_build_command_status(self, command_id):
+        """Given a command identifier, report its status.
+
+        The returned value must be of type `CommandStatus`.
+        """
+        raise NotImplementedError()
+
+    def get_total_builders_money(self):
+        """Returns the total amount of money all the country builders have."""
+        raise NotImplementedError()
+
+    def get_total_country_tiles_money(self):
+        """Returns the total amount of money the country has on its tiles."""
+        raise NotImplementedError()
+
+    def report_builders(self):
+        """Report the current status of all builders.
+
+        The returned value should be a `dict`, mapping from a `StrategicPiece`
+        objects to a tuple, containing the following values in this order:
+        0. The current command ID that this builder is executing, if available, or
+           `None` otherwise.
+        1. The current amount of money of this builder.
+        """
+        raise NotImplementedError()
+
+    def report_missing_intelligence_for_collecting_money(self):
+        """Return all coordinates in which we are missing intelligence.
+
+        Intelligence from the returned tiles would help in collecting more money.
+
+        The returned value should be a set of `Coordinates`s.
+        """
+        raise NotImplementedError()
+
+    def set_intelligence_for_builders(self, tiles):
+        """Provide the implementation with intelligence for collecting money.
+
+        `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+        representing the danger level of this tile.
+
+        This function does not return any value.
+        """
+        raise NotImplementedError()
+
+    def report_required_tiles_for_collecting_money(self):
+        """Returns a list of tiles that are required for completing commands.
+
+        This mehtod returns a list of tuples, each containing the following values
+        (in this order):
+        0. Tile (as `Coordinates`).
+        1. Importance (as `int`).
+        """
+        raise NotImplementedError()
+
+    # ----------------------------------------------------------------------------
+    # Miscellaneous commands.
+    # ----------------------------------------------------------------------------
+
+    def get_my_country(self):
+        """Returns the name of this country."""
+        raise NotImplementedError()
+
+    def get_all_countries(self):
+        """Returns the list of all participating countries in the game."""
+        raise NotImplementedError()
+
+    def get_game_width(self):
+        """Returns the width of the current game board."""
+        raise NotImplementedError()
+
+    def get_game_height(self):
+        """Returns the height of the current game board."""
+        raise NotImplementedError()
+
+    def log(self, log_entry):
+        """Logs the given log entry to the main log of this country.
+
+        log_entry is expected to be a string, without a trailing new line character.
+        """
+        raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#strategic_api.StrategicApi">StrategicApi</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, context)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Constructor. context allows us to use the tactical API.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.__init__" class="source">
+    <pre><code>def __init__(self, context):
+    """Constructor. context allows us to use the tactical API."""
+    self.context = context
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.attack">
+    <p>def <span class="ident">attack</span>(</p><p>self, pieces, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Attack the area around the destination, using the given pieces.</p>
+<p>This command should be interepreted as attacking a tile, whose distance of
+<code>destination</code> is at most <code>radius</code> using the given set of <code>pieces</code> (set of
+<code>StrategicPiece</code>s).
+This method should return a command identifier.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.attack', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.attack" class="source">
+    <pre><code>def attack(self, pieces, destination, radius):
+    """Attack the area around the destination, using the given pieces.
+    This command should be interepreted as attacking a tile, whose distance of
+    `destination` is at most `radius` using the given set of `pieces` (set of
+    `StrategicPiece`s).
+    This method should return a command identifier.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.build_piece">
+    <p>def <span class="ident">build_piece</span>(</p><p>self, builder, piece_type)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Build a new piece of type <code>piece_type</code> using <code>builder</code>.</p>
+<p>This methos should be interpreted as "Build a new piece using the given
+<code>builder</code>". If the given <code>builder</code> does not posses the required amount of
+money for building the required new piece, it should collect it first, and
+then build the new piece.</p>
+<p><code>builder</code> should be a <code>StrategicPiece</code> object. <code>piece_type</code> is a <code>str</code>.
+This method returns a command ID.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.build_piece', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.build_piece" class="source">
+    <pre><code>def build_piece(self, builder, piece_type):
+    """Build a new piece of type `piece_type` using `builder`.
+    This methos should be interpreted as "Build a new piece using the given
+    `builder`". If the given `builder` does not posses the required amount of
+    money for building the required new piece, it should collect it first, and
+    then build the new piece.
+    `builder` should be a `StrategicPiece` object. `piece_type` is a `str`.
+    This method returns a command ID.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.collect_money">
+    <p>def <span class="ident">collect_money</span>(</p><p>self, builder, amount)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Collect a certain amount of money by the given <code>builder</code>.</p>
+<p><code>builder</code> should be a <code>StrategicPiece</code> object. <code>amount</code> should be an <code>int</code>.
+This method should return a command ID.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.collect_money', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.collect_money" class="source">
+    <pre><code>def collect_money(self, builder, amount):
+    """Collect a certain amount of money by the given `builder`.
+    `builder` should be a `StrategicPiece` object. `amount` should be an `int`.
+    This method should return a command ID.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.defend">
+    <p>def <span class="ident">defend</span>(</p><p>self, pieces, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Defend the area around the destination, using the given pieces.</p>
+<p>This command should be interepreted as defending a tile, whose distance of
+<code>destination</code> is at most <code>radius</code> using the given set of <code>pieces</code> (set of
+<code>StrategicPiece</code>s).
+This method should return a command identifier.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.defend', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.defend" class="source">
+    <pre><code>def defend(self, pieces, destination, radius):
+    """Defend the area around the destination, using the given pieces.
+    This command should be interepreted as defending a tile, whose distance of
+    `destination` is at most `radius` using the given set of `pieces` (set of
+    `StrategicPiece`s).
+    This method should return a command identifier.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.esscort_piece_with_attacking_piece">
+    <p>def <span class="ident">esscort_piece_with_attacking_piece</span>(</p><p>self, piece, pieces)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Esscort the given <code>piece</code> with the attacking <code>pieces</code>.</p>
+<p>When this command is given, each piece in <code>pieces</code> should esscort <code>piece</code>.
+<code>piece</code> is a <code>StrategicPiece</code>, and <code>pieces</code> is a <code>set</code> of
+<code>StrategicPiece</code>s.
+This method should return a command ID.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.esscort_piece_with_attacking_piece', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.esscort_piece_with_attacking_piece" class="source">
+    <pre><code>def esscort_piece_with_attacking_piece(self, piece, pieces):
+    """Esscort the given `piece` with the attacking `pieces`.
+    When this command is given, each piece in `pieces` should esscort `piece`.
+    `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+    `StrategicPiece`s.
+    This method should return a command ID.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.esscort_piece_with_defending_piece">
+    <p>def <span class="ident">esscort_piece_with_defending_piece</span>(</p><p>self, piece, pieces)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Esscort the given <code>piece</code> with the defending <code>pieces</code>.</p>
+<p>When this command is given, each piece in <code>pieces</code> should esscort <code>piece</code>.
+<code>piece</code> is a <code>StrategicPiece</code>, and <code>pieces</code> is a <code>set</code> of
+<code>StrategicPiece</code>s.
+This method should return a command ID.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.esscort_piece_with_defending_piece', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.esscort_piece_with_defending_piece" class="source">
+    <pre><code>def esscort_piece_with_defending_piece(self, piece, pieces):
+    """Esscort the given `piece` with the defending `pieces`.
+    When this command is given, each piece in `pieces` should esscort `piece`.
+    `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+    `StrategicPiece`s.
+    This method should return a command ID.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.esscort_piece_with_intelligence_piece">
+    <p>def <span class="ident">esscort_piece_with_intelligence_piece</span>(</p><p>self, piece, pieces)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Esscort the given <code>piece</code> with the intelligence <code>pieces</code>.</p>
+<p>When this command is given, each piece in <code>pieces</code> should esscort <code>piece</code>.
+<code>piece</code> is a <code>StrategicPiece</code>, and <code>pieces</code> is a <code>set</code> of
+<code>StrategicPiece</code>s.
+This method should return a command ID.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.esscort_piece_with_intelligence_piece', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.esscort_piece_with_intelligence_piece" class="source">
+    <pre><code>def esscort_piece_with_intelligence_piece(self, piece, pieces):
+    """Esscort the given `piece` with the intelligence `pieces`.
+    When this command is given, each piece in `pieces` should esscort `piece`.
+    `piece` is a `StrategicPiece`, and `pieces` is a `set` of
+    `StrategicPiece`s.
+    This method should return a command ID.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimate_attack_time">
+    <p>def <span class="ident">estimate_attack_time</span>(</p><p>self, pieces, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimate the amount of required turns for an attack command.</p>
+<p>This method should return an integer, that is the estimated amount of
+turns required for completing an attack command with the given arguments.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimate_attack_time', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimate_attack_time" class="source">
+    <pre><code>def estimate_attack_time(self, pieces, destination, radius):
+    """Estimate the amount of required turns for an attack command.
+    This method should return an integer, that is the estimated amount of
+    turns required for completing an attack command with the given arguments.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimate_building_time">
+    <p>def <span class="ident">estimate_building_time</span>(</p><p>self, builder, piece_type)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimate the amount of required turns for building a new piece.</p>
+<p>This method should return an integer, that is the estimated amount of
+turns required for building a new piece with the given arguments.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimate_building_time', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimate_building_time" class="source">
+    <pre><code>def estimate_building_time(self, builder, piece_type):
+    """Estimate the amount of required turns for building a new piece.
+    This method should return an integer, that is the estimated amount of
+    turns required for building a new piece with the given arguments.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimate_collection_time">
+    <p>def <span class="ident">estimate_collection_time</span>(</p><p>self, builder, amount)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimate the required amount of turns for collecting money.</p>
+<p>This method should return an <code>int</code>, that is the estimated amount of turns
+required for collecting the given <code>amount</code> of money by the given <code>builder</code>.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimate_collection_time', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimate_collection_time" class="source">
+    <pre><code>def estimate_collection_time(self, builder, amount):
+    """Estimate the required amount of turns for collecting money.
+    This method should return an `int`, that is the estimated amount of turns
+    required for collecting the given `amount` of money by the given `builder`.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimate_defend_time">
+    <p>def <span class="ident">estimate_defend_time</span>(</p><p>self, pieces, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimate the amount of required turns form a defense.</p>
+<p>This method should return an integer, that is the estimated amount of
+turns required for forming a defense command with the given arguments.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimate_defend_time', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimate_defend_time" class="source">
+    <pre><code>def estimate_defend_time(self, pieces, destination, radius):
+    """Estimate the amount of required turns form a defense.
+    This method should return an integer, that is the estimated amount of
+    turns required for forming a defense command with the given arguments.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimate_gathering_time">
+    <p>def <span class="ident">estimate_gathering_time</span>(</p><p>self, pieces, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimate the amount of required turns for gathering intelligence.</p>
+<p>This method should return an integer, that is the estimated amount of
+turns required for gathering intelligence command with the given arguments.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimate_gathering_time', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimate_gathering_time" class="source">
+    <pre><code>def estimate_gathering_time(self, pieces, destination, radius):
+    """Estimate the amount of required turns for gathering intelligence.
+    This method should return an integer, that is the estimated amount of
+    turns required for gathering intelligence command with the given arguments.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimate_tile_danger">
+    <p>def <span class="ident">estimate_tile_danger</span>(</p><p>self, destination)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimate the danger level of the given destination.</p>
+<p><code>destination</code> should be a <code>Coordinates</code> object.
+The returned value is an <code>int</code>.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimate_tile_danger', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimate_tile_danger" class="source">
+    <pre><code>def estimate_tile_danger(self, destination):
+    """Estimate the danger level of the given destination.
+    `destination` should be a `Coordinates` object.
+    The returned value is an `int`.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimated_required_attacking_pieces">
+    <p>def <span class="ident">estimated_required_attacking_pieces</span>(</p><p>self, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimates the amount of required pieces for conquering the destination.</p>
+<p>The return value should be an integer.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimated_required_attacking_pieces', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimated_required_attacking_pieces" class="source">
+    <pre><code>def estimated_required_attacking_pieces(self, destination, radius):
+    """Estimates the amount of required pieces for conquering the destination.
+    The return value should be an integer.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.estimated_required_defending_pieces">
+    <p>def <span class="ident">estimated_required_defending_pieces</span>(</p><p>self, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Estimates the amount of required pieces for defending the destination.</p>
+<p>The return value should be an integer.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.estimated_required_defending_pieces', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.estimated_required_defending_pieces" class="source">
+    <pre><code>def estimated_required_defending_pieces(self, destination, radius):
+    """Estimates the amount of required pieces for defending the destination.
+    The return value should be an integer.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.gather_intelligence">
+    <p>def <span class="ident">gather_intelligence</span>(</p><p>self, pieces, destination, radius)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Get intelligence of the area around the destination, using <code>pieces</code>.</p>
+<p>This method should return a command identifier.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.gather_intelligence', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.gather_intelligence" class="source">
+    <pre><code>def gather_intelligence(self, pieces, destination, radius):
+    """Get intelligence of the area around the destination, using `pieces`.
+    This method should return a command identifier.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.get_all_countries">
+    <p>def <span class="ident">get_all_countries</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the list of all participating countries in the game.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.get_all_countries', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.get_all_countries" class="source">
+    <pre><code>def get_all_countries(self):
+    """Returns the list of all participating countries in the game."""
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.get_game_height">
+    <p>def <span class="ident">get_game_height</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the height of the current game board.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.get_game_height', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.get_game_height" class="source">
+    <pre><code>def get_game_height(self):
+    """Returns the height of the current game board."""
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.get_game_width">
+    <p>def <span class="ident">get_game_width</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the width of the current game board.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.get_game_width', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.get_game_width" class="source">
+    <pre><code>def get_game_width(self):
+    """Returns the width of the current game board."""
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.get_my_country">
+    <p>def <span class="ident">get_my_country</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the name of this country.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.get_my_country', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.get_my_country" class="source">
+    <pre><code>def get_my_country(self):
+    """Returns the name of this country."""
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.get_total_builders_money">
+    <p>def <span class="ident">get_total_builders_money</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the total amount of money all the country builders have.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.get_total_builders_money', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.get_total_builders_money" class="source">
+    <pre><code>def get_total_builders_money(self):
+    """Returns the total amount of money all the country builders have."""
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.get_total_country_tiles_money">
+    <p>def <span class="ident">get_total_country_tiles_money</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns the total amount of money the country has on its tiles.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.get_total_country_tiles_money', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.get_total_country_tiles_money" class="source">
+    <pre><code>def get_total_country_tiles_money(self):
+    """Returns the total amount of money the country has on its tiles."""
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.log">
+    <p>def <span class="ident">log</span>(</p><p>self, log_entry)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Logs the given log entry to the main log of this country.</p>
+<p>log_entry is expected to be a string, without a trailing new line character.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.log', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.log" class="source">
+    <pre><code>def log(self, log_entry):
+    """Logs the given log entry to the main log of this country.
+    log_entry is expected to be a string, without a trailing new line character.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_attack_command_status">
+    <p>def <span class="ident">report_attack_command_status</span>(</p><p>self, command_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Given a command identifier, report its status.</p>
+<p>The returned value must be of type <code>CommandStatus</code>.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_attack_command_status', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_attack_command_status" class="source">
+    <pre><code>def report_attack_command_status(self, command_id):
+    """Given a command identifier, report its status.
+    The returned value must be of type `CommandStatus`.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_attacking_pieces">
+    <p>def <span class="ident">report_attacking_pieces</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Report the current status of all attacking pieces.</p>
+<p>The returned value should be a dict, mapping from StrategicPiece to its
+current command ID that it is executing. Only attacking pieces should be
+included in this report.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_attacking_pieces', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_attacking_pieces" class="source">
+    <pre><code>def report_attacking_pieces(self):
+    """Report the current status of all attacking pieces.
+    The returned value should be a dict, mapping from StrategicPiece to its
+    current command ID that it is executing. Only attacking pieces should be
+    included in this report.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_build_command_status">
+    <p>def <span class="ident">report_build_command_status</span>(</p><p>self, command_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Given a command identifier, report its status.</p>
+<p>The returned value must be of type <code>CommandStatus</code>.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_build_command_status', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_build_command_status" class="source">
+    <pre><code>def report_build_command_status(self, command_id):
+    """Given a command identifier, report its status.
+    The returned value must be of type `CommandStatus`.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_builders">
+    <p>def <span class="ident">report_builders</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Report the current status of all builders.</p>
+<p>The returned value should be a <code>dict</code>, mapping from a <code>StrategicPiece</code>
+objects to a tuple, containing the following values in this order:
+0. The current command ID that this builder is executing, if available, or
+   <code>None</code> otherwise.
+1. The current amount of money of this builder.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_builders', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_builders" class="source">
+    <pre><code>def report_builders(self):
+    """Report the current status of all builders.
+    The returned value should be a `dict`, mapping from a `StrategicPiece`
+    objects to a tuple, containing the following values in this order:
+    0. The current command ID that this builder is executing, if available, or
+       `None` otherwise.
+    1. The current amount of money of this builder.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_defending_pieces">
+    <p>def <span class="ident">report_defending_pieces</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Report the current status of all defending pieces.</p>
+<p>The returned value should be a dict, mapping from StrategicPiece to its
+current command ID that it is executing. Only defending pieces should be
+included in this report.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_defending_pieces', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_defending_pieces" class="source">
+    <pre><code>def report_defending_pieces(self):
+    """Report the current status of all defending pieces.
+    The returned value should be a dict, mapping from StrategicPiece to its
+    current command ID that it is executing. Only defending pieces should be
+    included in this report.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_defense_command_status">
+    <p>def <span class="ident">report_defense_command_status</span>(</p><p>self, command_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Given a command identifier, report its status.</p>
+<p>The returned value must be of type <code>CommandStatus</code>.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_defense_command_status', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_defense_command_status" class="source">
+    <pre><code>def report_defense_command_status(self, command_id):
+    """Given a command identifier, report its status.
+    The returned value must be of type `CommandStatus`.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_gathering_command_status">
+    <p>def <span class="ident">report_gathering_command_status</span>(</p><p>self, command_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Given a command identifier, report its status.</p>
+<p>The returned value must be of type <code>CommandStatus</code>.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_gathering_command_status', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_gathering_command_status" class="source">
+    <pre><code>def report_gathering_command_status(self, command_id):
+    """Given a command identifier, report its status.
+    The returned value must be of type `CommandStatus`.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_intelligence_pieces">
+    <p>def <span class="ident">report_intelligence_pieces</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Report the current status of all intelligence pieces.</p>
+<p>The returned value should be a dict, mapping from StrategicPiece to its
+current command ID that it is executing. Only intelligence pieces should be
+included in this report.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_intelligence_pieces', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_intelligence_pieces" class="source">
+    <pre><code>def report_intelligence_pieces(self):
+    """Report the current status of all intelligence pieces.
+    The returned value should be a dict, mapping from StrategicPiece to its
+    current command ID that it is executing. Only intelligence pieces should be
+    included in this report.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_missing_intelligence_for_collecting_money">
+    <p>def <span class="ident">report_missing_intelligence_for_collecting_money</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return all coordinates in which we are missing intelligence.</p>
+<p>Intelligence from the returned tiles would help in collecting more money.</p>
+<p>The returned value should be a set of <code>Coordinates</code>s.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_missing_intelligence_for_collecting_money', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_missing_intelligence_for_collecting_money" class="source">
+    <pre><code>def report_missing_intelligence_for_collecting_money(self):
+    """Return all coordinates in which we are missing intelligence.
+    Intelligence from the returned tiles would help in collecting more money.
+    The returned value should be a set of `Coordinates`s.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_missing_intelligence_for_pending_attacks">
+    <p>def <span class="ident">report_missing_intelligence_for_pending_attacks</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return all coordinates in which we are missing intelligence.</p>
+<p>Intelligence from the returned tiles would help in improving pending
+attack commands.</p>
+<p>The returned value should be a set of <code>Coordinates</code>s.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_missing_intelligence_for_pending_attacks', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_missing_intelligence_for_pending_attacks" class="source">
+    <pre><code>def report_missing_intelligence_for_pending_attacks(self):
+    """Return all coordinates in which we are missing intelligence.
+    Intelligence from the returned tiles would help in improving pending
+    attack commands.
+    The returned value should be a set of `Coordinates`s.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_missing_intelligence_for_pending_defends">
+    <p>def <span class="ident">report_missing_intelligence_for_pending_defends</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return all coordinates in which we are missing intelligence.</p>
+<p>Intelligence from the returned tiles would help in improving pending
+defend commands.</p>
+<p>The returned value should be a set of <code>Coordinates</code>s.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_missing_intelligence_for_pending_defends', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_missing_intelligence_for_pending_defends" class="source">
+    <pre><code>def report_missing_intelligence_for_pending_defends(self):
+    """Return all coordinates in which we are missing intelligence.
+    Intelligence from the returned tiles would help in improving pending
+    defend commands.
+    The returned value should be a set of `Coordinates`s.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_pieces_for_attacks">
+    <p>def <span class="ident">report_required_pieces_for_attacks</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of pieces, where they are needed and their priority.</p>
+<p>This method returns a list of tuples, each containing the following values
+(in this order):
+0. Piece type (as <code>str</code>).
+1. Destination tile (as <code>Coordinates</code>).
+2. Improtance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_pieces_for_attacks', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_pieces_for_attacks" class="source">
+    <pre><code>def report_required_pieces_for_attacks(self):
+    """Returns a list of pieces, where they are needed and their priority.
+    This method returns a list of tuples, each containing the following values
+    (in this order):
+    0. Piece type (as `str`).
+    1. Destination tile (as `Coordinates`).
+    2. Improtance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_pieces_for_defends">
+    <p>def <span class="ident">report_required_pieces_for_defends</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of pieces, where they are needed and their priority.</p>
+<p>This method returns a list of tuples, each containing the following values
+(in this order):
+0. Piece type (as <code>str</code>).
+1. Destination tile (as <code>Coordinates</code>).
+2. Improtance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_pieces_for_defends', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_pieces_for_defends" class="source">
+    <pre><code>def report_required_pieces_for_defends(self):
+    """Returns a list of pieces, where they are needed and their priority.
+    This method returns a list of tuples, each containing the following values
+    (in this order):
+    0. Piece type (as `str`).
+    1. Destination tile (as `Coordinates`).
+    2. Improtance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_pieces_for_intelligence">
+    <p>def <span class="ident">report_required_pieces_for_intelligence</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of pieces, where they are needed and their priority.</p>
+<p>This method returns a list of tuples, each containing the following values
+(in this order):
+0. Piece type (as <code>str</code>).
+1. Destination tile (as <code>Coordinates</code>).
+2. Improtance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_pieces_for_intelligence', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_pieces_for_intelligence" class="source">
+    <pre><code>def report_required_pieces_for_intelligence(self):
+    """Returns a list of pieces, where they are needed and their priority.
+    This method returns a list of tuples, each containing the following values
+    (in this order):
+    0. Piece type (as `str`).
+    1. Destination tile (as `Coordinates`).
+    2. Improtance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_tiles_for_attacks">
+    <p>def <span class="ident">report_required_tiles_for_attacks</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of tiles that are required for completing commands.</p>
+<p>This mehtod returns a list of tuples, each containing the following values
+(in this order):
+0. Tile (as <code>Coordinates</code>).
+1. Importance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_tiles_for_attacks', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_tiles_for_attacks" class="source">
+    <pre><code>def report_required_tiles_for_attacks(self):
+    """Returns a list of tiles that are required for completing commands.
+    This mehtod returns a list of tuples, each containing the following values
+    (in this order):
+    0. Tile (as `Coordinates`).
+    1. Importance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_tiles_for_collecting_money">
+    <p>def <span class="ident">report_required_tiles_for_collecting_money</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of tiles that are required for completing commands.</p>
+<p>This mehtod returns a list of tuples, each containing the following values
+(in this order):
+0. Tile (as <code>Coordinates</code>).
+1. Importance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_tiles_for_collecting_money', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_tiles_for_collecting_money" class="source">
+    <pre><code>def report_required_tiles_for_collecting_money(self):
+    """Returns a list of tiles that are required for completing commands.
+    This mehtod returns a list of tuples, each containing the following values
+    (in this order):
+    0. Tile (as `Coordinates`).
+    1. Importance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_tiles_for_defends">
+    <p>def <span class="ident">report_required_tiles_for_defends</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of tiles that are required for completing commands.</p>
+<p>This mehtod returns a list of tuples, each containing the following values
+(in this order):
+0. Tile (as <code>Coordinates</code>).
+1. Importance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_tiles_for_defends', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_tiles_for_defends" class="source">
+    <pre><code>def report_required_tiles_for_defends(self):
+    """Returns a list of tiles that are required for completing commands.
+    This mehtod returns a list of tuples, each containing the following values
+    (in this order):
+    0. Tile (as `Coordinates`).
+    1. Importance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.report_required_tiles_for_intelligence">
+    <p>def <span class="ident">report_required_tiles_for_intelligence</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a list of tiles that are required for completing commands.</p>
+<p>This mehtod returns a list of tuples, each containing the following values
+(in this order):
+0. Tile (as <code>Coordinates</code>).
+1. Importance (as <code>int</code>).</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.report_required_tiles_for_intelligence', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.report_required_tiles_for_intelligence" class="source">
+    <pre><code>def report_required_tiles_for_intelligence(self):
+    """Returns a list of tiles that are required for completing commands.
+    This mehtod returns a list of tuples, each containing the following values
+    (in this order):
+    0. Tile (as `Coordinates`).
+    1. Importance (as `int`).
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.set_intelligence_for_attacks">
+    <p>def <span class="ident">set_intelligence_for_attacks</span>(</p><p>self, tiles)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Provide the implementation with missing intelligence for attacks.</p>
+<p><code>tiles</code> is a <code>dict</code> mapping a <code>Coordinates</code> object into an <code>int</code>,
+representing the danger level of this tile.</p>
+<p>This function does not return any value.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.set_intelligence_for_attacks', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.set_intelligence_for_attacks" class="source">
+    <pre><code>def set_intelligence_for_attacks(self, tiles):
+    """Provide the implementation with missing intelligence for attacks.
+    `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+    representing the danger level of this tile.
+    This function does not return any value.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.set_intelligence_for_builders">
+    <p>def <span class="ident">set_intelligence_for_builders</span>(</p><p>self, tiles)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Provide the implementation with intelligence for collecting money.</p>
+<p><code>tiles</code> is a <code>dict</code> mapping a <code>Coordinates</code> object into an <code>int</code>,
+representing the danger level of this tile.</p>
+<p>This function does not return any value.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.set_intelligence_for_builders', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.set_intelligence_for_builders" class="source">
+    <pre><code>def set_intelligence_for_builders(self, tiles):
+    """Provide the implementation with intelligence for collecting money.
+    `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+    representing the danger level of this tile.
+    This function does not return any value.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="strategic_api.StrategicApi.set_intelligence_for_defends">
+    <p>def <span class="ident">set_intelligence_for_defends</span>(</p><p>self, tiles)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Provide the implementation with missing intelligence for defends.</p>
+<p><code>tiles</code> is a <code>dict</code> mapping a <code>Coordinates</code> object into an <code>int</code>,
+representing the danger level of this tile.</p>
+<p>This function does not return any value.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-strategic_api.StrategicApi.set_intelligence_for_defends', this);">Show source &equiv;</a></p>
+  <div id="source-strategic_api.StrategicApi.set_intelligence_for_defends" class="source">
+    <pre><code>def set_intelligence_for_defends(self, tiles):
+    """Provide the implementation with missing intelligence for defends.
+    `tiles` is a `dict` mapping a `Coordinates` object into an `int`,
+    representing the danger level of this tile.
+    This function does not return any value.
+    """
+    raise NotImplementedError()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="strategic_api.StrategicApi.context" class="name">var <span class="ident">context</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="strategic_api.StrategicPiece" class="name">class <span class="ident">StrategicPiece</span></p>
+      
+  
+    <div class="desc"><p>StrategicPiece(id, type)</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#strategic_api.StrategicPiece">StrategicPiece</a></li>
+          <li>builtins.tuple</li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="strategic_api.StrategicPiece.id" class="name">var <span class="ident">id</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Alias for field number 0</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="strategic_api.StrategicPiece.type" class="name">var <span class="ident">type</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Alias for field number 1</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+
+  </section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>

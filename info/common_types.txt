@@ -1,0 +1,26 @@
+Module common_types
+-------------------
+
+Functions
+---------
+distance(a, b)
+    Calculates the L1 distance between the two given coordinates.
+
+Classes
+-------
+Coordinates 
+    Representation of a coordinate in a cartesian plane.
+
+    Ancestors (in MRO)
+    ------------------
+    common_types.Coordinates
+    builtins.tuple
+    builtins.object
+
+    Instance variables
+    ------------------
+    x
+        The distance from the origin on the X axis.
+
+    y
+        The distance from the origin on the Y axis.
