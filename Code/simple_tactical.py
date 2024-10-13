@@ -1,6 +1,6 @@
 import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
-from tactical_api import TurnContext, Builder, BasePiece
+from tactical_api import TurnContext, Builder, BasePiece, distance
 
 from random import randint
 
@@ -40,13 +40,13 @@ builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
 
-def move_tank_to_destination(context, tank, dest):
+def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
     command_id = tank_to_attacking_command[tank.id]
     if dest is None:
         commands[int(command_id)] = CommandStatus.failed(command_id)
         return
-    if dest.x == tank.tile.coordinates.x and dest.y == tank.tile.coordinates.y:
+    if distance(dest, tank.tile.coordinates) <= radius:
         tank.attack()
         commands[int(command_id)] = CommandStatus.success(command_id)
         del tank_to_attacking_command[tank.id]
@@ -55,14 +55,25 @@ def move_tank_to_destination(context, tank, dest):
     if tank.tile.country != context.my_country:
         tank.attack()
         return False
-    if dest.x < tank_coordinate.x:
-        new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-    elif dest.x > tank_coordinate.x:
-        new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-    elif dest.y < tank_coordinate.y:
-        new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-    elif dest.y > tank_coordinate.y:
-        new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+    randomized = randint(0, 1)
+    if randomized == 0:
+        if dest.x < tank_coordinate.x:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+        elif dest.x > tank_coordinate.x:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        elif dest.y < tank_coordinate.y:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+        elif dest.y > tank_coordinate.y:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+    else:
+        if dest.y < tank_coordinate.y:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+        elif dest.y > tank_coordinate.y:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+        elif dest.x < tank_coordinate.x:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+        elif dest.x > tank_coordinate.x:
+            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
     tank.move(new_coordinate)
     return False
 
@@ -120,12 +131,12 @@ class MyStrategicApi(StrategicApi):
     def __init__(self, context):
         self.context = context
         to_remove = set()
-        for tank_id, destination in tank_to_coordinate_to_attack.items():
+        for tank_id, destination, radius in tank_to_coordinate_to_attack.items():
             tank = self.context.my_pieces.get(tank_id)
             if tank is None:
                 to_remove.add(tank_id)
                 continue
-            if move_tank_to_destination(self.context, tank, destination):
+            if move_tank_to_destination(self.context, tank, destination, radius):
                 to_remove.add(tank_id)
         for tank_id in to_remove:
             del tank_to_coordinate_to_attack[tank_id]
@@ -180,7 +191,7 @@ class MyStrategicApi(StrategicApi):
         command_id = str(len(commands))
         attacking_command = CommandStatus.in_progress(command_id, 0,
                                                       common_types.distance(tank.tile.coordinates, destination))
-        tank_to_coordinate_to_attack[piece.id] = destination
+        tank_to_coordinate_to_attack[piece.id] = destination, radius
         tank_to_attacking_command[piece.id] = command_id
         commands.append(attacking_command)
 
