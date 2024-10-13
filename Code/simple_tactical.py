@@ -150,7 +150,7 @@ class MyStrategicApi(StrategicApi):
                 continue
             if build_piece_advance(builder, piece):
                 remove(builder_id)
-        for builder_id, piece in builder_to_amount:
+        for builder_id, piece in builder_to_amount.items():
             builder = self.context.my_pieces.get(builder_id)
             if builder is None or not isinstance(builder, Builder):
                 if builder_id in builder_to_command[builder_id]:
