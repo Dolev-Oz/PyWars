@@ -46,7 +46,7 @@ def move_tank_to_destination(context, tank, dest):
     if dest is None:
         commands[int(command_id)] = CommandStatus.failed(command_id)
         return
-    if dest == tank.tile:
+    if dest.x == tank.tile.x and dest.y == tank.tile.y:
         tank.attack()
         commands[int(command_id)] = CommandStatus.success(command_id)
         del tank_to_attacking_command[tank.id]
