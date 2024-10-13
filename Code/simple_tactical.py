@@ -177,7 +177,22 @@ class MyStrategicApi(StrategicApi):
                 remove(builder_id)
     
     def artillery_loop(self):
-        
+        to_remove = set()
+        for artillery_id, destination in artilerry_to_coordinate_to_defend.items():
+            artillery = self.context.my_pieces.get(artillery_id)
+            if artillery is None or artillery.type != 'artillery':
+                to_remove.add(artillery_id)
+                continue
+            if destination is None:
+                to_remove.add(artillery_id)
+                continue
+            if destination == artillery.tile:
+                artillery.defend()
+                continue
+            artillery.move(destination)
+        for artillery_id in to_remove:
+            del artilerry_to_coordinate_to_defend[artillery_id]
+
 
     def attack(self, piece, destination, radius):
         tank = self.context.my_pieces[piece.id]
