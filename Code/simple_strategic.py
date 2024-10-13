@@ -1,13 +1,15 @@
 import random
 import strategic_api as strat
-from strategic_api import StrategicApi, StrategicPiece, CommandStatus, piece_to_price
+from strategic_api import StrategicApi, StrategicPiece
 
-import common_types
+from common_types import Coordinates, distance
+
+piece_to_price = {"tank": 8, "builder": 20}
 
 COMMANDS = {}
 PIECES = ["tank", "builder"]
 PROBS = [50, 50]
-TO_BUILD = {}  #
+TO_BUILD = {}  # builder object is mapped to str
 
 
 def get_sorted_tiles_for_attack(strategic):
@@ -15,7 +17,7 @@ def get_sorted_tiles_for_attack(strategic):
     enemy_tiles = []
     for x in range(strategic.get_game_width()):
         for y in range(strategic.get_game_height()):
-            coordinate = common_types.Coordinates(x, y)
+            coordinate = Coordinates(x, y)
             danger = strategic.estimate_tile_danger(coordinate)
             if danger == 1:
                 unclaimed_tiles.append(coordinate)
@@ -29,20 +31,20 @@ def get_sorted_tiles_for_attack(strategic):
 
 def find_min_dist_to_pieces(
     pieces: set[strat.StrategicPiece],
-    coord: common_types.Coordinates,
+    coord: Coordinates,
     context: StrategicApi,
 ):
     min_dist = 10000
     con = context.context
     for piece in pieces:
-        dis = common_types.distance(con.my_pieces[piece.id].tile.coordinates, coord)
+        dis = distance(con.my_pieces[piece.id].tile.coordinates, coord)
         if dis < min_dist:
             min_dist = dis
     return dis
 
 
 def sort_tiles(
-    attack_tiles: list[common_types.Coordinates],
+    attack_tiles: list[Coordinates],
     pieces: set[StrategicPiece],
     context: StrategicApi,
 ):
@@ -56,7 +58,7 @@ def assign_piece_to_close_tile(
 
 
 def choose_piece_for_tile(
-    pieces: set[StrategicPiece], coord: common_types.Coordinate, strategic: StrategicApi
+    pieces: set[StrategicPiece], coord: Coordinates, strategic: StrategicApi
 ):
     if len(pieces) == 0:
         return None
@@ -64,7 +66,7 @@ def choose_piece_for_tile(
     min_dist = 10000
     ret_piece = None
     for piece in pieces:
-        dist = common_types.distance(con[piece.id].tile.coordinates, coord)
+        dist = distance(con[piece.id].tile.coordinates, coord)
         if dist < min_dist:
             min_dist = dist
             ret_piece = piece
@@ -77,20 +79,22 @@ def builder_decision(
 ):
     if command_id is not None:
         return
+    if builder not in TO_BUILD:
+        TO_BUILD[builder] = random.choices(PIECES, weights=PROBS, k=1)[0]
 
-    to_build = random.choices(PIECES, weights=PROBS, k=1)[0]
-
-    if money < piece_to_price[to_build]:
-        strategic.collect_money(builder, piece_to_price[to_build])
+    if money < piece_to_price[TO_BUILD[builder]]:
+        strategic.collect_money(builder, piece_to_price[TO_BUILD[builder]])
     else:
-        strategic.build_piece(to_build)
+        strategic.build_piece(TO_BUILD[builder])
+        del TO_BUILD[builder]
 
 
 def do_builder_stuff(strategic: StrategicApi):
-    pass
-    # builders = strategic.report_builders()
-    # for builder, info in builders.items():
-    #    builder_decision(strategic, builder, info[0], info[1])
+    builders = strategic.report_builders()
+    strategic.log(builders.__str__())
+    strategic.log(TO_BUILD.__str__())
+    for builder, info in builders.items():
+        builder_decision(strategic, builder, info[0], info[1])
 
 
 def do_attack_stuff(strategic: StrategicApi):
@@ -102,13 +106,14 @@ def do_attack_stuff(strategic: StrategicApi):
     for piece, command_id in attacking_pieces.items():
         if command_id is None:
             available_pieces.add(piece)
-
     sort_tiles(tiles_for_attack, available_pieces, strategic)
+    strategic.log(f"Reached 110, len(availabe_tiles)={len(tiles_for_attack)}")
     for tile in tiles_for_attack:
         piece = choose_piece_for_tile(available_pieces, tile, strategic)
         if piece is None:
             break
-        strategic.attack(piece, tile, 1)
+        logger = strategic.attack(piece, tile, 1)
+        strategic.log(f"Attack: {logger}")
 
     """tile_index = 0
     for piece, command_id in attacking_pieces.items():
@@ -121,6 +126,6 @@ def do_attack_stuff(strategic: StrategicApi):
 
 
 def do_turn(strategic: StrategicApi):
+    strategic.log("hello world")
     do_builder_stuff(strategic)
     do_attack_stuff(strategic)
-    pass
