@@ -41,6 +41,10 @@ builder_to_amount: dict[str, int] = {}
 builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
+#  Artillery to defend
+artilerry_to_coordinate_to_defend = {}
+artilerry_to_defending_command = {}
+
 
 def move_tank_to_destination(tank, dest):
     """Returns True if the tank's mission is complete."""
@@ -171,6 +175,9 @@ class MyStrategicApi(StrategicApi):
                 continue
             if collect_money_advance(builder, piece):
                 remove(builder_id)
+    
+    def artillery_loop(self):
+        
 
     def attack(self, piece, destination, radius):
         tank = self.context.my_pieces[piece.id]
@@ -199,7 +206,28 @@ class MyStrategicApi(StrategicApi):
         This method should return a command identifier.
         """
         defending_pieces = [self.context.my_pieces[piece.id] for piece in pieces]
+        command_ids = []
+
+        for piece in defending_pieces:
+            if piece.type != 'artillery':
+                command_ids.append(None)
+            
+            if piece.id in artilerry_to_coordinate_to_defend:
+                old_command_id = int(artilerry_to_coordinate_to_defend[piece.id])
+                commands[old_command_id] = CommandStatus.failed(old_command_id)
+            
+            command_id = str(len(commands))
+            defending_command = CommandStatus.in_progress(command_id, 0, 999999)
+
+            artilerry_to_coordinate_to_defend[piece.id] = command_id
+            artilerry_to_defending_command[piece.id] = command_id
+            commands.append(defending_command)
+
+            command_ids.append(command_id)
         
+        return command_ids
+
+
 
 
     def estimate_tile_danger(self, destination):
