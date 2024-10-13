@@ -127,5 +127,5 @@ def do_attack_stuff(strategic: StrategicApi):
 
 def do_turn(strategic: StrategicApi):
     strategic.log("hello world")
-    #do_builder_stuff(strategic)
+    do_builder_stuff(strategic)
     do_attack_stuff(strategic)

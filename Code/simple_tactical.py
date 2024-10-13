@@ -85,7 +85,7 @@ def collect_money_advance(builder: Builder, amount: int, called_from_build: bool
 
     if builder.tile.money > 0:
         amount -= builder.tile.money
-        builder.collect_money(max(0, builder.tile.money))
+        builder.collect_money(max(0, min(5,builder.tile.money)))
         if called_from_build:
             return True
         if amount <= 0:
@@ -95,7 +95,7 @@ def collect_money_advance(builder: Builder, amount: int, called_from_build: bool
 
     move_in_random_direction(builder)
     prev_command = commands[int(command_id)]
-    commands[int(command_id)] = CommandStatus.in_progress(command_id, prev_command.elapsed_turns + 1, 999999999)
+    commands[int(command_id)] = CommandStatus.in_progress(command_id, 0, 999999999)
 
     return False
 
@@ -150,7 +150,7 @@ class MyStrategicApi(StrategicApi):
                 continue
             if build_piece_advance(builder, piece):
                 remove(builder_id)
-        remove_set = {}
+        remove_set = []
         for builder_id, piece in builder_to_amount.items():
             builder = self.context.my_pieces.get(builder_id)
             if builder is None or not isinstance(builder, Builder):
@@ -161,9 +161,9 @@ class MyStrategicApi(StrategicApi):
                 remove_set.append(builder_id)
                 continue
             if collect_money_advance(builder, piece):
-                remove(builder_id)
+                remove_set.append(builder_id)
         for item in remove_set:
-            builder_to_amount.remove(item)
+            del builder_to_amount[item]
 
     def attack(self, piece, destination, radius):
         tank = self.context.my_pieces[piece.id]
