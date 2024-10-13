@@ -100,7 +100,7 @@ def collect_money_advance(builder: Builder, amount: int, context: TurnContext) -
     command_id = builder_to_command[builder.id]
 
     if builder.tile.money > 0 and builder.tile.country == context.my_country:
-        amount -= builder.tile.money
+        amount -= min(5,builder.tile.money)
         
         builder.collect_money(min(5,builder.tile.money))
             
@@ -108,9 +108,9 @@ def collect_money_advance(builder: Builder, amount: int, context: TurnContext) -
             commands[int(command_id)] = CommandStatus.success(command_id)
             #del builder_to_command[builder.id]
             return True
-
-    move_in_random_direction(builder, context)
-    commands[int(command_id)] = CommandStatus.in_progress(command_id, 0, 999999999)
+    else:
+        move_in_random_direction(builder, context)
+        commands[int(command_id)] = CommandStatus.in_progress(command_id, 0, 999999999)
 
     return False
 
