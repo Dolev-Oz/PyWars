@@ -1,5 +1,6 @@
 import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
+from tactical_api import TurnContext
 
 tank_to_coordinate_to_attack = {}
 tank_to_attacking_command = {}
@@ -12,8 +13,20 @@ def move_tank_to_destination(tank, dest):
     if dest is None:
         commands[int(command_id)] = CommandStatus.failed(command_id)
         return
+    if dest == tank.tile:
+        tank.attack()
+        commands[int(command_id)] = CommandStatus.success(command_id)
+        del tank_to_attacking_command[tank.id]
+        return True
     tank_coordinate = tank.tile.coordinates
-    if dest.x < tank_coordinate.x:
+    if tank.tile.country != TurnContext.my_country:
+        tank.attack()
+        prev_command = commands[int(command_id)]
+        commands[int(command_id)] = CommandStatus.in_progress(command_id,
+                                                              prev_command.elapsed_turns + 1,
+                                                              prev_command.estimated_turns - 1)
+        return False
+    elif dest.x < tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
     elif dest.x > tank_coordinate.x:
         new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
@@ -21,11 +34,6 @@ def move_tank_to_destination(tank, dest):
         new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
     elif dest.y > tank_coordinate.y:
         new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-    else:
-        tank.attack()
-        commands[int(command_id)] = CommandStatus.success(command_id)
-        del tank_to_attacking_command[tank.id]
-        return True
     tank.move(new_coordinate)
     prev_command = commands[int(command_id)]
     commands[int(command_id)] = CommandStatus.in_progress(command_id,
