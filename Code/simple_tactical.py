@@ -40,7 +40,7 @@ builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
 
-def move_tank_to_destination(tank, dest):
+def move_tank_to_destination(context, tank, dest):
     """Returns True if the tank's mission is complete."""
     command_id = tank_to_attacking_command[tank.id]
     if dest is None:
@@ -52,7 +52,7 @@ def move_tank_to_destination(tank, dest):
         del tank_to_attacking_command[tank.id]
         return True
     tank_coordinate = tank.tile.coordinates
-    if tank.tile.country != TurnContext.my_country:
+    if tank.tile.country != context.my_country:
         tank.attack()
         prev_command = commands[int(command_id)]
         commands[int(command_id)] = CommandStatus.in_progress(command_id,
@@ -133,7 +133,7 @@ class MyStrategicApi(StrategicApi):
             if tank is None:
                 to_remove.add(tank_id)
                 continue
-            if move_tank_to_destination(tank, destination):
+            if move_tank_to_destination(self.context, tank, destination):
                 to_remove.add(tank_id)
         for tank_id in to_remove:
             del tank_to_coordinate_to_attack[tank_id]
@@ -209,7 +209,7 @@ class MyStrategicApi(StrategicApi):
                 if piece.type == 'tank'}
 
     def report_builders(self):
-        return {StrategicPiece(piece_id, piece.type) : (None if not piece in builder_to_command else builder_to_command[piece_id], builder_to_amount[piece_id])
+        return {StrategicPiece(piece_id, piece.type) : (None if not piece_id in builder_to_command else builder_to_command[piece_id], builder_to_amount[piece_id])
                 for piece_id, piece in self.context.my_pieces.items()
                 if piece.type == 'builder'}
 
