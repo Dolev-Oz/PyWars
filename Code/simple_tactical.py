@@ -140,7 +140,11 @@ class MyStrategicApi(StrategicApi):
             if tank is None:
                 to_remove.add(tank_id)
                 continue
-            if move_tank_to_destination(self.context, tank, destination, radius):
+            try:
+                success = move_tank_to_destination(self.context, tank, destination, radius)
+            except Exception:
+                raise Exception("attack exception")
+            if success:
                 to_remove.add(tank_id)
         for tank_id in to_remove:
             del tank_to_coordinate_to_attack[tank_id]
