@@ -1,0 +1,23 @@
+name: Run unload_script.py after every push
+
+on:
+  push:
+    branches:
+      - upload
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Run unload_script.py
+      run: |
+        python upload_script.py -d ${{ github.workspace }}/Code -n "Github Actions #${{ github.run_number }} by ${{ github.actor }}" -p 2222 --tactical-module simple_tactical --strategic-module simple_strategic --password "D@#=iH=a`>dcnh%d35J0"
