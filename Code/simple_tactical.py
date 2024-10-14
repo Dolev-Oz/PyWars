@@ -42,42 +42,45 @@ builder_to_command: dict[str, str] = {}
 
 def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
-    command_id = tank_to_attacking_command[tank.id]
-    if dest is None:
-        commands[int(command_id)] = CommandStatus.failed(command_id)
-        return
-    if distance(dest, tank.tile.coordinates) <= radius:
-        tank.attack()
-        commands[int(command_id)] = CommandStatus.success(command_id)
-        del tank_to_attacking_command[tank.id]
-        return True
-    tank_coordinate = tank.tile.coordinates
-    if tank.tile.country != context.my_country:
-        tank.attack()
+    try:
+        command_id = tank_to_attacking_command[tank.id]
+        if dest is None:
+            commands[int(command_id)] = CommandStatus.failed(command_id)
+            return
+        if distance(dest, tank.tile.coordinates) <= radius:
+            tank.attack()
+            commands[int(command_id)] = CommandStatus.success(command_id)
+            del tank_to_attacking_command[tank.id]
+            return True
+        tank_coordinate = tank.tile.coordinates
+        if tank.tile.country != context.my_country:
+            tank.attack()
+            return False
+        x_dist = abs(dest.x - tank.tile.coordinates.x)
+        y_dist = abs(dest.y - tank.tile.coordinates.y)
+        randomized = choices([0, 1], weights=[x_dist, y_dist])
+        if randomized == 0:
+            if dest.x < tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            elif dest.x > tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+            elif dest.y < tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+            elif dest.y > tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+        else:
+            if dest.y < tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+            elif dest.y > tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+            elif dest.x < tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            elif dest.x > tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        tank.move(new_coordinate)
         return False
-    x_dist = abs(dest.x - tank.tile.coordinates.x)
-    y_dist = abs(dest.y - tank.tile.coordinates.y)
-    randomized = choices([0, 1], weights=[x_dist, y_dist])
-    if randomized == 0:
-        if dest.x < tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-        elif dest.x > tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-        elif dest.y < tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-        elif dest.y > tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-    else:
-        if dest.y < tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-        elif dest.y > tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-        elif dest.x < tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-        elif dest.x > tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-    tank.move(new_coordinate)
-    return False
+    except Exception:
+        context.log("move_tank_to_destination log")
 
 
 def move_in_random_direction(piece: BasePiece, context) -> None:
