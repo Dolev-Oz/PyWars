@@ -1,8 +1,10 @@
+import math
 import random
 import strategic_api as strat
 from strategic_api import StrategicApi, StrategicPiece
 
 from common_types import Coordinates, distance
+import common_types
 
 piece_to_price = {"tank": 8, "builder": 20}
 
@@ -10,6 +12,7 @@ COMMANDS = {}
 PIECES = ["tank", "builder"]
 PROBS = [50, 50]
 TO_BUILD = {}  # builder object is mapped to str
+DEF_RADIUS = 2
 
 
 def get_sorted_tiles_for_attack(strategic):
@@ -79,22 +82,77 @@ def builder_decision(
 ):
     if command_id is not None:
         return
-    if builder not in TO_BUILD:
-        TO_BUILD[builder] = random.choices(PIECES, weights=PROBS, k=1)[0]
 
-    if money < piece_to_price[TO_BUILD[builder]]:
-        strategic.collect_money(builder, piece_to_price[TO_BUILD[builder]])
-    else:
-        strategic.build_piece(TO_BUILD[builder])
-        del TO_BUILD[builder]
+    strategic.build_piece(builder, random.choices(PIECES, weights=PROBS, k=1)[0])
 
 
 def do_builder_stuff(strategic: StrategicApi):
     builders = strategic.report_builders()
-    strategic.log(builders.__str__())
-    strategic.log(TO_BUILD.__str__())
     for builder, info in builders.items():
         builder_decision(strategic, builder, info[0], info[1])
+
+
+def choose_random_dest(strategic: StrategicApi, tank: StrategicPiece):
+    tank_cord = strategic.context.my_pieces[tank.id].tile.coordinates
+    tank_x = tank_cord.x
+    tank_y = tank_cord.y
+    theta = random.random() * math.pi / 3 - math.pi / 6
+    w = strategic.context.game_width
+    h = strategic.context.game_height
+    r = math.sqrt((tank_x - w / 2) ** 2 + (tank_y - h / 2) ** 2)
+    cos_t = (tank_y - h / 2) / r
+    sin_t = (tank_x - w / 2) / r
+    try:
+        thet = math.atan(sin_t / cos_t)
+    except Exception:
+        thet = math.pi / 2
+    if cos_t >= 0:
+        thet = math.pi / 2 - thet
+    elif cos_t <= 0:
+        thet = 3 * math.pi / 2 - thet
+    theta += thet
+    if theta != math.pi / 2 and theta != 3 * math.pi / 2:
+        if (
+            tank_x - tank_y * math.tan(theta) >= 0
+            and tank_x - tank_y * math.tan(theta) <= strategic.context.game_width
+        ):
+            strategic.log("Theta is normal, x in bounds")
+            return (
+                int(tank_x - tank_y * math.tan(theta)),
+                0 if abs(theta) <= math.pi / 2 else strategic.context.game_height - 1,
+            )
+        strategic.log("Theta is normal, y in bounds")
+        return (
+            0 if theta <= math.pi else strategic.context.game_width - 1,
+            int(tank_y - tank_x / math.tan(theta)),
+        )
+
+    strategic.log("Theta not normal")
+    if theta == math.pi / 2:
+        return (0, tank_y)
+    return (strategic.context.game_width - 1, tank_y)
+
+
+DEST_FOR_TANK: dict[str, Coordinates] = {}
+
+
+def find_near_tank(
+    strategic: StrategicApi,
+    tank_set: set[StrategicPiece],
+    art: StrategicPiece,
+    rad: int,
+):
+    min_dist = 100000
+    close_tank = None
+    my_pcs = strategic.context.my_pieces
+    for tank in tank_set:
+        dis = distance(
+            my_pcs[tank.id].tile.coordinates, my_pcs[art.id].tile.coordinates
+        )
+        if dis < min_dist:
+            min_dist = dis
+            close_tank = tank
+    return close_tank
 
 
 def do_attack_stuff(strategic: StrategicApi):
@@ -103,18 +161,42 @@ def do_attack_stuff(strategic: StrategicApi):
         return
     attacking_pieces = strategic.report_attacking_pieces()
     available_pieces: set[StrategicPiece] = set()
+    available_tanks: set[StrategicPiece] = set()
+    available_art: set[StrategicPiece] = set()
     for piece, command_id in attacking_pieces.items():
         if command_id is None:
             available_pieces.add(piece)
-    sort_tiles(tiles_for_attack, available_pieces, strategic)
-    strategic.log(f"Reached 110, len(availabe_tiles)={len(tiles_for_attack)}")
+            if piece.type == "tank":
+                available_tanks.add(piece)
+            elif piece.type == "artillery":
+                available_art.add(piece)
+    sort_tiles(tiles_for_attack, available_tanks, strategic)
+
+    for tank in available_tanks:
+        coords = choose_random_dest(strategic, tank)
+        """strategic.attack(
+            tank,
+            Coordinates(coords[0], coords[1]),
+            int(strategic.context.game_height / 3),
+        )"""
+        strategic.context.log(f"(x,y)=({coords[0]},{coords[1]})")
+        # DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])
     for tile in tiles_for_attack:
-        piece = choose_piece_for_tile(available_pieces, tile, strategic)
+        piece = choose_piece_for_tile(available_tanks, tile, strategic)
         if piece is None:
             break
         logger = strategic.attack(piece, tile, 1)
+        DEST_FOR_TANK[piece.id] = tile
         strategic.log(f"Attack: {logger}")
-
+    for art in available_art:  # Not supposed to run 0 available_art is empty
+        tank = find_near_tank(strategic, available_tanks, art, DEF_RADIUS)
+        if tank.id in DEST_FOR_TANK:
+            logger = strategic.defend([art], DEST_FOR_TANK[tank.id], DEF_RADIUS)
+        else:
+            logger = strategic.defend(
+                [art], strategic.context.my_pieces[tank.id].tile.coordinates, DEF_RADIUS
+            )
+        strategic.log(f"Defend: {logger}")
     """tile_index = 0
     for piece, command_id in attacking_pieces.items():
         if command_id is not None:
@@ -127,5 +209,11 @@ def do_attack_stuff(strategic: StrategicApi):
 
 def do_turn(strategic: StrategicApi):
     strategic.log("hello world")
-    #    do_builder_stuff(strategic)
-    do_attack_stuff(strategic)
+    try:
+        do_builder_stuff(strategic)
+    except Exception:
+        raise Exception("builder Exception")
+    try:
+        do_attack_stuff(strategic)
+    except Exception:
+        raise Exception("attack exception")
