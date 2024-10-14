@@ -43,6 +43,7 @@ builder_to_command: dict[str, str] = {}
 def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
     try:
+        #context.log(f'tank location: ({tank.tile.coordinates.x}, {tank.tile.coordinates.y})\ttank destination: ({dest.x}, {dest.y})\tradius: {radius}')
         command_id = tank_to_attacking_command[tank.id]
         if dest is None:
             commands[int(command_id)] = CommandStatus.failed(command_id)
@@ -67,22 +68,15 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
         elif randomized == 0:
             if dest.x < tank_coordinate.x:
                 new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-            elif dest.x > tank_coordinate.x:
+            else:
                 new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-            elif dest.y < tank_coordinate.y:
-                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-            elif dest.y > tank_coordinate.y:
-                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
         else:
             if dest.y < tank_coordinate.y:
                 new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-            elif dest.y > tank_coordinate.y:
+            else:
                 new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-            elif dest.x < tank_coordinate.x:
-                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-            elif dest.x > tank_coordinate.x:
-                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
         tank.move(new_coordinate)
+        #context.log(f'randomized: {randomized}\tnew coordinates: {new_coordinate}')
         return False
     except Exception:
         context.log("move_tank_to_destination log")

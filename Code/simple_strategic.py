@@ -38,12 +38,14 @@ def find_min_dist_to_pieces(
     context: StrategicApi,
 ):
     min_dist = 10000
+    next_to_min = min_dist
     con = context.context
     for piece in pieces:
         dis = distance(con.my_pieces[piece.id].tile.coordinates, coord)
         if dis < min_dist:
+            next_to_min = min_dist
             min_dist = dis
-    return min_dist
+    return (min_dist + next_to_min) / 2
 
 
 def sort_tiles(
@@ -64,17 +66,23 @@ def choose_piece_for_tile(
     pieces: set[StrategicPiece], coord: Coordinates, strategic: StrategicApi
 ):
     if len(pieces) == 0:
-        return None
+        return []
     con = strategic.context.my_pieces
     min_dist = 10000
-    ret_piece = None
+    ret_pieces = []
     for piece in pieces:
         dist = distance(con[piece.id].tile.coordinates, coord)
         if dist < min_dist:
             min_dist = dist
-            ret_piece = piece
-    pieces.remove(ret_piece)
-    return ret_piece
+    for piece in pieces:
+        if distance(con[piece.id].tile.coordinates, coord) == min_dist:
+            ret_pieces.append(piece)
+            # strategic.context.log("added piece")
+            if len(ret_pieces) == 2:
+                break
+    for piece in ret_pieces:
+        pieces.remove(piece)
+    return ret_pieces
 
 
 def builder_decision(
@@ -96,7 +104,7 @@ def choose_random_dest(strategic: StrategicApi, tank: StrategicPiece):
     tank_cord = strategic.context.my_pieces[tank.id].tile.coordinates
     tank_x = tank_cord.x
     tank_y = tank_cord.y
-    theta = random.random() * math.pi / 3 - math.pi / 6
+    theta = random.random() * math.pi / 2 - math.pi / 4
     w = strategic.context.game_width
     h = strategic.context.game_height
     r = math.sqrt((tank_x - w / 2) ** 2 + (tank_y - h / 2) ** 2)
@@ -111,6 +119,7 @@ def choose_random_dest(strategic: StrategicApi, tank: StrategicPiece):
     elif cos_t <= 0:
         thet = 3 * math.pi / 2 - thet
     theta += thet
+    strategic.context.log(f"theta={theta*180/math.pi} degree")
     if theta != math.pi / 2 and theta != 3 * math.pi / 2:
         if (
             tank_x - tank_y * math.tan(theta) >= 0
@@ -171,23 +180,26 @@ def do_attack_stuff(strategic: StrategicApi):
             elif piece.type == "artillery":
                 available_art.add(piece)
     sort_tiles(tiles_for_attack, available_tanks, strategic)
-
-    for tank in available_tanks:
+    """for tank in available_tanks:
         coords = choose_random_dest(strategic, tank)
-        """strategic.attack(
+        strategic.attack(
             tank,
             Coordinates(coords[0], coords[1]),
             int(strategic.context.game_height / 3),
-        )"""
+        )
         strategic.context.log(f"(x,y)=({coords[0]},{coords[1]})")
-        # DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])
+        DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])"""
     for tile in tiles_for_attack:
-        piece = choose_piece_for_tile(available_tanks, tile, strategic)
-        if piece is None:
-            break
-        logger = strategic.attack(piece, tile, 1)
-        DEST_FOR_TANK[piece.id] = tile
-        strategic.log(f"Attack: {logger}")
+        pieces = choose_piece_for_tile(available_tanks, tile, strategic)
+        if pieces == []:
+            continue
+        if pieces is None:
+            strategic.context.log("IS NONE")
+            continue
+        for piece in pieces:
+            logger = strategic.attack(piece, tile, 0)
+            DEST_FOR_TANK[piece.id] = tile
+            strategic.log(f"Attack: {logger}")
     for art in available_art:  # Not supposed to run 0 available_art is empty
         tank = find_near_tank(strategic, available_tanks, art, DEF_RADIUS)
         if tank.id in DEST_FOR_TANK:
