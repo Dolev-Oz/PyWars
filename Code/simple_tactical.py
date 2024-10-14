@@ -1,6 +1,6 @@
 import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
-from tactical_api import TurnContext, Builder, BasePiece, distance
+from tactical_api import TurnContext, Builder, BasePiece, distance, Tile
 
 from random import randint, choices
 
@@ -80,6 +80,13 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
     return False
 
 
+def is_our_land(context: TurnContext, coordinates: common_types.Coordinates):
+    for tile in context.get_tiles_of_country(context.my_country):
+        if tile.x == coordinates.x and tile.y == coordinates.y:
+            return True
+        
+    return False
+
 def move_in_random_direction(piece: BasePiece, context) -> None:
 	coords = piece.tile.coordinates
 
@@ -91,7 +98,7 @@ def move_in_random_direction(piece: BasePiece, context) -> None:
 	}
 	direction = randint(0, 3)
 	while dest[direction][0] < 0 or dest[direction][0] > context.game_width or dest[direction][1] < 0 or \
-			dest[direction][1] > context.game_width:
+			dest[direction][1] > context.game_width or not is_our_land(context, dest[direction]):
 		direction = randint(0, 3)
 	piece.move(dest[direction])
 
