@@ -59,7 +59,12 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
         x_dist = abs(dest.x - tank.tile.coordinates.x)
         y_dist = abs(dest.y - tank.tile.coordinates.y)
         randomized = choices([0, 1], weights=[x_dist, y_dist])
-        if randomized == 0:
+        if not (dest.x >= 0 and dest.x < context.game_width and dest.y >= 0 and dest.y < context.game_height):
+            if tank_coordinate.x > 0:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            else:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        elif randomized == 0:
             if dest.x < tank_coordinate.x:
                 new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
             elif dest.x > tank_coordinate.x:
