@@ -4,6 +4,8 @@ from tactical_api import TurnContext, Builder, BasePiece, distance
 
 from random import randint, choices
 
+from common_types import Coordinates
+
 PRICES = {
     'builder': 20,
     'tank': 8,
@@ -39,6 +41,10 @@ builder_to_amount: dict[str, int] = {}
 builder_to_piece: dict[str, str] = {}
 builder_to_command: dict[str, str] = {}
 
+#  Artillery to defend
+artilerry_to_coordinate_to_defend = {}
+artilerry_to_defending_command = {}
+
 
 def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
@@ -52,8 +58,12 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
         del tank_to_attacking_command[tank.id]
         return True
     tank_coordinate = tank.tile.coordinates
-    if tank.tile.country != context.my_country:
+    if tank.tile.country != TurnContext.my_country:
         tank.attack()
+        prev_command = commands[int(command_id)]
+        commands[int(command_id)] = CommandStatus.in_progress(command_id,
+                                                              prev_command.elapsed_turns + 1,
+                                                              prev_command.estimated_turns - 1)
         return False
     x_dist = abs(dest.x - tank.tile.coordinates.x)
     y_dist = abs(dest.y - tank.tile.coordinates.y)
@@ -77,6 +87,10 @@ def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radi
         elif dest.x > tank_coordinate.x:
             new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
     tank.move(new_coordinate)
+    prev_command = commands[int(command_id)]
+    commands[int(command_id)] = CommandStatus.in_progress(command_id,
+                                                          prev_command.elapsed_turns + 1,
+                                                          prev_command.estimated_turns - 1)
     return False
 
 
@@ -145,6 +159,7 @@ class MyStrategicApi(StrategicApi):
             except Exception:
                 raise Exception("attack exception")
             if success:
+
                 to_remove.add(tank_id)
         for tank_id in to_remove:
             del tank_to_coordinate_to_attack[tank_id]
@@ -186,6 +201,24 @@ class MyStrategicApi(StrategicApi):
         #        remove_set.append(builder_id)
         for item in remove_set:
             remove(item)
+    
+    def artillery_loop(self):
+        to_remove = set()
+        for artillery_id, destination in artilerry_to_coordinate_to_defend.items():
+            artillery = self.context.my_pieces.get(artillery_id)
+            if artillery is None or artillery.type != 'artillery':
+                to_remove.add(artillery_id)
+                continue
+            if destination is None:
+                to_remove.add(artillery_id)
+                continue
+            if distance(artillery.tile.coordinates, destination) <= 2:
+                artillery.defend()
+                continue
+            artillery.move(destination)
+        for artillery_id in to_remove:
+            del artilerry_to_coordinate_to_defend[artillery_id]
+
 
     def attack(self, piece, destination, radius):
         tank = self.context.my_pieces[piece.id]
@@ -204,6 +237,39 @@ class MyStrategicApi(StrategicApi):
         commands.append(attacking_command)
 
         return command_id
+    
+    def defend(self, pieces: list[StrategicPiece], destination: Coordinates, radius: int) -> str:
+        """Defend the area around the destination, using the given pieces.
+
+        This command should be interepreted as defending a tile, whose distance of
+        `destination` is at most `radius` using the given set of `pieces` (set of
+        `StrategicPiece`s).
+        This method should return a command identifier.
+        """
+        defending_pieces = [self.context.my_pieces[piece.id] for piece in pieces]
+        command_ids = []
+
+        for piece in defending_pieces:
+            if piece.type != 'artillery':
+                command_ids.append(None)
+            
+            if piece.id in artilerry_to_coordinate_to_defend:
+                old_command_id = int(artilerry_to_coordinate_to_defend[piece.id])
+                commands[old_command_id] = CommandStatus.failed(old_command_id)
+            
+            command_id = str(len(commands))
+            defending_command = CommandStatus.in_progress(command_id, 0, 999999)
+
+            artilerry_to_coordinate_to_defend[piece.id] = command_id
+            artilerry_to_defending_command[piece.id] = command_id
+            commands.append(defending_command)
+
+            command_ids.append(command_id)
+        
+        return command_ids
+
+
+
 
     def estimate_tile_danger(self, destination):
         tile = self.context.tiles[(destination.x, destination.y)]
