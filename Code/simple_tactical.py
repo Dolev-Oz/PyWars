@@ -1,6 +1,6 @@
 import common_types
 from strategic_api import CommandStatus, StrategicApi, StrategicPiece
-from tactical_api import TurnContext, Builder, BasePiece, distance
+from tactical_api import TurnContext, Builder, BasePiece, distance, Tile
 
 from random import randint, choices
 
@@ -42,43 +42,52 @@ builder_to_command: dict[str, str] = {}
 
 def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
-    command_id = tank_to_attacking_command[tank.id]
-    if dest is None:
-        commands[int(command_id)] = CommandStatus.failed(command_id)
-        return
-    if distance(dest, tank.tile.coordinates) <= radius:
-        tank.attack()
-        commands[int(command_id)] = CommandStatus.success(command_id)
-        del tank_to_attacking_command[tank.id]
-        return True
-    tank_coordinate = tank.tile.coordinates
-    if tank.tile.country != context.my_country:
-        tank.attack()
+    try:
+        #context.log(f'tank location: ({tank.tile.coordinates.x}, {tank.tile.coordinates.y})\ttank destination: ({dest.x}, {dest.y})\tradius: {radius}')
+        command_id = tank_to_attacking_command[tank.id]
+        if dest is None:
+            commands[int(command_id)] = CommandStatus.failed(command_id)
+            return
+        if distance(dest, tank.tile.coordinates) <= radius:
+            tank.attack()
+            commands[int(command_id)] = CommandStatus.success(command_id)
+            del tank_to_attacking_command[tank.id]
+            return True
+        tank_coordinate = tank.tile.coordinates
+        if tank.tile.country != context.my_country:
+            tank.attack()
+            return False
+        x_dist = abs(dest.x - tank.tile.coordinates.x)
+        y_dist = abs(dest.y - tank.tile.coordinates.y)
+        randomized = choices([0, 1], weights=[x_dist, y_dist])
+        if not (dest.x >= 0 and dest.x < context.game_width and dest.y >= 0 and dest.y < context.game_height):
+            if tank_coordinate.x > 0:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            else:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        elif randomized == 0:
+            if dest.x < tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            else:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        else:
+            if dest.y < tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+            else:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+        tank.move(new_coordinate)
+        #context.log(f'randomized: {randomized}\tnew coordinates: {new_coordinate}')
         return False
-    x_dist = abs(dest.x - tank.tile.coordinates.x)
-    y_dist = abs(dest.y - tank.tile.coordinates.y)
-    randomized = choices([0, 1], weights=[x_dist, y_dist])
-    if randomized == 0:
-        if dest.x < tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-        elif dest.x > tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-        elif dest.y < tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-        elif dest.y > tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-    else:
-        if dest.y < tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-        elif dest.y > tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-        elif dest.x < tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-        elif dest.x > tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-    tank.move(new_coordinate)
-    return False
+    except Exception:
+        context.log("move_tank_to_destination log")
 
+
+def is_our_land(context: TurnContext, coordinates: common_types.Coordinates):
+    for tile in context.get_tiles_of_country(context.my_country):
+        if tile.x == coordinates.x and tile.y == coordinates.y:
+            return True
+        
+    return False
 
 def move_in_random_direction(piece: BasePiece, context) -> None:
 	coords = piece.tile.coordinates
@@ -91,7 +100,7 @@ def move_in_random_direction(piece: BasePiece, context) -> None:
 	}
 	direction = randint(0, 3)
 	while dest[direction][0] < 0 or dest[direction][0] > context.game_width or dest[direction][1] < 0 or \
-			dest[direction][1] > context.game_width:
+			dest[direction][1] > context.game_width or not is_our_land(context, dest[direction]):
 		direction = randint(0, 3)
 	piece.move(dest[direction])
 

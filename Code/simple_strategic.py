@@ -227,5 +227,6 @@ def do_turn(strategic: StrategicApi):
         raise Exception("builder Exception")
     try:
         do_attack_stuff(strategic)
+        pass
     except Exception:
         raise Exception("attack exception")
