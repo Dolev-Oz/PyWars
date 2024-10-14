@@ -42,42 +42,50 @@ builder_to_command: dict[str, str] = {}
 
 def move_tank_to_destination(context, tank, dest: common_types.Coordinates, radius):
     """Returns True if the tank's mission is complete."""
-    command_id = tank_to_attacking_command[tank.id]
-    if dest is None:
-        commands[int(command_id)] = CommandStatus.failed(command_id)
-        return
-    if distance(dest, tank.tile.coordinates) <= radius:
-        tank.attack()
-        commands[int(command_id)] = CommandStatus.success(command_id)
-        del tank_to_attacking_command[tank.id]
-        return True
-    tank_coordinate = tank.tile.coordinates
-    if tank.tile.country != context.my_country:
-        tank.attack()
+    try:
+        command_id = tank_to_attacking_command[tank.id]
+        if dest is None:
+            commands[int(command_id)] = CommandStatus.failed(command_id)
+            return
+        if distance(dest, tank.tile.coordinates) <= radius:
+            tank.attack()
+            commands[int(command_id)] = CommandStatus.success(command_id)
+            del tank_to_attacking_command[tank.id]
+            return True
+        tank_coordinate = tank.tile.coordinates
+        if tank.tile.country != context.my_country:
+            tank.attack()
+            return False
+        x_dist = abs(dest.x - tank.tile.coordinates.x)
+        y_dist = abs(dest.y - tank.tile.coordinates.y)
+        randomized = choices([0, 1], weights=[x_dist, y_dist])
+        if not (dest.x >= 0 and dest.x < context.game_width and dest.y >= 0 and dest.y < context.game_height):
+            if tank_coordinate.x > 0:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            else:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        elif randomized == 0:
+            if dest.x < tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            elif dest.x > tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+            elif dest.y < tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+            elif dest.y > tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+        else:
+            if dest.y < tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
+            elif dest.y > tank_coordinate.y:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
+            elif dest.x < tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
+            elif dest.x > tank_coordinate.x:
+                new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
+        tank.move(new_coordinate)
         return False
-    x_dist = abs(dest.x - tank.tile.coordinates.x)
-    y_dist = abs(dest.y - tank.tile.coordinates.y)
-    randomized = choices([0, 1], weights=[x_dist, y_dist])
-    if randomized == 0:
-        if dest.x < tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-        elif dest.x > tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-        elif dest.y < tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-        elif dest.y > tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-    else:
-        if dest.y < tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y - 1)
-        elif dest.y > tank_coordinate.y:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x, tank_coordinate.y + 1)
-        elif dest.x < tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x - 1, tank_coordinate.y)
-        elif dest.x > tank_coordinate.x:
-            new_coordinate = common_types.Coordinates(tank_coordinate.x + 1, tank_coordinate.y)
-    tank.move(new_coordinate)
-    return False
+    except Exception:
+        context.log("move_tank_to_destination log")
 
 
 def is_our_land(context: TurnContext, coordinates: common_types.Coordinates):
@@ -195,22 +203,25 @@ class MyStrategicApi(StrategicApi):
             remove(item)
 
     def attack(self, piece, destination, radius):
-        tank = self.context.my_pieces[piece.id]
-        if not tank or tank.type != 'tank':
-            return None
+        try:
+            tank = self.context.my_pieces[piece.id]
+            if not tank or tank.type != 'tank':
+                return None
 
-        if piece.id in tank_to_attacking_command:
-            old_command_id = int(tank_to_attacking_command[piece.id])
-            commands[old_command_id] = CommandStatus.failed(old_command_id)
+            if piece.id in tank_to_attacking_command:
+                old_command_id = int(tank_to_attacking_command[piece.id])
+                commands[old_command_id] = CommandStatus.failed(old_command_id)
 
-        command_id = str(len(commands))
-        attacking_command = CommandStatus.in_progress(command_id, 0,
-                                                      common_types.distance(tank.tile.coordinates, destination))
-        tank_to_coordinate_to_attack[piece.id] = destination, radius
-        tank_to_attacking_command[piece.id] = command_id
-        commands.append(attacking_command)
+            command_id = str(len(commands))
+            attacking_command = CommandStatus.in_progress(command_id, 0,
+                                                        common_types.distance(tank.tile.coordinates, destination))
+            tank_to_coordinate_to_attack[piece.id] = destination, radius
+            tank_to_attacking_command[piece.id] = command_id
+            commands.append(attacking_command)
 
-        return command_id
+            return command_id
+        except Exception:
+            self.context.log("inner attack log")
 
     def estimate_tile_danger(self, destination):
         tile = self.context.tiles[(destination.x, destination.y)]
