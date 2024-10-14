@@ -188,22 +188,25 @@ class MyStrategicApi(StrategicApi):
             remove(item)
 
     def attack(self, piece, destination, radius):
-        tank = self.context.my_pieces[piece.id]
-        if not tank or tank.type != 'tank':
-            return None
+        try:
+            tank = self.context.my_pieces[piece.id]
+            if not tank or tank.type != 'tank':
+                return None
 
-        if piece.id in tank_to_attacking_command:
-            old_command_id = int(tank_to_attacking_command[piece.id])
-            commands[old_command_id] = CommandStatus.failed(old_command_id)
+            if piece.id in tank_to_attacking_command:
+                old_command_id = int(tank_to_attacking_command[piece.id])
+                commands[old_command_id] = CommandStatus.failed(old_command_id)
 
-        command_id = str(len(commands))
-        attacking_command = CommandStatus.in_progress(command_id, 0,
-                                                      common_types.distance(tank.tile.coordinates, destination))
-        tank_to_coordinate_to_attack[piece.id] = destination, radius
-        tank_to_attacking_command[piece.id] = command_id
-        commands.append(attacking_command)
+            command_id = str(len(commands))
+            attacking_command = CommandStatus.in_progress(command_id, 0,
+                                                        common_types.distance(tank.tile.coordinates, destination))
+            tank_to_coordinate_to_attack[piece.id] = destination, radius
+            tank_to_attacking_command[piece.id] = command_id
+            commands.append(attacking_command)
 
-        return command_id
+            return command_id
+        except Exception:
+            self.context.log("inner attack log")
 
     def estimate_tile_danger(self, destination):
         tile = self.context.tiles[(destination.x, destination.y)]
