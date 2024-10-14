@@ -171,22 +171,23 @@ def do_attack_stuff(strategic: StrategicApi):
             elif piece.type == "artillery":
                 available_art.add(piece)
     sort_tiles(tiles_for_attack, available_tanks, strategic)
-    # strategic.log(f"Reached 110, len(availabe_tiles)={len(tiles_for_attack)}")
-    """for tile in tiles_for_attack:
+
+    for tank in available_tanks:
+        coords = choose_random_dest(strategic, tank)
+        """strategic.attack(
+            tank,
+            Coordinates(coords[0], coords[1]),
+            int(strategic.context.game_height / 3),
+        )"""
+        strategic.context.log(f"(x,y)=({coords[0]},{coords[1]})")
+        # DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])
+    for tile in tiles_for_attack:
         piece = choose_piece_for_tile(available_tanks, tile, strategic)
         if piece is None:
             break
         logger = strategic.attack(piece, tile, 1)
         DEST_FOR_TANK[piece.id] = tile
-        strategic.log(f"Attack: {logger}")"""
-    for tank in available_tanks:
-        coords = choose_random_dest(strategic, tank)
-        strategic.attack(
-            tank,
-            Coordinates(coords[0], coords[1]),
-            int(strategic.context.game_height / 3),
-        )
-        DEST_FOR_TANK[tank.id] = Coordinates(coords[0], coords[1])
+        strategic.log(f"Attack: {logger}")
     for art in available_art:  # Not supposed to run 0 available_art is empty
         tank = find_near_tank(strategic, available_tanks, art, DEF_RADIUS)
         if tank.id in DEST_FOR_TANK:
