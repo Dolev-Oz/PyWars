@@ -125,8 +125,8 @@ def build_piece_advance(builder: Builder, piece: str, context: TurnContext) -> b
         commands[int(command_id)] = CommandStatus.success(command_id)
         del builder_to_command[builder.id]
         return True
-
-    collect_money_advance(builder, cost - builder.money, context)
+    else:
+        collect_money_advance(builder, 1000, context)
 
     return False
 
@@ -246,6 +246,7 @@ class MyStrategicApi(StrategicApi):
             
 
     def collect_money(self, builder: StrategicPiece, amount: int) -> str:
+        raise Exception()
         return self.collect_money_stupid(builder, amount)
         #builder1 = self.context.my_pieces[builder.id]
         #if not builder1 or not isinstance(builder1, Builder):
