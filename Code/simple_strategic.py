@@ -10,7 +10,7 @@ piece_to_price = {"tank": 8, "builder": 20}
 
 COMMANDS = {}
 PIECES = ["tank", "builder"]
-PROBS = [50, 50]
+PROBS = [70, 30]
 TO_BUILD = {}  # builder object is mapped to str
 DEF_RADIUS = 2
 
